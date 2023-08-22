@@ -1,9 +1,11 @@
-import React  from 'react';
+
 import './App.css';
 import Form from './components/login/Form';
 
 
 function App() {
+  
+
   return (
     <div className="App">
      <Form/> 
@@ -11,4 +13,4 @@ function App() {
   );
 }
 
-export default App;
+export default App
