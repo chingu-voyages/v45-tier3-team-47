@@ -40,7 +40,7 @@ export const createPointOfInterest = async (req: Request, res: Response) => {
       province,
       country,
       phone_number,
-      userId: user.id, //associate point of interest with a user
+      userId: user.id, // associate point of interest with a user
     });
 
     return res
