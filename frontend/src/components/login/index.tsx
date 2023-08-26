@@ -12,7 +12,7 @@ const Login = () => {
   borderRadius="1.5rem"
   border="2px solid"
   borderColor="#b3b3ff"
-  // bgcolor= "#b3b3ff"
+  
   
   >
 

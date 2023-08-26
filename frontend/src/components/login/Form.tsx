@@ -199,30 +199,17 @@ const Form:React.FC= () => {
         value={values.email}
         name="email"
         error={Boolean(touched.email) && Boolean(errors.email)}
-        // helperText={touched.email && errors.email}
+        helperText={touched.email && errors.email}
         sx={{
           gridColumn:"span 2",
-          borderColor: Boolean(touched.password) && Boolean(errors.password) ? "black" : "#b3b3ff",
-    borderRadius: "5px",
-          // borderColor:"#b3b3ff",
-          // border:`0.6px solid #b3b3ff`,
-          // borderRadius:"5px"
+          borderColor:"#b3b3ff",
+          borderRadius: "5px",
+    
         }}
-       
-        helperText={touched.email && errors.email}
-        >
-          {Boolean(touched.password) && Boolean(errors.password) && (
-  <span
-    style={{
-      color: "red",
-      fontSize: "12px",
-     
-    }}
-  >
-    {errors.password}
-  </span>
-)}
-          </TextField>
+    
+       />
+   
+  
         
         
         <TextField
