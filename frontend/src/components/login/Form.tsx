@@ -1,22 +1,19 @@
-import { Formik, ErrorMessage, 
-  // useField 
+import { Formik, FormikHelpers, 
+  
  } from 'formik';
 import React, { useState } from 'react';
 import { TextField,Typography,
   Box,Button ,useMediaQuery} from '@mui/material';
   import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import Dropzone from 'react-dropzone';
-
 import * as yup from "yup";
-
-// import Dropzone from "react-dropzone";
 interface FormValues {
   userName?:string,
   firstName?: string,
   lastName?:string,
   occupation?:string,
   location?:string,
-  picture?:string,
+  picture?:File | null,
   email:string,
   password:string
 
@@ -28,7 +25,7 @@ const intialValuesRegister:FormValues = {
   lastName: "",
   occupation: "",
   location: "",
-  picture: "",
+  picture: null,
   email: "",
   password: "",
   
@@ -66,12 +63,40 @@ const Form:React.FC= () => {
   //   console.log(values);
   // };
   // const handleRegister= async(values,onSubmitProps)=>{
-  //   console.log(values);
+  //   // console.log(values);
+  //   const formData = new FormData();
+  //   for (let value in values) {
+  //     formData.append(value, values[value]);
+  //   }
+  //   formData.append("picturePath", values.picture.name);
+  //   onSubmitProps.resetForm();
+
   // }
-  const handleFormSubmit=async()=>{
+  const handleRegister = async (values: FormValues, onSubmitProps: FormikHelpers<FormValues>) => {
+    try {
+      const formData = new FormData();
+      for (const key in values) {
+        const value = values[key as keyof FormValues];
+        
+        if (key === 'picture' && value instanceof File) {
+          formData.append(key, value, value.name);
+        } else if (typeof value === 'string' || typeof value === 'number') {
+          formData.append(key, value.toString());
+        }
+      }
+  
+      onSubmitProps.resetForm();
+      
+  
+      
+    } catch (error) {
+      console.error("Error submitting form:", error);
+    }
+  };
+  const handleFormSubmit=async(values: FormValues, onSubmitProps: FormikHelpers<FormValues>)=>{
     // console.log(values,onSubmitProps)
-    // if(isLogin) return await handleLogin(values,onSubmitProps);
-    //   if(isRegister) return await handleRegister(values,onSubmitProps);
+    //  if(isLogin) return await handleLogin(values,onSubmitProps);
+    if(isRegister) return await handleRegister(values,onSubmitProps);
   }
   return (
 
@@ -100,8 +125,7 @@ const Form:React.FC= () => {
         sx={{
           gridColumn: "span 4",
           borderColor:"#b3b3ff"
-          //  border:`0.123px solid #b3b3ff`,
-          // borderRadius:"0.2px"
+        
         }}
       />
         
@@ -176,7 +200,7 @@ const Form:React.FC= () => {
                           <p>Add Picture Here</p>
                         ) : (
                           <Box>
-                            <Typography>{values.picture}</Typography>
+                            <Typography> { values.picture.name}</Typography>
                             <EditOutlinedIcon />
                          
                           </Box>
@@ -208,10 +232,6 @@ const Form:React.FC= () => {
         }}
     
        />
-   
-  
-        
-        
         <TextField
   label="Password"
   onBlur={handleBlur}
