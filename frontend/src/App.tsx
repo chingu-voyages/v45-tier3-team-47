@@ -1,5 +1,6 @@
+
 import "./App.css"
-import Form from './components/login/Form';
+import Login from './components/login/index';
 import {BrowserRouter,Routes,Route } from 'react-router-dom';
 
 function App() {
@@ -9,7 +10,7 @@ function App() {
     <div className="App">
       <BrowserRouter>
       <Routes>
-        <Route path='/' element={<Form/>}/>
+        <Route path='/' element={<Login/>}/>
 
       </Routes>
       </BrowserRouter>
