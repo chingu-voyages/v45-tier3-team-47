@@ -1,6 +1,6 @@
 import { Typography,
   Box , useMediaQuery} from '@mui/material';
-import Form from "./Form"
+import Form from "../Layout/components/Form"
 
 
 const Login = () => {
