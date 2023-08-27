@@ -1,34 +1,16 @@
 mport RootLayout from './Layout/RootLayout';
 import { createBrowserRouter, Route, createRoutesFromElements, RouterProvider } from 'react-router-dom';
-import './App.css'
+//Layout import
+import RootLayout from './Layout/RootLayout';
+//Page imports
 import About from './Pages/About';
-import CssBaseline from '@mui/material/CssBaseline';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
-import Login from './Pages/Login/Login';
-import Landing from './Pages/Landing';
-import Profile from './Pages/Profile';
-
-const theme = createTheme({
-  palette: {
-    mode: 'light',
-    primary: {
-      main: '#400080',
-    },
-    background: {
-      default: '#ffffff',
-    },
-  },
-});
 
 function App() {
 
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route path="/" element={<RootLayout />}>
-        <Route index element={<Landing />} />
-        <Route path="About" element={<About />} />
-        <Route path="Login" element={<Login />} />
-        <Route path="Profile" element={<Profile />} />
+        <Route path="about" element={<About />} />
       </Route>
     )
   )
