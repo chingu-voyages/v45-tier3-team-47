@@ -1,6 +1,4 @@
-import { Formik, FormikHelpers, 
-  
- } from 'formik';
+import { Formik, FormikHelpers} from 'formik';
 import React, { useState } from 'react';
 import { TextField,Typography,
   Box,Button ,useMediaQuery} from '@mui/material';
@@ -44,35 +42,36 @@ const loginSchema= yup.object().shape({
   email:yup.string().email("Invalid Email").required("required"),
   password: yup.string().required("required"),
 });
-// interface FileInputProps extends DropzoneProps {
-  // name: string;
-// }
+
 
 const Form:React.FC= () => {
   const [pageType,setPageType]=useState<string>("register");
   const isLogin:boolean = pageType === "login";
   const isRegister:boolean = pageType === "register";
-  // const [field, meta, helpers] = useField();
  const isNonMobileScreens = useMediaQuery(("(min-width:600px"));
-  // const onDrop = (acceptedFiles: File[]) => {
-  //   if (acceptedFiles && acceptedFiles[0]) {
-  //     // helpers.setValue(acceptedFiles[0]);
-  //   }
-  // };
-  // const handleLogin= async(values,onSubmitProps)=>{
-  //   console.log(values);
-  // };
-  // const handleRegister= async(values,onSubmitProps)=>{
-  //   // console.log(values);
-  //   const formData = new FormData();
-  //   for (let value in values) {
-  //     formData.append(value, values[value]);
-  //   }
-  //   formData.append("picturePath", values.picture.name);
-  //   onSubmitProps.resetForm();
-
-  // }
-  const handleRegister = async (values: FormValues, onSubmitProps: FormikHelpers<FormValues>) => {
+  
+  const handleLogin= async(values: FormValues,      onSubmitProps: FormikHelpers<FormValues>)=>{
+    try{
+  //   const loggedInResponse = await fetch(`${URL}/login`,{
+  //     method:"POST",
+  //     headers:{
+  //       "Content-Type":"application/json"
+        
+  //     },
+  //     body:JSON.stringify(values)
+  //   });
+  //  const loggedIn = await loggedInResponse.json();
+  console.log(values);
+    onSubmitProps.resetForm();
+    // if(loggedIn){
+    //  //
+    // }
+    }catch(error){
+      console.error("Error submitting form:", error)
+    }
+  };
+  
+  const handleRegister = async (values: FormValues,      onSubmitProps: FormikHelpers<FormValues>) => {
     try {
       const formData = new FormData();
       for (const key in values) {
@@ -84,9 +83,15 @@ const Form:React.FC= () => {
           formData.append(key, value.toString());
         }
       }
-  
-      onSubmitProps.resetForm();
-      
+    //   const savedUserResponse = await fetch(`${URL}/register`,{
+    //     method:"POST",
+    //     body:formData
+    //   });
+    //  const savedUser = await savedUserResponse.json();
+       onSubmitProps.resetForm();
+    //   if(savedUser){
+    //     setPageType("login");
+    //   }
   
       
     } catch (error) {
@@ -94,8 +99,8 @@ const Form:React.FC= () => {
     }
   };
   const handleFormSubmit=async(values: FormValues, onSubmitProps: FormikHelpers<FormValues>)=>{
-    // console.log(values,onSubmitProps)
-    //  if(isLogin) return await handleLogin(values,onSubmitProps);
+    console.log("values",JSON.stringify(values, null, 2),onSubmitProps)
+     if(isLogin) return await handleLogin(values,onSubmitProps);
     if(isRegister) return await handleRegister(values,onSubmitProps);
   }
   return (
