@@ -114,11 +114,14 @@ const Form:React.FC= () => {
       <Box display="grid" gap="30px" gridTemplateColumns="repeat(4, minmax(0, 1fr))"
       sx={{"&>div": {
       gridColumn: isNonMobileScreens? undefined : "span 4"}
-    }}>
+    }
+    }
+    >
 
   
     {isRegister && (
     <>
+
       <TextField
         label="User Name"
         onBlur={handleBlur}
@@ -126,11 +129,16 @@ const Form:React.FC= () => {
         value={values.userName}
         name="userName"
         error={Boolean(touched.userName) && Boolean(errors.userName)}
-        helperText={touched.userName && errors.userName}
+        // helperText={touched.userName && errors.userName ? ' ' : ''}
+        helperText={(touched.userName && (errors.userName != null)) ? errors.userName : ' '}
         sx={{
           gridColumn: "span 4",
-          borderColor:"#b3b3ff"
+          borderRadius:"5px",
+          mt:"0.2rem"
+
+          
         
+          
         }}
       />
         
@@ -142,8 +150,9 @@ const Form:React.FC= () => {
         name="firstName"
         sx={{
           gridColumn: "span 2",
-          border:`1px solid #b3b3ff`,
-          borderRadius:"5px"
+          // border:`1px solid #b3b3ff`,
+          borderRadius:"5px",
+          
         }}
         />
         <TextField
@@ -154,7 +163,7 @@ const Form:React.FC= () => {
         name="lastName"
         sx={{
           gridColumn: "span 2",
-          border:`1px solid #b3b3ff`,
+          // border:`1px solid #b3b3ff`,
           borderRadius:"5px"
         }}
         />
@@ -168,7 +177,7 @@ const Form:React.FC= () => {
     
         sx={{
           gridColumn: "span 2",
-          border:`1px solid #b3b3ff`,
+          // border:`1px solid #b3b3ff`,
           borderRadius:"5px"
         }}
         />
@@ -180,7 +189,7 @@ const Form:React.FC= () => {
         name="location"   
         sx={{
           gridColumn: "span 2",
-          border:`1px solid #b3b3ff`,
+          // border:`1px solid #b3b3ff`,
           borderRadius:"5px"
         }}
         />
@@ -189,6 +198,7 @@ const Form:React.FC= () => {
        gridColumn="span 4"
        border={`1px solid #b3b3ff`}
        borderRadius="5px"
+       mt="0.5rem "
        padding="1rem">
         <Dropzone  
         //  acceptedFiles=".jpg,.jpeg,.png"
@@ -228,11 +238,13 @@ const Form:React.FC= () => {
         value={values.email}
         name="email"
         error={Boolean(touched.email) && Boolean(errors.email)}
-        helperText={touched.email && errors.email}
+        // helperText={touched.email && errors.email}
+        helperText={(touched.email && (errors.email != null)) ? errors.email : ' '}
         sx={{
           gridColumn:"span 2",
           borderColor:"#b3b3ff",
           borderRadius: "5px",
+          mt:"0.2rem"
     
         }}
     
@@ -244,11 +256,12 @@ const Form:React.FC= () => {
   value={values.password}
   name="password"
   error={Boolean(touched.password) && Boolean(errors.password)}
-  helperText={touched.password && errors.password}
+  helperText={(touched.password && (errors.password != null)) ? errors.password : ' '}
   sx={{
     gridColumn: "span 2",
     borderColor:  "#b3b3ff", 
     borderRadius: "5px",
+    mt:"0.2rem"
   }}
 />
   
@@ -267,7 +280,7 @@ const Form:React.FC= () => {
           borderRadius:"30px",
           borderColor:"#b3b3ff",
           color:"#400080",
-          m:"1rem 1rem",
+          m:"0.5rem 0.5rem",
           pd:"0.5rem"
         }}>
              {
@@ -284,10 +297,12 @@ const Form:React.FC= () => {
         sx={{
           textDecoration:"underline",
           color:"#40008",
+          m:"1rem",
 
           "&:hover": {
             cursor: "pointer",
             color: "#b3b3ff",
+          
           },
         }}
         >
