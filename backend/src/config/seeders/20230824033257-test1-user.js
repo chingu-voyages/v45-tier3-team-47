@@ -30,7 +30,17 @@ module.exports = {
       location: "Oslo",
       createdAt: new Date(),
       updatedAt: new Date()
-    }])
+    }, {
+      first_name: "Ben",
+      last_name: "Frank",
+      user_name: "testUser4",
+      email: "ben@mail.com",
+      occupation: "lawyer",
+      location: "Boston",
+      createdAt: new Date(),
+      updatedAt: new Date()
+    }
+    ])
   },
 
   async down(queryInterface, Sequelize) {

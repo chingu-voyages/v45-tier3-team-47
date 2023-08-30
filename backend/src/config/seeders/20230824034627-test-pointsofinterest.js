@@ -5,6 +5,7 @@ module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.bulkInsert('PointOfInterests', [{
       title: "Niagara Falls",
+      category: "Nature",
       description: "Group of three waterfalls at the southern end of Niagara Gorge spanning border between Ontario in Canada and New York in the US",
       longitude: "43.0799",
       latitude: "-79.0747",
@@ -19,6 +20,7 @@ module.exports = {
       updatedAt: new Date()
     }, {
       title: "Machu Picchu",
+      category: "Nature",
       description: "Machu Picchu is an Incan citadel set high in the Andes Mountains in Peru, above the Urubamba River valley.",
       longitude: "-13.2263",
       latitude: "-72.4973",
