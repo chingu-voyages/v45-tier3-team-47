@@ -6,13 +6,13 @@ import { TextField,Typography,
 import Dropzone from 'react-dropzone';
 import * as yup from "yup";
 interface FormValues {
-  userName?:string,
-  firstName?: string,
-  lastName?:string,
-  occupation?:string,
-  location?:string,
-  picture?:File | null,
-  email:string,
+  userName?:string;
+  firstName?: string;
+  lastName?:string;
+  occupation?:string;
+  location?:string;
+  picture?:File | null;
+  email:string;
   password:string
 
 };
