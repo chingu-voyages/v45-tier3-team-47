@@ -15,6 +15,7 @@ export interface IPost {
 export interface IPointOfInterest {
   title: string;
   description?: string;
+  category:string;
   longitude?: number;
   latitude?: number;
   price?: number;
