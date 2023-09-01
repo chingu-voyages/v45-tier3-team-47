@@ -4,8 +4,9 @@ import './App.css'
 import About from './Pages/About';
 import CssBaseline from '@mui/material/CssBaseline';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
-import Login from './Pages/Login';
+import Login from './Pages/Login/Login';
 import Landing from './Pages/Landing';
+import Profile from './Pages/Profile';
 
 const theme = createTheme({
   palette: {
@@ -15,9 +16,7 @@ const theme = createTheme({
     },
     background: {
       default: '#ffffff',
-
     },
-
   },
 });
 
@@ -27,8 +26,9 @@ function App() {
     createRoutesFromElements(
       <Route path="/" element={<RootLayout />}>
         <Route index element={<Landing />} />
-        <Route path="about" element={<About />} />
-        <Route path="login" element={<Login />} />
+        <Route path="About" element={<About />} />
+        <Route path="Login" element={<Login />} />
+        <Route path="Profile" element={<Profile />} />
       </Route>
     )
   )
