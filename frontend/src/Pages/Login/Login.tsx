@@ -2,7 +2,7 @@ import {
   Typography,
   Box, useMediaQuery
 } from '@mui/material';
-import Form from '../Layout/Components/Form';
+import Form from './Form';
 import { useTheme, IconButton } from '@mui/material';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
