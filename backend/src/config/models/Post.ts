@@ -15,6 +15,10 @@ const Post = sequelize.define<PostInterface>(
     comment: {
       type: DataTypes.TEXT,
     },
+    userId: { 
+      type: DataTypes.INTEGER, 
+      allowNull: false, 
+    },
   },
   {
     timestamps: true,
