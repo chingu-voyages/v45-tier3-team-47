@@ -1,7 +1,7 @@
 
 const Footer = () => {
     return (
-        <footer className="flex justify-center">
+        <footer>
             <p>Made with 💖 by Cam, Chris, Daniela, Mays and Mehmet</p>
         </footer>
     )
