@@ -5,7 +5,7 @@ import { User } from "../models/User";
 import { IUser } from "../../types";
 import dotenv from "dotenv";
 
-const getUserToken = (id: string) => {
+const getUserToken = (id: number) => {
   const authenticatedUserToken = jwt.sign(
     { id },
     process.env.SECRET_KEY as Secret,
@@ -34,14 +34,17 @@ export const createUser = async (req: Request, res: Response) => {
     }
 
     const saltRounds = 12;
+   
     const hashedPassword = await bcrypt.hash(password, saltRounds);
 
     const newUser = await User.create({
       first_name,
       last_name,
       user_name,
-      password: hashedPassword,
       occupation,
+      password: hashedPassword,
+      email,
+      location,
       profile_image,
     });
 
@@ -66,6 +69,7 @@ export const loginUser = async (req: Request, res: Response) => {
     );
 
     if (isPasswordIdentical) {
+  
       const token = getUserToken(existingUser.id);
       delete existingUser.password;
       return res.json({

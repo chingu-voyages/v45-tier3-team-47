@@ -1,4 +1,4 @@
-import jwt from 'jsonwebtoken';
+import jwt, { Secret } from "jsonwebtoken";
 
 import {  Request, Response, NextFunction } from "express";
 export const verifyToken =async (req:Request,res:Response,next: NextFunction) => {
@@ -8,7 +8,7 @@ export const verifyToken =async (req:Request,res:Response,next: NextFunction) =>
     if(token.startsWith("Bearer ")){
       token = token.slice(7).trimStart(); 
     }
-    const verified = jwt.verify(token,process.env.JWT_SECRET);
+    const verified = jwt.verify(token,process.env.JWT_SECRET as Secret);
     // req.user = verified;
     next();
 
