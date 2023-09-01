@@ -1,9 +1,11 @@
+import { Typography } from '@mui/material';
+import Box from '@mui/material/Box';
 
 const Footer = () => {
     return (
-        <footer className="flex justify-center">
-            <p>Made with 💖 by Cam, Chris, Daniela, Mays and Mehmet</p>
-        </footer>
+        <Box component='footer'>
+            <Typography>Made with 💖 by Cam, Chris, Daniela, Mays and Mehmet</Typography>
+        </Box>
     )
 }
 

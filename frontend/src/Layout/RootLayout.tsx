@@ -1,20 +1,18 @@
-import { Link, Outlet } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
 import Nav from './Components/Nav';
 import Footer from './Components/Footer';
+import Box from '@mui/material/Box';
 
 const RootLayout = () => {
 
     return (
-        <div className='wrapper flex flex-col justify-between min-h-screen'>
-            <header className='flex justify-between py-4'>
-                <h1 className='underline'><Link to={'/'}>Project Name/Logo</Link></h1>
-                <Nav />
-            </header>
-            <main>
+        <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', minHeight: '100vh', minWidth: '320px' }}>
+            <Nav />
+            <Box component='main'>
                 <Outlet />
-            </main>
+            </Box>
             <Footer />
-        </div>
+        </Box >
     )
 }
 
