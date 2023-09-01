@@ -1,7 +1,7 @@
 import { Sequelize } from "sequelize";
 
 const sequelize = new Sequelize({
-  database: "db_name",
+  database: "sightseeshare_db",
   host: "localhost",
   port: 5432,
   dialect: "postgres",

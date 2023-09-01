@@ -4,6 +4,7 @@ import { User } from "../models/User";
 import { IPointOfInterest } from "../../types";
 
 export const createPointOfInterest = async (req: Request, res: Response) => {
+  console.log(req.body);
   try {
     const {
       title,
@@ -14,13 +15,13 @@ export const createPointOfInterest = async (req: Request, res: Response) => {
       city,
       category,
       website,
-      postal_code,
+      post_code,
       province,
       country,
       phone_number,
     }: IPointOfInterest = req.body;
 
-    const userId = req.user.id;
+    const userId = req.body.user_id;
 
     const user = await User.findByPk(userId);
     if (!user) {
@@ -36,11 +37,11 @@ export const createPointOfInterest = async (req: Request, res: Response) => {
       city,
       category,
       website,
-      postal_code,
+      post_code,
       province,
       country,
       phone_number,
-      userId: user.id, //associate point of interest with a user
+      // UserId: user.id, // associate point of interest with a user
     });
 
     return res
@@ -54,6 +55,7 @@ export const createPointOfInterest = async (req: Request, res: Response) => {
 
 export const getPointOfInterests = async (req: Request, res: Response) => {
   try {
+    console.log("at get POI route")
     const pointOfInterests = await PointOfInterest.findAll();
     return res.status(200).json(pointOfInterests);
   } catch (error) {
@@ -83,7 +85,7 @@ export const updatePointOfInterest = async (req: Request, res: Response) => {
     pointOfInterestToUpdate.price = updatedPointOfInterest.price;
     pointOfInterestToUpdate.city = updatedPointOfInterest.city;
     pointOfInterestToUpdate.website = updatedPointOfInterest.website;
-    pointOfInterestToUpdate.postal_code = updatedPointOfInterest.postal_code;
+    pointOfInterestToUpdate.post_code = updatedPointOfInterest.post_code;
     pointOfInterestToUpdate.province = updatedPointOfInterest.province;
     pointOfInterestToUpdate.country = updatedPointOfInterest.country;
     pointOfInterestToUpdate.phone_number = updatedPointOfInterest.phone_number;

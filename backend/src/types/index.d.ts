@@ -25,7 +25,7 @@ export interface IPointOfInterest {
   price?: number;
   city?: string;
   website?: string;
-  postal_code?: string;
+  post_code?: string;
   province?: string;
   country?: string;
   phone_number?: string;

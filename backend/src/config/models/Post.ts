@@ -4,7 +4,7 @@ import { User } from "./User";
 import { PointOfInterest } from "./PointOfInterest";
 import { IPost } from "../../types";
 
-interface PostInterface extends Model<IPost>, IPost {}
+interface PostInterface extends Model<IPost>, IPost { }
 
 const Post = sequelize.define<PostInterface>(
   "Post",
@@ -15,9 +15,9 @@ const Post = sequelize.define<PostInterface>(
     comment: {
       type: DataTypes.TEXT,
     },
-    userId: { 
-      type: DataTypes.INTEGER, 
-      allowNull: false, 
+    userId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
     },
   },
   {
@@ -25,7 +25,7 @@ const Post = sequelize.define<PostInterface>(
   }
 );
 
-Post.belongsTo(User);
-Post.belongsTo(PointOfInterest);
+// Post.belongsTo(User, { foreignKey: 'UserID' });
+// Post.belongsTo(PointOfInterest, { foreignKey: 'PointOfInterestID' });
 
 export { Post };

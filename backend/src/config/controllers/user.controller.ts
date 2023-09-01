@@ -34,7 +34,7 @@ export const createUser = async (req: Request, res: Response) => {
     }
 
     const saltRounds = 12;
-   
+
     const hashedPassword = await bcrypt.hash(password, saltRounds);
 
     const newUser = await User.create({
@@ -69,7 +69,7 @@ export const loginUser = async (req: Request, res: Response) => {
     );
 
     if (isPasswordIdentical) {
-  
+
       const token = getUserToken(existingUser.id);
       delete existingUser.password;
       return res.json({

@@ -6,7 +6,7 @@ export const verifyToken =async (req:Request,res:Response,next: NextFunction) =>
     let token = req.header("Authorization");
     if(!token) return res.status(403).send("Access Denied");
     if(token.startsWith("Bearer ")){
-      token = token.slice(7).trimStart(); 
+      token = token.slice(7).trimStart();
     }
     const verified = jwt.verify(token,process.env.JWT_SECRET as Secret);
     // req.user = verified;
@@ -15,5 +15,5 @@ export const verifyToken =async (req:Request,res:Response,next: NextFunction) =>
   }catch(err){
     res.status(500).json({error:err.message})
   }
-  
+
 }

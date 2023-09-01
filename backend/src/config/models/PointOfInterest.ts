@@ -6,7 +6,7 @@ import { IPointOfInterest } from "../../types";
 
 interface PointOfInterestInterface
   extends Model<IPointOfInterest>,
-    IPointOfInterest {}
+  IPointOfInterest { }
 
 const PointOfInterest = sequelize.define<PointOfInterestInterface>(
   "PointOfInterest",
@@ -42,7 +42,7 @@ const PointOfInterest = sequelize.define<PointOfInterestInterface>(
     website: {
       type: DataTypes.DECIMAL,
     },
-    postal_code: {
+    post_code: {
       type: DataTypes.STRING,
       allowNull: false,
     },
@@ -60,7 +60,7 @@ const PointOfInterest = sequelize.define<PointOfInterestInterface>(
   }
 );
 
-PointOfInterest.hasMany(Post);
-PointOfInterest.belongsTo(User);
+// PointOfInterest.hasMany(Post);
+// PointOfInterest.belongsTo(User);
 
 export { PointOfInterest };

@@ -7,13 +7,13 @@ import { IUser } from "../../types";
 
 
 
-interface UserInterface extends Model<IUser>, IUser {}
+interface UserInterface extends Model<IUser>, IUser { }
 
 const User = sequelize.define<UserInterface>(
   "User",
   {
-    id: { 
-      type: DataTypes.INTEGER, 
+    id: {
+      type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
     },
@@ -50,8 +50,8 @@ const User = sequelize.define<UserInterface>(
   }
 );
 
-User.hasMany(Post);
-User.hasMany(PointOfInterest);
+// User.hasMany(Post, { foreignKey: "id" });
+// User.hasMany(PointOfInterest, { foreignKey: "id" });
 
 User.sync().then(() => {
   console.log("User Model synced");
