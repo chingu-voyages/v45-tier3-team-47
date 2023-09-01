@@ -24,7 +24,7 @@ export const createPointOfInterest = async (req: Request, res: Response) => {
 
     const user = await User.findByPk(userId);
     if (!user) {
-      return res.status(404).send("User not found");
+      return res.status(404).json("User not found");
     }
 
     const newPointOfInterest = await PointOfInterest.create({
@@ -45,7 +45,7 @@ export const createPointOfInterest = async (req: Request, res: Response) => {
 
     return res
       .status(201)
-      .send({ message: "Point of interest created successfully" });
+      .json({ message: "Point of interest created successfully" });
   } catch (error) {
     console.log("Error in createPointOfInterest:", error);
     return res.status(500).send("Internal Server Error");
@@ -55,10 +55,10 @@ export const createPointOfInterest = async (req: Request, res: Response) => {
 export const getPointOfInterests = async (req: Request, res: Response) => {
   try {
     const pointOfInterests = await PointOfInterest.findAll();
-    return res.status(200).send(pointOfInterests);
+    return res.status(200).json(pointOfInterests);
   } catch (error) {
     console.log("Error in getPointOfInterest:", error);
-    return res.status(500).send("Internal Server Error");
+    return res.status(500).json("Internal Server Error");
   }
 };
 
@@ -72,7 +72,7 @@ export const updatePointOfInterest = async (req: Request, res: Response) => {
     );
 
     if (!pointOfInterestToUpdate) {
-      return res.status(404).send("Point of interest not found");
+      return res.status(404).json("Point of interest not found");
     }
 
     pointOfInterestToUpdate.title = updatedPointOfInterest.title;
@@ -92,10 +92,10 @@ export const updatePointOfInterest = async (req: Request, res: Response) => {
 
     return res
       .status(200)
-      .send({ message: "Point of interest update successfully" });
+      .json({ message: "Point of interest update successfully" });
   } catch (error) {
     console.log("Error in updatePointOfInterest:", error);
-    return res.status(500).send("Internal Server Erorr");
+    return res.status(500).json("Internal Server Erorr");
   }
 };
 
@@ -108,16 +108,16 @@ export const deletePointOfInterest = async (req: Request, res: Response) => {
     );
 
     if (!pointOfInterestToDelete) {
-      return res.status(404).send("Point of interest not found");
+      return res.status(404).json("Point of interest not found");
     }
 
     await pointOfInterestToDelete.destroy();
 
     return res
       .status(200)
-      .send({ message: "Point of interest deleted successfully" });
+      .json({ message: "Point of interest deleted successfully" });
   } catch (error) {
     console.log("Error in deletePointOfInterest:", error);
-    return res.status(500).send("Internal Server Error");
+    return res.status(500).json("Internal Server Error");
   }
 };
