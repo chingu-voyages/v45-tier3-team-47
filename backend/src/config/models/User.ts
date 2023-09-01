@@ -1,12 +1,15 @@
 // import { Sequelize } from "sequelize";
 import { sequelize } from "../../config/db";
-import { DataTypes } from "sequelize";
+import { DataTypes, Model } from "sequelize";
 import { PointOfInterest } from "./PointOfInterest";
 import { Post } from "./Post";
+import { IUser } from "../../types";
 
 // const sequelize = new Sequelize("postgres://user:pass@example.com:5432/dbname");
 
-const User = sequelize.define(
+interface UserInterface extends Model<IUser>, IUser {}
+
+const User = sequelize.define<UserInterface>(
   "User",
   {
     first_name: {
@@ -47,6 +50,6 @@ User.hasMany(PointOfInterest);
 
 User.sync().then(() => {
   console.log("User Model synced");
-})
+});
 
 export { User };
