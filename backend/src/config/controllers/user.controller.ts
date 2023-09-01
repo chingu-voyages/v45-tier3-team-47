@@ -30,7 +30,7 @@ export const createUser = async (req: Request, res: Response) => {
     }: IUser = req.body;
     const existingUser = await User.findOne({ where: { email } });
     if (existingUser) {
-      return res.send(409).send("User already exists");
+      return res.status(409).json("User already exists");
     }
 
     const saltRounds = 12;
@@ -45,10 +45,10 @@ export const createUser = async (req: Request, res: Response) => {
       profile_image,
     });
 
-    return res.status(201).send({ message: "User created successfully" });
+    return res.status(201).json({ message: "User created successfully" });
   } catch (error) {
     console.log("error in createUser:", error);
-    return res.status(422).send("Error");
+    return res.status(422).json("Error");
   }
 };
 
@@ -57,7 +57,7 @@ export const loginUser = async (req: Request, res: Response) => {
     const { email, password }: IUser = req.body;
     const existingUser = await User.findOne({ where: { email } });
     if (!existingUser) {
-      return res.status(409).send({ message: "User does not exist" });
+      return res.status(409).json({ message: "User does not exist" });
     }
 
     const isPasswordIdentical = await bcrypt.compare(
@@ -68,15 +68,15 @@ export const loginUser = async (req: Request, res: Response) => {
     if (isPasswordIdentical) {
       const token = getUserToken(existingUser.id);
       delete existingUser.password;
-      return res.send({
+      return res.json({
         token,
         existingUser,
       });
     } else {
-      return res.status(400).send({ message: "Incorrect credentials" });
+      return res.status(400).json({ message: "Incorrect credentials" });
     }
   } catch (error) {
     console.log("Error in loginUser:", error);
-    return res.status(500).send("Internal Server Error");
+    return res.status(500).json("Internal Server Error");
   }
 };
