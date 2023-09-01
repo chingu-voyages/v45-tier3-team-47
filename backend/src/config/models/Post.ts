@@ -1,9 +1,7 @@
-import { Sequelize } from "sequelize";
+import { sequelize } from "../../config/db";
 import { DataTypes } from "sequelize";
 import { User } from "./User";
 import { PointOfInterest } from "./PointOfInterest";
-
-const sequelize = new Sequelize("postgres://user:pass@example.com:5432/dbname");
 
 const Post = sequelize.define(
   "Post",

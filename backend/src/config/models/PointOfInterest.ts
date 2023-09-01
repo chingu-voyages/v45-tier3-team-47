@@ -1,12 +1,14 @@
-import { Sequelize } from "sequelize";
+import { sequelize } from "../../config/db";
 import { DataTypes } from "sequelize";
 import { Post } from "./Post";
 import { User } from "./User";
 
-const sequelize = new Sequelize("postgres://user:pass@example.com:5432/dbname");
-
 const PointOfInterest = sequelize.define("PointOfInterest", {
   title: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  category: {
     type: DataTypes.STRING,
     allowNull: false,
   },
