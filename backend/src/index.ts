@@ -1,10 +1,10 @@
 import express, { Express, Request, Response } from "express";
 
-import {createUser} from "./config/controllers/user.controller";
+import { createUser } from "./config/controllers/user.controller";
 import { verifyToken } from "./middleware/auth";
 import userRouter from './routes/user.route'
 import postRouter from '../src/routes/post.route';
-import pointOfInterestRouter from '../src/routes/pointOfInterst.route';
+import pointOfInterestRouter from './routes/pointOfInterst.route';
 
 
 const app: Express = express();
@@ -20,7 +20,7 @@ app.get("/", (req: Request, res: Response) => {
 app.post("/register", verifyToken, createUser);
 // app.use('/user', userRouter);
 // app.use('/post', postRouter);
-// app.use('/pointOfInterest', pointOfInterestRouter);
+app.use('/pointOfInterest', pointOfInterestRouter);
 
 app.listen(port, () => {
   console.log(`server running : http://localhost:${port}`);
