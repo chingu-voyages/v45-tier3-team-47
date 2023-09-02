@@ -11,7 +11,11 @@ interface UserInterface extends Model<IUser>, IUser {}
 
 const User = sequelize.define<UserInterface>(
   "User",
-  {
+  {id: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true,
+  },
     first_name: {
       type: DataTypes.STRING,
     },
@@ -45,8 +49,8 @@ const User = sequelize.define<UserInterface>(
   }
 );
 
-User.hasMany(Post);
-User.hasMany(PointOfInterest);
+// User.hasMany(Post);
+// User.hasMany(PointOfInterest);
 
 User.sync().then(() => {
   console.log("User Model synced");

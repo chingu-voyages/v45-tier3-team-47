@@ -60,7 +60,7 @@ const PointOfInterest = sequelize.define<PointOfInterestInterface>(
   }
 );
 
-PointOfInterest.hasMany(Post);
-PointOfInterest.belongsTo(User);
+// PointOfInterest.hasMany(Post);
+// PointOfInterest.belongsTo(User);
 
 export { PointOfInterest };
