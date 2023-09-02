@@ -1,14 +1,13 @@
-mport RootLayout from './Layout/RootLayout';
+import RootLayout from './Layout/RootLayout';
 import { createBrowserRouter, Route, createRoutesFromElements, RouterProvider } from 'react-router-dom';
 //Layout import
-import RootLayout from './Layout/RootLayout';
 //Page imports
 import About from './Pages/About';
 import CssBaseline from '@mui/material/CssBaseline';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import Login from './Pages/Login/Login';
 import Landing from './Pages/Landing';
-import Profile from './Pages/Profile';
+
 
 const theme = createTheme({
   palette: {
