@@ -5,7 +5,7 @@ import { User } from "../models/User";
 import { IUser } from "../../types";
 import dotenv from "dotenv";
 
-const getUserToken = (id: string) => {
+const getUserToken = (id: number) => {
   const authenticatedUserToken = jwt.sign(
     { id },
     process.env.SECRET_KEY as Secret,
@@ -42,6 +42,8 @@ export const createUser = async (req: Request, res: Response) => {
       user_name,
       password: hashedPassword,
       occupation,
+      email,
+      location,
       profile_image,
     });
 
