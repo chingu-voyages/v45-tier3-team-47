@@ -17,8 +17,8 @@ app.get("/", (req: Request, res: Response) => {
 });
 
 
-app.post("/register", verifyToken, createUser);
-// app.use('/user', userRouter);
+app.post("/register", createUser);
+app.use('/user', userRouter);
 // app.use('/post', postRouter);
 app.use('/pointOfInterest', pointOfInterestRouter);
 

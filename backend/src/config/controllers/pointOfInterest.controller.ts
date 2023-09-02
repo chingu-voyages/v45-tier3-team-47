@@ -92,7 +92,7 @@ export const updatePointOfInterest = async (req: Request, res: Response) => {
 
     return res
       .status(200)
-      .json({ message: "Point of interest update successfully" });
+      .json({ message: "Point of interest updated successfully" });
   } catch (error) {
     console.log("Error in updatePointOfInterest:", error);
     return res.status(500).json("Internal Server Erorr");
