@@ -8,7 +8,7 @@ import { User } from "../models/User";
 export const createPost = async (req: Request, res: Response) => {
   try {
     const { rating, comment }: IPost = req.body;
-    const userId = req.user.id;
+    const userId = req.params.user_id;
 
     const user = await User.findByPk(userId);
     if (!user) {

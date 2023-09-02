@@ -20,7 +20,7 @@ export const createPointOfInterest = async (req: Request, res: Response) => {
       phone_number,
     }: IPointOfInterest = req.body;
 
-    const userId = req.user.id;
+    const userId = req.params.user_id;
 
     const user = await User.findByPk(userId);
     if (!user) {
@@ -40,7 +40,7 @@ export const createPointOfInterest = async (req: Request, res: Response) => {
       province,
       country,
       phone_number,
-      userId: user.id, //associate point of interest with a user
+      // userId: user.id, // associate point of interest with a user
     });
 
     return res
