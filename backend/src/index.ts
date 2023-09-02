@@ -1,10 +1,10 @@
 import express, { Express, Request, Response } from "express";
 
-import { createUser } from "./config/controllers/user.controller";
+import {createUser} from "./config/controllers/user.controller";
 import { verifyToken } from "./middleware/auth";
-// import userRouter from './routes/user.route'
-// import postRouter from '../src/routes/post.route';
-// import pointOfInterestRouter from '../src/routes/pointOfInterst.route';
+import userRouter from './routes/user.route'
+import postRouter from '../src/routes/post.route';
+import pointOfInterestRouter from '../src/routes/pointOfInterst.route';
 
 
 const app: Express = express();

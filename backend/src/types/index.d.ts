@@ -4,8 +4,8 @@ export interface IUser {
   last_name: string;
   user_name?: string;
   occupation?: string;
-  password?: string;
-  email?: string;
+  password: string;
+  email: string;
   location?: string;
   profile_image?: string;
 }
