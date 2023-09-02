@@ -11,9 +11,8 @@ import {
 import { verifyToken } from "../middleware/auth";
 
 pointOfInterestRouter.get('/', getPointOfInterests);
-// pointOfInterestRouter.post('/', verifyToken, createPointOfInterest);
-pointOfInterestRouter.post('/', createPointOfInterest);
-pointOfInterestRouter.patch('/:id', updatePointOfInterest);
-pointOfInterestRouter.delete('/:id', deletePointOfInterest);
+pointOfInterestRouter.post('/', verifyToken, createPointOfInterest);
+pointOfInterestRouter.patch('/:id', verifyToken, updatePointOfInterest);
+pointOfInterestRouter.delete('/:id', verifyToken, deletePointOfInterest);
 
 export default pointOfInterestRouter;
