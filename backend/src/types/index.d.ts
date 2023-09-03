@@ -14,9 +14,11 @@ export interface IPost {
   rating?: number;
   comment?: string;
   userId: number;
+  pointOfInterestId: number;
 }
 
 export interface IPointOfInterest {
+  id: number;
   title: string;
   category: string;
   description?: string;
@@ -29,4 +31,5 @@ export interface IPointOfInterest {
   province?: string;
   country?: string;
   phone_number?: string;
+  userId: number;
 }
