@@ -19,13 +19,15 @@ const Post = sequelize.define<PostInterface>(
       type: DataTypes.INTEGER,
       allowNull: false,
     },
+    pointOfInterestId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
   },
   {
     timestamps: true,
+    tableName: "Post",
   }
 );
-
-// Post.belongsTo(User);
-// Post.belongsTo(PointOfInterest);
 
 export { Post };

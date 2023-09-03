@@ -4,21 +4,33 @@ import jwt, { Secret } from "jsonwebtoken";
 import { IPost } from "../../types";
 import { Post } from "../models/Post";
 import { User } from "../models/User";
+import { PointOfInterest } from "../models/PointOfInterest";
 
 export const createPost = async (req: Request, res: Response) => {
   try {
-    const { rating, comment }: IPost = req.body;
-    const userId = req.params.user_id;
+    console.log("Reached createPost endpoint");
+    const { rating, comment, userId, pointOfInterestId }: IPost = req.body;
+
+    console.log("Request URL:", req.url);
+    console.log("Request Params:", req.params);
+    console.log("User ID:", userId);
+    console.log("POI ID:", pointOfInterestId);
 
     const user = await User.findByPk(userId);
     if (!user) {
       return res.status(404).json("User not found");
     }
 
+    const poi = await PointOfInterest.findByPk(pointOfInterestId);
+    if (!poi) {
+      return res.status(404).json("Point of Interest not found");
+    }
+
     const newPost = await Post.create({
       rating,
       comment,
       userId: user.id,
+      pointOfInterestId: poi.id,
     });
     return res.status(201).json({ message: "Post created successfully" });
   } catch (error) {

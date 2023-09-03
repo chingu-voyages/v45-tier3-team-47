@@ -20,7 +20,7 @@ export const createPointOfInterest = async (req: Request, res: Response) => {
       phone_number,
     }: IPointOfInterest = req.body;
 
-    const userId = req.body.user_id;
+    const userId = req.body.userId;
 
     const user = await User.findByPk(userId);
     if (!user) {
@@ -40,7 +40,7 @@ export const createPointOfInterest = async (req: Request, res: Response) => {
       province,
       country,
       phone_number,
-      // userId: user.id, // associate point of interest with a user
+      userId,
     });
 
     return res
@@ -87,6 +87,7 @@ export const updatePointOfInterest = async (req: Request, res: Response) => {
     pointOfInterestToUpdate.province = updatedPointOfInterest.province;
     pointOfInterestToUpdate.country = updatedPointOfInterest.country;
     pointOfInterestToUpdate.phone_number = updatedPointOfInterest.phone_number;
+    pointOfInterestToUpdate.userId = updatedPointOfInterest.userId;
 
     await pointOfInterestToUpdate.save();
 
