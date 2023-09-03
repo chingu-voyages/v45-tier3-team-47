@@ -10,7 +10,7 @@ type Props = {
 const TypeCheckboxes = ({ restaurant, hotel, entertainment, handleChange }: Props) => {
     return (
         <FormControl component="fieldset" variant="standard">
-            <FormLabel component="legend">Filter by Type</FormLabel>
+            <FormLabel component="legend" sx={{ paddingY: '1rem' }}>Filter by Type</FormLabel>
             <FormControlLabel control={<Checkbox checked={restaurant} onChange={handleChange} name="restaurant" />} label="Restaurant" />
             <FormControlLabel control={<Checkbox checked={hotel} onChange={handleChange} name="hotel" />} label="Hotel" />
             <FormControlLabel control={<Checkbox checked={entertainment} onChange={handleChange} name="entertainment" />} label="Entertainment" />

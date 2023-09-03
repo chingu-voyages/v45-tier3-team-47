@@ -5,6 +5,7 @@ const Landing = () => {
     return (
         <Box component="section" sx={{
             display: 'flex',
+            outline: '1px solid lightgrey'
         }}>
             <FilterForm />
         </Box>

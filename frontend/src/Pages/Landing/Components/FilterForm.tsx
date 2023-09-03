@@ -1,5 +1,6 @@
 import { Box } from '@mui/material';
 import { useState } from 'react';
+//Component imports
 import TypeCheckboxes from './TypeCheckboxes';
 import RatingCheckboxes from './RatingCheckboxes';
 import StateChecker from './StateChecker';
@@ -15,6 +16,8 @@ const FilterForm = () => {
         threeStars: false,
     })
 
+    const [sliderValue, setSliderValue] = useState(1)
+
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setChecked({
             ...checked,
@@ -22,18 +25,19 @@ const FilterForm = () => {
         });
     };
 
-    const [sliderValue, setSliderValue] = useState(1)
-
     const handleSliderChange = (event: Event, newValue: number | number[]) => {
         setSliderValue(newValue as number);
     };
 
     const { restaurant, hotel, entertainment, fiveStars, fourStars, threeStars } = checked;
+
     return (
         <Box component="form" sx={{
             width: '30%',
             display: 'flex',
             flexDirection: 'column',
+            outline: '1px solid lightgrey',
+            padding: '1rem'
         }}>
             <TypeCheckboxes restaurant={restaurant} hotel={hotel} entertainment={entertainment} handleChange={handleChange} />
             <RatingCheckboxes fiveStars={fiveStars} fourStars={fourStars} threeStars={threeStars} handleChange={handleChange} />
