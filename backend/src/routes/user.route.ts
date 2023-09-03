@@ -1,7 +1,8 @@
 import express from "express";
-const userRouter = express.Router();
-import { loginUser } from "../config/controllers/user.controller";
+import { loginUser, updateUser } from "../config/controllers/user.controller";
 
-userRouter.post('/login', loginUser)
+const userRouter = express.Router();
+userRouter.post('/login', loginUser);
+userRouter.patch('/update/:id', updateUser);
 
 export default userRouter;
