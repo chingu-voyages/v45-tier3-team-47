@@ -3,6 +3,7 @@ import { useState } from 'react';
 import TypeCheckboxes from './TypeCheckboxes';
 import RatingCheckboxes from './RatingCheckboxes';
 import StateChecker from './StateChecker';
+import PriceSlider from './PriceSlider';
 
 const FilterForm = () => {
     const [checked, setChecked] = useState({
@@ -11,7 +12,7 @@ const FilterForm = () => {
         entertainment: false,
         fiveStars: false,
         fourStars: false,
-        threeStars: false
+        threeStars: false,
     })
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -19,7 +20,12 @@ const FilterForm = () => {
             ...checked,
             [event.target.name]: event.target.checked,
         });
-        console.log(checked)
+    };
+
+    const [sliderValue, setSliderValue] = useState(1)
+
+    const handleSliderChange = (event: Event, newValue: number | number[]) => {
+        setSliderValue(newValue as number);
     };
 
     const { restaurant, hotel, entertainment, fiveStars, fourStars, threeStars } = checked;
@@ -28,11 +34,11 @@ const FilterForm = () => {
             width: '30%',
             display: 'flex',
             flexDirection: 'column',
-            bgcolor: 'grey'
         }}>
             <TypeCheckboxes restaurant={restaurant} hotel={hotel} entertainment={entertainment} handleChange={handleChange} />
             <RatingCheckboxes fiveStars={fiveStars} fourStars={fourStars} threeStars={threeStars} handleChange={handleChange} />
-            <StateChecker checked={checked} />
+            <PriceSlider sliderValue={sliderValue} handleSliderChange={handleSliderChange} />
+            <StateChecker checked={checked} sliderValue={sliderValue} />
         </Box>
     )
 }
