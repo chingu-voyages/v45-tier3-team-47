@@ -14,13 +14,13 @@ export const createPointOfInterest = async (req: Request, res: Response) => {
       city,
       category,
       website,
-      postal_code,
+      post_code,
       province,
       country,
       phone_number,
     }: IPointOfInterest = req.body;
 
-    const userId = req.user.id;
+    const userId = req.body.userId;
 
     const user = await User.findByPk(userId);
     if (!user) {
@@ -36,11 +36,11 @@ export const createPointOfInterest = async (req: Request, res: Response) => {
       city,
       category,
       website,
-      postal_code,
+      post_code,
       province,
       country,
       phone_number,
-      userId: user.id, //associate point of interest with a user
+      userId,
     });
 
     return res
@@ -83,16 +83,17 @@ export const updatePointOfInterest = async (req: Request, res: Response) => {
     pointOfInterestToUpdate.price = updatedPointOfInterest.price;
     pointOfInterestToUpdate.city = updatedPointOfInterest.city;
     pointOfInterestToUpdate.website = updatedPointOfInterest.website;
-    pointOfInterestToUpdate.postal_code = updatedPointOfInterest.postal_code;
+    pointOfInterestToUpdate.post_code = updatedPointOfInterest.post_code;
     pointOfInterestToUpdate.province = updatedPointOfInterest.province;
     pointOfInterestToUpdate.country = updatedPointOfInterest.country;
     pointOfInterestToUpdate.phone_number = updatedPointOfInterest.phone_number;
+    pointOfInterestToUpdate.userId = updatedPointOfInterest.userId;
 
     await pointOfInterestToUpdate.save();
 
     return res
       .status(200)
-      .json({ message: "Point of interest update successfully" });
+      .json({ message: "Point of interest updated successfully" });
   } catch (error) {
     console.log("Error in updatePointOfInterest:", error);
     return res.status(500).json("Internal Server Erorr");

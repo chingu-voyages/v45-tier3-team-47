@@ -1,8 +1,8 @@
 import { sequelize } from "../../config/db";
 import { DataTypes, Model } from "sequelize";
-import { Post } from "./Post";
-import { User } from "./User";
 import { IPointOfInterest } from "../../types";
+import { User } from "./User";
+import { Post } from "./Post";
 
 interface PointOfInterestInterface
   extends Model<IPointOfInterest>,
@@ -11,6 +11,11 @@ interface PointOfInterestInterface
 const PointOfInterest = sequelize.define<PointOfInterestInterface>(
   "PointOfInterest",
   {
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+    },
     title: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -40,9 +45,9 @@ const PointOfInterest = sequelize.define<PointOfInterestInterface>(
       allowNull: false,
     },
     website: {
-      type: DataTypes.DECIMAL,
+      type: DataTypes.STRING,
     },
-    postal_code: {
+    post_code: {
       type: DataTypes.STRING,
       allowNull: false,
     },
@@ -57,10 +62,14 @@ const PointOfInterest = sequelize.define<PointOfInterestInterface>(
     phone_number: {
       type: DataTypes.STRING,
     },
+    userId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+  },
+  {
+    tableName: "PointOfInterest",
   }
 );
-
-PointOfInterest.hasMany(Post);
-PointOfInterest.belongsTo(User);
 
 export { PointOfInterest };

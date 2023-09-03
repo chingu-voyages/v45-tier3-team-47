@@ -1,8 +1,8 @@
 export interface IUser {
   id: number;
-  first_name?: string;
-  last_name?: string;
-  user_name: string;
+  first_name: string;
+  last_name: string;
+  user_name?: string;
   occupation?: string;
   password: string;
   email: string;
@@ -14,9 +14,11 @@ export interface IPost {
   rating?: number;
   comment?: string;
   userId: number;
+  pointOfInterestId: number;
 }
 
 export interface IPointOfInterest {
+  id: number;
   title: string;
   category: string;
   description?: string;
@@ -25,8 +27,9 @@ export interface IPointOfInterest {
   price?: number;
   city?: string;
   website?: string;
-  postal_code?: string;
+  post_code?: string;
   province?: string;
   country?: string;
   phone_number?: string;
+  userId: number;
 }

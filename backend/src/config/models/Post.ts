@@ -15,17 +15,19 @@ const Post = sequelize.define<PostInterface>(
     comment: {
       type: DataTypes.TEXT,
     },
-    userId: { 
-      type: DataTypes.INTEGER, 
-      allowNull: false, 
+    userId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    pointOfInterestId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
     },
   },
   {
     timestamps: true,
+    tableName: "Post",
   }
 );
-
-Post.belongsTo(User);
-Post.belongsTo(PointOfInterest);
 
 export { Post };

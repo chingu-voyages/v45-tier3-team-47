@@ -1,19 +1,16 @@
-
 import { sequelize } from "../../config/db";
 import { DataTypes, Model } from "sequelize";
-import { PointOfInterest } from "./PointOfInterest";
 import { Post } from "./Post";
+import { PointOfInterest } from "./PointOfInterest";
 import { IUser } from "../../types";
-
-
 
 interface UserInterface extends Model<IUser>, IUser {}
 
 const User = sequelize.define<UserInterface>(
   "User",
   {
-    id: { 
-      type: DataTypes.INTEGER, 
+    id: {
+      type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
     },
@@ -47,11 +44,9 @@ const User = sequelize.define<UserInterface>(
   },
   {
     timestamps: true,
+    tableName: "User",
   }
 );
-
-User.hasMany(Post);
-User.hasMany(PointOfInterest);
 
 User.sync().then(() => {
   console.log("User Model synced");
