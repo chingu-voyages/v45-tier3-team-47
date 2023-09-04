@@ -6,7 +6,7 @@ import {
   createPointOfInterest,
   updatePointOfInterest,
   deletePointOfInterest,
-} from "../config/controllers/pointOfInterest.controller";
+} from "../controllers/pointOfInterest.controller";
 
 import { verifyToken } from "../middleware/auth";
 

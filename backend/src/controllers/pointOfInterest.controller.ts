@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import { PointOfInterest } from "../models/PointOfInterest";
-import { User } from "../models/User";
-import { IPointOfInterest } from "../../types";
+import { PointOfInterest } from "../config/models/PointOfInterest";
+import { User } from "../config/models/User";
+import { IPointOfInterest } from "../types";
 
 export const createPointOfInterest = async (req: Request, res: Response) => {
   try {
