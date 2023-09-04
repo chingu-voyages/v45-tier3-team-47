@@ -9,12 +9,14 @@ type Props = {
         fourStars: boolean,
         threeStars: boolean
     },
-    sliderValue: number
+    sliderValue: number,
+    city: string
 }
 
-const StateChecker = ({ checked, sliderValue }: Props) => {
+const StateChecker = ({ checked, sliderValue, city }: Props) => {
     return (
         <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: '1rem' }}>
+            <p>City is {city}</p>
             <p>
                 {
                     checked.restaurant ? "Restaurant is checked" : "Restaurant is unchecked"

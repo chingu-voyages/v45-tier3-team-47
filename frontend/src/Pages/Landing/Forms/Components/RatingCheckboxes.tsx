@@ -4,12 +4,17 @@ type Props = {
     fiveStars: boolean,
     fourStars: boolean,
     threeStars: boolean,
-    handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void
+    handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void,
+    submitted: boolean
 }
 
-const RatingCheckboxes = ({ fiveStars, fourStars, threeStars, handleChange }: Props) => {
+const RatingCheckboxes = ({ fiveStars, fourStars, threeStars, handleChange, submitted }: Props) => {
     return (
-        <FormControl component="fieldset" variant="standard">
+        <FormControl
+            component="fieldset"
+            variant="standard"
+            disabled={!submitted}
+        >
             <FormLabel component="legend" sx={{ paddingY: '1rem' }}>Filter by Rating</FormLabel>
             <FormControlLabel control={<Checkbox checked={fiveStars} onChange={handleChange} name="fiveStars" />} label="5 Stars" />
             <FormControlLabel control={<Checkbox checked={fourStars} onChange={handleChange} name="fourStars" />} label="4 Stars" />

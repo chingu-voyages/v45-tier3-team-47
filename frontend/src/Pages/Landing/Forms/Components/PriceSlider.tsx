@@ -2,10 +2,11 @@ import { FormLabel, FormControl, Slider } from '@mui/material';
 
 type Props = {
     sliderValue: number,
-    handleSliderChange: (event: Event, newValue: number | number[]) => void
+    handleSliderChange: (event: Event, newValue: number | number[]) => void,
+    submitted: boolean
 }
 
-const PriceSlider = ({ sliderValue, handleSliderChange }: Props) => {
+const PriceSlider = ({ sliderValue, handleSliderChange, submitted }: Props) => {
 
     const marks = [
         {
@@ -40,6 +41,7 @@ const PriceSlider = ({ sliderValue, handleSliderChange }: Props) => {
                 max={3}
                 sx={{ width: '80%' }}
                 onChange={handleSliderChange}
+                disabled={!submitted}
             />
         </FormControl>
     )
