@@ -33,7 +33,6 @@ export const createUser = async (req: Request, res: Response) => {
       return res.status(400).json("Profile image is required");
     }
 
-    console.log("www",picture.path)
 
     const existingUser = await User.findOne({ where: { email } });
     if (existingUser) {
@@ -65,7 +64,9 @@ export const createUser = async (req: Request, res: Response) => {
 export const loginUser = async (req: Request, res: Response) => {
   try {
     const { email, password }: IUser = req.body;
+    console.log("ree",req.body)
     const existingUser = await User.findOne({ where: { email } });
+    console.log("User lookup result:", existingUser);
     if (!existingUser) {
       return res.status(409).json({ message: "User does not exist" });
     }
@@ -82,6 +83,7 @@ export const loginUser = async (req: Request, res: Response) => {
         token,
         existingUser,
       });
+      console.log("token",token)
     } else {
       return res.status(400).json({ message: "Incorrect credentials" });
     }

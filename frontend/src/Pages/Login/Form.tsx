@@ -1,5 +1,6 @@
 import { Formik, FormikHelpers } from 'formik';
 import React, { useState } from 'react';
+import { useNavigate } from "react-router-dom";
 import {
   TextField, Typography,
   Box, Button, useMediaQuery
@@ -53,23 +54,32 @@ const Form: React.FC = () => {
   const isLogin: boolean = pageType === "login";
   const isRegister: boolean = pageType === "register";
   const isNonMobileScreens = useMediaQuery(("(min-width:600px"));
+  const navigate = useNavigate();
 
   const handleLogin = async (values: FormValues, onSubmitProps: FormikHelpers<FormValues>) => {
     try {
-      //   const loggedInResponse = await fetch(`${URL}/login`,{
-      //     method:"POST",
-      //     headers:{
-      //       "Content-Type":"application/json"
+        const loggedInResponse = await fetch(`http://localhost:3000/user/login`,{
+          method:"POST",
+          headers:{
+            "Content-Type":"application/json"
 
-      //     },
-      //     body:JSON.stringify(values)
-      //   });
-      //  const loggedIn = await loggedInResponse.json();
-      console.log(values);
+          },
+          body:JSON.stringify(values)
+        });
+        const loggedIn = await loggedInResponse.json();
+        console.log("loggedIn",loggedInResponse);
+      
+      if(loggedInResponse.ok){
+       
+        const userToken = loggedIn.token;
+
+      // Store the token in localStorage or sessionStorage for later use
+      localStorage.setItem('userToken', userToken);
+
+      console.log("User logged in with token:", userToken);
       onSubmitProps.resetForm();
-      // if(loggedIn){
-      //  //
-      // }
+        navigate("/");
+      }
     } catch (error) {
       console.error("Error submitting form:", error)
     }
@@ -98,7 +108,6 @@ const Form: React.FC = () => {
           body:formData
         });
        const savedUser = await savedUserResponse.json();
-       console.log("save",savedUser)
       onSubmitProps.resetForm();
         if(savedUser){
           setPageType("login");
@@ -111,7 +120,7 @@ const Form: React.FC = () => {
     }
   };
   const handleFormSubmit = async (values: FormValues, onSubmitProps: FormikHelpers<FormValues>) => {
-    console.log("values", JSON.stringify(values, null, 2), onSubmitProps)
+   
     if (isLogin) return await handleLogin(values, onSubmitProps);
     if (isRegister) return await handleRegister(values, onSubmitProps);
   }

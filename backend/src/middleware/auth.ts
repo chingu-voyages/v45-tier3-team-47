@@ -1,6 +1,12 @@
 import jwt, { Secret } from "jsonwebtoken";
 import { Request, Response, NextFunction } from "express";
-
+declare global {
+  namespace Express {
+    interface Request {
+      user?: any; // Change 'any' to the type you expect for 'user'
+    }
+  }
+}
 export const verifyToken = async (req: Request, res: Response, next: NextFunction) => {
 
   try {
@@ -10,6 +16,7 @@ export const verifyToken = async (req: Request, res: Response, next: NextFunctio
       token = token.slice(7).trimStart();
     }
     const verified = jwt.verify(token, process.env.SECRET_KEY as Secret);
+    req.user = verified;
     next();
 
   } catch (err) {
