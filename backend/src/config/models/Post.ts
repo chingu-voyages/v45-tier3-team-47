@@ -1,9 +1,12 @@
 import { sequelize } from "../../config/db";
-import { DataTypes } from "sequelize";
+import { DataTypes, Model } from "sequelize";
 import { User } from "./User";
 import { PointOfInterest } from "./PointOfInterest";
+import { IPost } from "../../types";
 
-const Post = sequelize.define(
+interface PostInterface extends Model<IPost>, IPost {}
+
+const Post = sequelize.define<PostInterface>(
   "Post",
   {
     rating: {
@@ -12,13 +15,19 @@ const Post = sequelize.define(
     comment: {
       type: DataTypes.TEXT,
     },
+    userId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    pointOfInterestId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
   },
   {
     timestamps: true,
+    tableName: "Post",
   }
 );
-
-Post.belongsTo(User);
-Post.belongsTo(PointOfInterest);
 
 export { Post };

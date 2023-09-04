@@ -1,40 +1,40 @@
-
-import "./App.css"
-import Login from './Pages/Login';
-import {BrowserRouter,Routes,Route } from 'react-router-dom';
+import RootLayout from './Layout/RootLayout';
+import { createBrowserRouter, Route, createRoutesFromElements, RouterProvider } from 'react-router-dom';
+import './App.css'
+import About from './Pages/About';
 import CssBaseline from '@mui/material/CssBaseline';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
-import PointOfIntrest from "./Pages/PointOfIntrest";
 
 const theme = createTheme({
   palette: {
     mode: 'light',
     primary: {
-      main: '#400080', 
+      main: '#400080',
     },
     background: {
       default: '#ffffff',
-    
     },
-    
   },
 });
 
 function App() {
-  
+
+  const router = createBrowserRouter(
+    createRoutesFromElements(
+      <Route path="/" element={<RootLayout />}>
+        <Route index element={<Landing />} />
+        <Route path="About" element={<About />} />
+        <Route path="Login" element={<Login />} />
+        <Route path="Profile" element={<Profile />} />
+      </Route>
+    )
+  )
 
   return (
     <div className="App">
-       <ThemeProvider theme={theme}>
-      <CssBaseline /> 
-      <BrowserRouter>
-      
-      <Routes>
-        <Route path='login' element={<Login/>}/>
-        <Route path='point-of-intrest' element={<PointOfIntrest/>}/>
-
-      </Routes>
-      </BrowserRouter>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <RouterProvider router={router} />
       </ThemeProvider>
     </div>
   );
