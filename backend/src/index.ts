@@ -5,11 +5,12 @@ import { verifyToken } from "./middleware/auth";
 import userRouter from "./routes/user.route";
 import postRouter from "./routes/post.route";
 import pointOfInterestRouter from "./routes/pointOfInterest.route";
-
+import cors from "cors";
 const app: Express = express();
 const port = 3000;
 
 app.use(express.json());
+app.use(cors());
 
 app.get("/", (req: Request, res: Response) => {
   res.send("Running Express + TS Server !!!");

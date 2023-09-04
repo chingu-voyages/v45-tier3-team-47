@@ -4,6 +4,10 @@ import './App.css'
 import About from './Pages/About';
 import CssBaseline from '@mui/material/CssBaseline';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
+import Landing from './Pages/Landing';
+import { Login } from '@mui/icons-material';
+import Profile from './Pages/Profile';
+import PointOfIntrest from './Pages/PointOfIntrest';
 
 const theme = createTheme({
   palette: {
@@ -26,7 +30,8 @@ function App() {
         <Route path="About" element={<About />} />
         <Route path="Login" element={<Login />} />
         <Route path="Profile" element={<Profile />} />
-      </Route>
+        <Route path="point-of-interest" element={<PointOfIntrest/>}/>
+      </Route> 
     )
   )
 

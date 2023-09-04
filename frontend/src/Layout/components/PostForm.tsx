@@ -1,80 +1,88 @@
-import { Formik, FormikHelpers,Field,useFormikContext} from 'formik';
-import React, { useState } from 'react';
-import { TextField,Select, MenuItem ,FormControl,
-  Box,Button ,useMediaQuery, InputLabel} from '@mui/material';
+import { Formik, FormikHelpers} from 'formik';
+import React from 'react';
+import { TextField,
+  Box,Button ,useMediaQuery, } from '@mui/material';
+  import { useNavigate } from 'react-router-dom';
 
 
 import * as yup from "yup";
+
 interface FormValues {
-  placeName:string;
-  description: string;
+  title:string;
   category:string;
-  price:number;
+  description: string;
+  price?:number;
   website?:string;
-  address:string;
-  city:string;
+  city?:string;
+  post_code?: string;
   province?:string;
-  country:string;
-  postalCode?:string;
+  country?:string;
   phoneNumber?:string;
-  selectedOption?:string;
+  
+  
 
 };
 
 
 const formData:FormValues = {
-  placeName:"",
-  description: "",
+  title:"",
   category:"",
+  description: "",
   price:0,
   website:"",
-  address:"",
   city:"",
+  post_code:"",
   province:"",
   country:"",
-  postalCode:"",
   phoneNumber:"",
   
 };
 const formSchema= yup.object().shape({
-  placeName: yup.string().required("required"),
+  title: yup.string().required("required"),
   description: yup.string().required("required"),
   category:yup.string().required("required"),
-  address:yup.string().required("required"),
+ 
   
 });
 
 
 
-const Form:React.FC= () => {
-  const [pageType,setPageType]=useState<string>("register");
+const PostForm:React.FC= () => {
+ 
  const isNonMobileScreens = useMediaQuery(("(min-width:600px"));
-  
-  const handleLogin= async(values: FormValues,      onSubmitProps: FormikHelpers<FormValues>)=>{
-    try{
-  //   const loggedInResponse = await fetch(`${URL}/login`,{
-  //     method:"POST",
-  //     headers:{
-  //       "Content-Type":"application/json"
-        
-  //     },
-  //     body:JSON.stringify(values)
-  //   });
-  //  const loggedIn = await loggedInResponse.json();
-  console.log(values);
-    onSubmitProps.resetForm();
-    // if(loggedIn){
-    //  //
-    // }
-    }catch(error){
-      console.error("Error submitting form:", error)
-    }
-  };
+  const navigate=useNavigate();
+ 
   
  
-  const handleFormSubmit=async(values: FormValues, onSubmitProps: FormikHelpers<FormValues>)=>{
-    console.log("values",JSON.stringify(values, null, 2),onSubmitProps)
-    //  if(isLogin) return await handleLogin(values,onSubmitProps);
+  const handleFormSubmit = async (values: FormValues, onSubmitProps:
+     FormikHelpers<FormValues>) => {
+  
+    try {
+
+      console.log("Form submitted with values:", values);
+      const saveResponseData = await fetch(`http://localhost:3000/pointOfInterest`, {
+        method: "POST",
+        body: JSON.stringify(values),
+        headers: {
+          "Content-Type": "application/json", 
+        },
+      });
+  
+      if (!saveResponseData.ok) {
+        // Handle non-successful response (e.g., server error)
+        throw new Error(`Failed to save data: ${saveResponseData.status}`);
+      }
+  
+      const savedUser = await saveResponseData.json();
+      console.log("save", savedUser);
+      onSubmitProps.resetForm();
+      if (savedUser) {
+        navigate('/');
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      // Handle the error here (e.g., show an error message to the user)
+    }
 
   }
   return (
@@ -83,8 +91,9 @@ const Form:React.FC= () => {
       <Formik onSubmit={handleFormSubmit}
     initialValues={formData}
     validationSchema={formSchema}>
-    {({values,errors,touched,handleBlur,handleChange ,handleSubmit,setFieldValue,resetForm})=>(
+    {({values,errors,touched,handleBlur,handleChange ,handleSubmit})=>(
      <form onSubmit={handleSubmit}>
+      
       <Box display="grid" gap="30px" gridTemplateColumns="repeat(4, minmax(0, 1fr))"
       sx={{"&>div": {
       gridColumn: isNonMobileScreens? undefined : "span 4"}
@@ -95,11 +104,26 @@ const Form:React.FC= () => {
         label="Place Name"
         onBlur={handleBlur}
         onChange={handleChange}
-        value={values.placeName}
-        name="placeName"
-        error={Boolean(touched.placeName) && Boolean(errors.placeName)}
+        value={values.title}
+        name="title"
+        error={Boolean(touched.title) && Boolean(errors.title)}
   
-        helperText={(touched.placeName && (errors.placeName != null)) ? errors.placeName : ' '}
+        helperText={(touched.title && (errors.title != null)) ? errors.title : ' '}
+        sx={{
+          gridColumn: "span 2",
+          borderRadius:"5px",
+          mt:"0.2rem"  
+        }}
+      />
+       <TextField
+        label="des"
+        onBlur={handleBlur}
+        onChange={handleChange}
+        value={values.description}
+        name="description"
+        error={Boolean(touched.description) && Boolean(errors.description)}
+  
+        helperText={(touched.description && (errors.description != null)) ? errors.description : ' '}
         sx={{
           gridColumn: "span 2",
           borderRadius:"5px",
@@ -153,7 +177,7 @@ const Form:React.FC= () => {
             )}
        */}
        
-        <Field name="selectedOption">
+        {/* <Field name="selectedOption">
   {() => {
     const { values, setFieldValue } = useFormikContext<FormValues>();
     
@@ -162,7 +186,7 @@ const Form:React.FC= () => {
       borderRadius:"5px"}}>
         <InputLabel>Choose an option</InputLabel>
         <Select
-          value={values.selectedOption }
+          value={values.category }
           onChange={(event) => setFieldValue('selectedOption', event.target.value)}
         >
           <MenuItem value="">Select an option</MenuItem>
@@ -173,9 +197,20 @@ const Form:React.FC= () => {
       </FormControl>
     );
   }}
-</Field>
-
-
+</Field> */}
+<TextField
+  label="Category"
+  onBlur={handleBlur}
+  onChange={handleChange}
+  value={values.category}
+  name="category"
+  error={Boolean(touched.category) && Boolean(errors.category)}
+  helperText={(touched.category && errors.category) || ' '}
+  sx={{
+    gridColumn: "span 2",
+    borderRadius: "5px",
+  }}
+/>
   
         <TextField
         label="Price"
@@ -208,7 +243,7 @@ const Form:React.FC= () => {
           borderRadius:"5px"
         }}
         />
-        <TextField
+        {/* <TextField
         label="Address"
         onBlur={handleBlur}
         onChange={handleChange}
@@ -221,7 +256,7 @@ const Form:React.FC= () => {
           gridColumn: "span 2",
           borderRadius:"5px"
         }}
-        />
+        /> */}
       
        
      <TextField
@@ -268,7 +303,7 @@ const Form:React.FC= () => {
   label="Postal Code"
   onBlur={handleBlur}
   onChange={handleChange}
-  value={values.postalCode}
+  value={values.post_code}
   name="postal code"
   sx={{
     gridColumn: "span 2",
@@ -328,4 +363,4 @@ const Form:React.FC= () => {
   
 };
 
-export default Form;
+export default PostForm;

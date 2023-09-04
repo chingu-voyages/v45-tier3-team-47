@@ -19,13 +19,13 @@ export const createPointOfInterest = async (req: Request, res: Response) => {
       country,
       phone_number,
     }: IPointOfInterest = req.body;
+  // console.log("req.body",req.body)
+    // const userId = 2;
 
-    const userId = req.body.userId;
-
-    const user = await User.findByPk(userId);
-    if (!user) {
-      return res.status(404).json("User not found");
-    }
+    // const user = await User.findByPk(userId);
+    // if (!user) {
+    //   return res.status(404).json("User not found");
+    // }
 
     const newPointOfInterest = await PointOfInterest.create({
       title,
@@ -40,8 +40,9 @@ export const createPointOfInterest = async (req: Request, res: Response) => {
       province,
       country,
       phone_number,
-      userId,
+      // userId,
     });
+    // console.log("newPointOfInterest",newPointOfInterest)
 
     return res
       .status(201)

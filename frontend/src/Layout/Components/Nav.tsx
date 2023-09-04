@@ -98,6 +98,17 @@ function Nav() {
                             ))}
                         </Menu>
                     </Box>
+                    <Box>
+                        <Button
+                         component={Link} 
+                         to="point-of-interest"
+                         sx={{
+                            backgroundColor:"gray"
+                           
+                        }}>Create Post
+                    
+                        </Button>
+                    </Box>
                     <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
                     <Typography
                         variant="h5"
