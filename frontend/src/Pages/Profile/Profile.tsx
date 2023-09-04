@@ -1,5 +1,9 @@
-import { Avatar, Box, List, ListItem, ListItemText } from "@mui/material"
+import { Avatar, Box, List, ListItem, ListItemText, useTheme, IconButton } from "@mui/material"
 import { useState } from "react"
+import Brightness4Icon from '@mui/icons-material/Brightness4';
+import Brightness7Icon from '@mui/icons-material/Brightness7';
+
+
 
 const Profile = () => {
     // Test user data to be removed once this is connected to the back end
@@ -12,6 +16,12 @@ const Profile = () => {
         location: 'Toronto',
         profile_image: '/static/images/avatar/1.jpg'
     })
+
+    const theme = useTheme();
+    const toggleThemeMode = () => {
+        const newMode = theme.palette.mode === 'light' ? 'dark' : 'light';
+        theme.palette.mode = newMode;
+    };
 
     const { first_name, last_name, user_name, occupation, email, location, profile_image } = user;
 
@@ -28,8 +38,11 @@ const Profile = () => {
                 <Avatar
                     alt={`${first_name} ${last_name} `}
                     src={profile_image}
-                    sx={{ width: 100, height: 100 }}
+                    sx={{ width: 100, height: 100, marginBottom: '1rem' }}
                 />
+                <IconButton onClick={toggleThemeMode} aria-label="Toggle theme mode">
+                    {theme.palette.mode === 'light' ? <Brightness4Icon /> : <Brightness7Icon />}
+                </IconButton>
             </Box>
             <Box>
                 <List >
