@@ -5,7 +5,7 @@ import {
   deletePost,
   getPosts,
   updatePost,
-} from "../config/controllers/post.controller";
+} from "../controllers/post.controller";
 import { verifyToken } from "../middleware/auth";
 
 postRouter.get("/", getPosts);
