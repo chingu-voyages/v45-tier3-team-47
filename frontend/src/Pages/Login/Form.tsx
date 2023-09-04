@@ -8,25 +8,28 @@ import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import Dropzone from 'react-dropzone';
 import * as yup from "yup";
 interface FormValues {
-  userName?: string,
-  firstName?: string,
-  lastName?: string,
-  occupation?: string,
-  location?: string,
-  picture?: File | null,
-  email: string,
-  password: string
+  first_name?: string;
+  last_name?: string;
+  user_name?: string;
+  occupation?: string;
+  password: string;
+  email: string;
+  location?: string;
+  profile_image?: File |  null;
+  
 }
 
 const intialValuesRegister: FormValues = {
-  userName: "",
-  firstName: "",
-  lastName: "",
+  
+  first_name: "",
+  last_name: "",
+  user_name: "",
   occupation: "",
-  location: "",
-  picture: null,
-  email: "",
   password: "",
+  email: "",
+  location: "",
+  profile_image: null,
+  
 
 };
 const intialValuesLogin: FormValues = {
@@ -35,7 +38,7 @@ const intialValuesLogin: FormValues = {
 
 };
 const registerSchema = yup.object().shape({
-  userName: yup.string().required("required"),
+  user_name: yup.string().required("required"),
   email: yup.string().email("Invalid Email").required("required"),
   password: yup.string().required("required"),
 });
@@ -75,25 +78,33 @@ const Form: React.FC = () => {
   const handleRegister = async (values: FormValues, onSubmitProps: FormikHelpers<FormValues>) => {
     try {
       const formData = new FormData();
+   
       for (const key in values) {
         const value = values[key as keyof FormValues];
-
-        if (key === 'picture' && value instanceof File) {
-          formData.append(key, value, value.name);
+        
+        if (key === 'profile_image' && value instanceof File) {
+          formData.append(key,value,value.name);
+   
         } else if (typeof value === 'string' || typeof value === 'number') {
-          formData.append(key, value.toString());
+          formData.append(key, value);
+          
         }
+        
+     
+      
       }
-      //   const savedUserResponse = await fetch(`${URL}/register`,{
-      //     method:"POST",
-      //     body:formData
-      //   });
-      //  const savedUser = await savedUserResponse.json();
+        const savedUserResponse = await fetch(`http://localhost:3000/register`,{
+          method:"POST",
+          body:formData
+        });
+       const savedUser = await savedUserResponse.json();
+       console.log("save",savedUser)
       onSubmitProps.resetForm();
-      //   if(savedUser){
-      //     setPageType("login");
-      //   }
-
+        if(savedUser){
+          setPageType("login");
+        }
+  
+        
 
     } catch (error) {
       console.error("Error submitting form:", error);
@@ -129,11 +140,11 @@ const Form: React.FC = () => {
                   label="User Name"
                   onBlur={handleBlur}
                   onChange={handleChange}
-                  value={values.userName}
-                  name="userName"
-                  error={Boolean(touched.userName) && Boolean(errors.userName)}
-                  // helperText={touched.userName && errors.userName ? ' ' : ''}
-                  helperText={(touched.userName && (errors.userName != null)) ? errors.userName : ' '}
+                  value={values.user_name}
+                  name="user_name"
+                  error={Boolean(touched.user_name) && Boolean(errors.user_name)}
+                  // helperText={touched.user_name && errors.user_name ? ' ' : ''}
+                  helperText={(touched.user_name && (errors.user_name != null)) ? errors.user_name : ' '}
                   sx={{
                     gridColumn: "span 4",
                     borderRadius: "5px",
@@ -149,8 +160,8 @@ const Form: React.FC = () => {
                   label="First Name"
                   onBlur={handleBlur}
                   onChange={handleChange}
-                  value={values.firstName}
-                  name="firstName"
+                  value={values.first_name}
+                  name="first_name"
                   sx={{
                     gridColumn: "span 2",
                     // border:`1px solid #b3b3ff`,
@@ -162,8 +173,8 @@ const Form: React.FC = () => {
                   label="Last Name"
                   onBlur={handleBlur}
                   onChange={handleChange}
-                  value={values.lastName}
-                  name="lastName"
+                  value={values.last_name}
+                  name="last_name"
                   sx={{
                     gridColumn: "span 2",
                     // border:`1px solid #b3b3ff`,
@@ -207,18 +218,18 @@ const Form: React.FC = () => {
                     //  acceptedFiles=".jpg,.jpeg,.png"
                     multiple={false}
                     onDrop={(acceptedFiles) =>
-                      setFieldValue("picture", acceptedFiles[0])
+                      setFieldValue('profile_image', acceptedFiles[0])
                     }
 
                   >
                     {({ getRootProps, getInputProps }) => (
                       <Box     {...getRootProps()} border={`2px dashed #b3b3ff`} p="1rem" sx={{ "&:hover": { cursor: "pointer" } }}>
                         <input {...getInputProps()} />
-                        {!values.picture ? (
+                        {!values.profile_image? (
                           <p>Add Picture Here</p>
                         ) : (
                           <Box>
-                            <Typography> {values.picture.name}</Typography>
+                            <Typography> {values.profile_image.name}</Typography>
                             <EditOutlinedIcon />
 
                           </Box>
