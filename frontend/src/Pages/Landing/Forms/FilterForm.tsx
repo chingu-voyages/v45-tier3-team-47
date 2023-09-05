@@ -41,7 +41,6 @@ const FilterForm = ({ submitted, city }: Props) => {
             width: '30%',
             display: 'flex',
             flexDirection: 'column',
-            outline: '1px solid black',
             padding: '1rem'
         }}>
             <TypeCheckboxes

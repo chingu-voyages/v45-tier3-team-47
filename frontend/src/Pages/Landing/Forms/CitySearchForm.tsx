@@ -17,7 +17,6 @@ const CitySearchForm = ({ city, setCity, setSubmitted }: Props) => {
         <Box
             component="form"
             sx={{
-                outline: '1px solid red',
                 marginY: '2rem',
                 width: '100%',
                 display: 'flex',

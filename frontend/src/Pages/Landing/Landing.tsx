@@ -13,7 +13,6 @@ const Landing = () => {
             display: 'flex',
             flexDirection: 'column',
             width: "100%",
-            outline: '1px solid blue'
         }}>
             <CitySearchForm
                 city={city}
