@@ -31,7 +31,9 @@ const FilterForm = ({ submitted, city }: Props) => {
         });
     };
 
-    const handleSliderChange = (event: Event, newValue: number | number[]) => {
+    // Note event param is currently not being used, but is required for this function to update the slider correctly. 
+    // Added _ prefix to remove TS error about unused variables
+    const handleSliderChange = (_event: Event, newValue: number | number[]) => {
         setSliderValue(newValue as number);
     };
 
