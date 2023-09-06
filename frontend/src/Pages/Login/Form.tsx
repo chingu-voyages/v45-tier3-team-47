@@ -54,7 +54,7 @@ const loginSchema = yup.object().shape({
 
 const Form: React.FC = () => {
   const [pageType, setPageType] = useState<string>("login");
-  const [url,setUrl]= useState<string|null>(null);
+  const [_,setUrl]= useState<string|null>(null);
   const isLogin: boolean = pageType === "login";
   const isRegister: boolean = pageType === "register";
   const isNonMobileScreens = useMediaQuery(("(min-width:600px"));
