@@ -144,7 +144,7 @@ function Nav({ userData }: { userData: UserData | null }) {
                             {userData ? (
               <Avatar alt={userData.user_name} src={userData.profile_image}/>
             ) : (
-              <Avatar alt="Default" src="/backend/public/assets/profile6.jpg" />
+              <Avatar alt="Default" src={"/static/images/avatar/2.jpg"} />
             )}
                                 {/* <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" /> */}
                             </IconButton>

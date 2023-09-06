@@ -35,7 +35,7 @@ console.log("user",userData)
         <Route index element={<Landing />} />
         <Route path="About" element={<About />} />
         <Route path="Login" element={<Login/>} />
-        <Route path="Profile" element={<Profile />} />
+        <Route path="Profile" element={<Profile userData={userData} />} />
       </Route>
     )
   )
