@@ -33,3 +33,7 @@ export interface IPointOfInterest {
   phone_number?: string;
   userId: number;
 }
+
+export interface IAuthRequest {
+  authorization?: string | undefined;
+}

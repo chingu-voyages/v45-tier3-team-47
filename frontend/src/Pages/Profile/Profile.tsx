@@ -1,5 +1,4 @@
 import { Avatar, Box, List, ListItem, ListItemText, useTheme, IconButton } from "@mui/material"
-import { useState } from "react"
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
 
@@ -11,7 +10,8 @@ interface UserData {
 const Profile = ({ userData }: { userData: UserData | null }) => {
     console.log("us",userData)
     // Test user data to be removed once this is connected to the back end
-    const [user, setUser] = useState({
+
+    const user = {
         first_name: 'Daniela',
         last_name: 'Parra',
         user_name: 'phycodurus',
