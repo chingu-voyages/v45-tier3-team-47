@@ -1,5 +1,4 @@
 import { Avatar, Box, List, ListItem, ListItemText, useTheme, IconButton } from "@mui/material"
-import { useState } from "react"
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
 
@@ -7,7 +6,8 @@ import Brightness7Icon from '@mui/icons-material/Brightness7';
 
 const Profile = () => {
     // Test user data to be removed once this is connected to the back end
-    const [user, setUser] = useState({
+
+    const user = {
         first_name: 'Daniela',
         last_name: 'Parra',
         user_name: 'phycodurus',
@@ -15,7 +15,7 @@ const Profile = () => {
         email: 'myemail@gmail.com',
         location: 'Toronto',
         profile_image: '/static/images/avatar/1.jpg'
-    })
+    }
 
     const theme = useTheme();
     const toggleThemeMode = () => {
