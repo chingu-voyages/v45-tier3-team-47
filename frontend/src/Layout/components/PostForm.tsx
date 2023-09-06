@@ -1,7 +1,7 @@
-import { Formik, FormikHelpers} from 'formik';
+import { Field, Formik, FormikHelpers,FieldProps} from 'formik';
 import React from 'react';
 import { TextField,
-  Box,Button ,useMediaQuery, } from '@mui/material';
+  Box,Button ,useMediaQuery, Select, MenuItem, FormControl, InputLabel, FormHelperText, } from '@mui/material';
   import { useNavigate } from 'react-router-dom';
 
 
@@ -15,10 +15,11 @@ interface FormValues {
   website?:string;
   city?:string;
   post_code?: string;
-  province?:string;
+  province:string;
   country?:string;
   phoneNumber?:string;
-  
+  address:string;
+  selectedOption:string;
   
 
 };
@@ -35,12 +36,15 @@ const formData:FormValues = {
   province:"",
   country:"",
   phoneNumber:"",
+  address:"",
+  selectedOption:'',
   
 };
 const formSchema= yup.object().shape({
   title: yup.string().required("required"),
   description: yup.string().required("required"),
   category:yup.string().required("required"),
+  selectedOption:yup.string().required("required")
  
   
 });
@@ -91,7 +95,7 @@ const PostForm:React.FC= () => {
       <Formik onSubmit={handleFormSubmit}
     initialValues={formData}
     validationSchema={formSchema}>
-    {({values,errors,touched,handleBlur,handleChange ,handleSubmit})=>(
+    {({values,errors,touched,handleBlur,handleChange ,handleSubmit,setFieldValue})=>(
      <form onSubmit={handleSubmit}>
       
       <Box display="grid" gap="30px" gridTemplateColumns="repeat(4, minmax(0, 1fr))"
@@ -116,7 +120,7 @@ const PostForm:React.FC= () => {
         }}
       />
        <TextField
-        label="des"
+        label="description"
         onBlur={handleBlur}
         onChange={handleChange}
         value={values.description}
@@ -131,87 +135,33 @@ const PostForm:React.FC= () => {
         }}
       />
         
-        {/* <TextField
-        label="Category"
-        onBlur={handleBlur}
-        onChange={handleChange}
-        value={values.category}
-        name="category"
-        error={Boolean(touched.category) && Boolean(errors.category)}
-  
-        helperText={(touched.category && (errors.category != null)) ? errors.category : ' '}
-        sx={{
-          gridColumn: "span 2",
-          borderRadius:"5px",
-          
-        }}
-       
-       
-        /> */}
-        {/* <Field name="selectedOption" sx={{
-          gridColumn: "span 2",
-          borderRadius:"5px",
-          
-        }}>
-          {({ field }) => (
-            <Select {...field}>
-              <MenuItem value="option1">Entartiament </MenuItem>
+        <Field name="selectedOption">
+        {({ field }: FieldProps)=> (
+          <FormControl
+            sx={{
+              gridColumn: "span 2",
+              borderRadius: "5px"
+            }}
+            error={touched.selectedOption && Boolean(errors.selectedOption)}
+          >
+            <InputLabel>Choose an option</InputLabel>
+            <Select
+              {...field}
+              value={values.selectedOption}
+              onChange={(event) => setFieldValue('selectedOption', event.target.value)}
+            >
+              <MenuItem value="">Select an option</MenuItem>
+              <MenuItem value="option1">Entertainment</MenuItem>
               <MenuItem value="option2">Sport</MenuItem>
               <MenuItem value="option3">Music</MenuItem>
             </Select>
-          )}
-        </Field> */}
-        {/* <FormControl  sx={{
-          gridColumn: "span 2",
-          borderRadius:"5px",
-          
-        }}>
-          <InputLabel >Choose an option</InputLabel>
-          <Field name="selectedOption" >
-            {({ field }) => (
-              <Select {...field} >
-                <MenuItem value="option1">Entertainment</MenuItem>
-      <MenuItem value="option2">Sport</MenuItem>
-      <MenuItem value="option3">Music</MenuItem>
-              </Select>
+            {touched.selectedOption && errors.selectedOption && (
+              <FormHelperText error>{errors.selectedOption}</FormHelperText>
             )}
-       */}
-       
-        {/* <Field name="selectedOption">
-  {() => {
-    const { values, setFieldValue } = useFormikContext<FormValues>();
-    
-    return (
-      <FormControl sx={{ gridColumn: "span 2",
-      borderRadius:"5px"}}>
-        <InputLabel>Choose an option</InputLabel>
-        <Select
-          value={values.category }
-          onChange={(event) => setFieldValue('selectedOption', event.target.value)}
-        >
-          <MenuItem value="">Select an option</MenuItem>
-          <MenuItem value="option1">Entertainment</MenuItem>
-          <MenuItem value="option2">Sport</MenuItem>
-          <MenuItem value="option3">Music</MenuItem>
-        </Select>
-      </FormControl>
-    );
-  }}
-</Field> */}
-<TextField
-  label="Category"
-  onBlur={handleBlur}
-  onChange={handleChange}
-  value={values.category}
-  name="category"
-  error={Boolean(touched.category) && Boolean(errors.category)}
-  helperText={(touched.category && errors.category) || ' '}
-  sx={{
-    gridColumn: "span 2",
-    borderRadius: "5px",
-  }}
-/>
-  
+          </FormControl>
+        )}
+      </Field>
+
         <TextField
         label="Price"
         onBlur={handleBlur}
@@ -243,7 +193,7 @@ const PostForm:React.FC= () => {
           borderRadius:"5px"
         }}
         />
-        {/* <TextField
+        <TextField
         label="Address"
         onBlur={handleBlur}
         onChange={handleChange}
@@ -256,7 +206,7 @@ const PostForm:React.FC= () => {
           gridColumn: "span 2",
           borderRadius:"5px"
         }}
-        /> */}
+        />
       
        
      <TextField
@@ -274,7 +224,7 @@ const PostForm:React.FC= () => {
         }}
        />
        <TextField
-  label="Province"
+  label="Province/state"
   onBlur={handleBlur}
   onChange={handleChange}
   value={values.province}
