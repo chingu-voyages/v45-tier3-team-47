@@ -8,13 +8,15 @@ import {
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import Dropzone from 'react-dropzone';
 import * as yup from "yup";
+import.meta.env.VITE_APP_CLOUD_NAME
 interface FormValues {
   first_name?: string;
   last_name?: string;
   user_name?: string;
   occupation?: string;
-  password: string;
   email: string;
+  password: string;
+
   location?: string;
   profile_image?: File |  null;
   
@@ -26,8 +28,9 @@ const intialValuesRegister: FormValues = {
   last_name: "",
   user_name: "",
   occupation: "",
-  password: "",
   email: "",
+  password: "",
+  
   location: "",
   profile_image: null,
   
@@ -50,11 +53,13 @@ const loginSchema = yup.object().shape({
 
 
 const Form: React.FC = () => {
-  const [pageType, setPageType] = useState<string>("register");
+  const [pageType, setPageType] = useState<string>("login");
+  const [url,setUrl]= useState<string|null>(null);
   const isLogin: boolean = pageType === "login";
   const isRegister: boolean = pageType === "register";
   const isNonMobileScreens = useMediaQuery(("(min-width:600px"));
   const navigate = useNavigate();
+  
 
   const handleLogin = async (values: FormValues, onSubmitProps: FormikHelpers<FormValues>) => {
     try {
@@ -67,15 +72,15 @@ const Form: React.FC = () => {
           body:JSON.stringify(values)
         });
         const loggedIn = await loggedInResponse.json();
-        console.log("loggedIn",loggedInResponse);
+  
       
       if(loggedInResponse.ok){
        
         const userToken = loggedIn.token;
 
-      // Store the token in localStorage or sessionStorage for later use
+      // Store the token in localStorage 
       localStorage.setItem('userToken', userToken);
-
+  
       console.log("User logged in with token:", userToken);
       onSubmitProps.resetForm();
         navigate("/");
@@ -86,28 +91,63 @@ const Form: React.FC = () => {
   };
 
   const handleRegister = async (values: FormValues, onSubmitProps: FormikHelpers<FormValues>) => {
+    let imageUrl;
     try {
       const formData = new FormData();
    
       for (const key in values) {
         const value = values[key as keyof FormValues];
-        
+
         if (key === 'profile_image' && value instanceof File) {
-          formData.append(key,value,value.name);
-   
-        } else if (typeof value === 'string' || typeof value === 'number') {
-          formData.append(key, value);
-          
-        }
+          formData.append('file', value);
+              formData.append('upload_preset', `${import.meta.env.VITE_APP_CLOUD_NAME}`);
+              formData.append('cloud_name', `${import.meta.env.VITE_APP_CLOUD_NAME}`);
+              
+    
+              const cloudinaryResponse = await fetch(
+                `https://api.cloudinary.com/v1_1/${import.meta.env.VITE_APP_CLOUD_NAME}/image/upload`,
+                {
+                  method: 'POST',
+                  body: formData,
+                }
+              );
+    
+              if (cloudinaryResponse.ok) {
+                const cloudinaryData = await cloudinaryResponse.json();
+                imageUrl = cloudinaryData.secure_url;
+                setUrl(imageUrl);
+                formData.set('profile_image', imageUrl);
+              } else {
+                throw new Error('Failed to upload image to Cloudinary');
+              }
+            } else if (typeof value === 'string' || typeof value === 'number') {
+              formData.append(key, value.toString());
+            }
+          }
+    
         
      
       
-      }
+      
         const savedUserResponse = await fetch(`http://localhost:3000/register`,{
           method:"POST",
-          body:formData
+          headers:{
+            "Content-Type":"application/json"
+
+          },
+          body:JSON.stringify({
+            first_name: values.first_name,
+            last_name: values.last_name,
+            user_name: values.user_name,
+            email: values.email,
+            occupation: values.occupation,
+            location: values.location,
+            password: values.password,
+            profile_image: imageUrl,
+          })
         });
        const savedUser = await savedUserResponse.json();
+   
       onSubmitProps.resetForm();
         if(savedUser){
           setPageType("login");
@@ -129,11 +169,10 @@ const Form: React.FC = () => {
 
     <Formik onSubmit={handleFormSubmit}
       initialValues={isLogin ? intialValuesLogin : intialValuesRegister}
-      validationSchema={isLogin ? loginSchema : registerSchema}
-    >
+      validationSchema={isLogin ? loginSchema : registerSchema}>
       {({ values, errors, touched, handleBlur, handleChange, handleSubmit, setFieldValue, resetForm }) => (
         <form onSubmit={handleSubmit}>
-          <Box display="grid" gap="2rem" gridTemplateColumns="repeat(4, minmax(0, 1fr))"
+          <Box display="grid" gap="30px" gridTemplateColumns="repeat(4, minmax(0, 1fr))"
             sx={{
               "&>div": {
                 gridColumn: isNonMobileScreens ? undefined : "span 4"
@@ -142,8 +181,10 @@ const Form: React.FC = () => {
             }
           >
 
+
             {isRegister && (
               <>
+
                 <TextField
                   label="User Name"
                   onBlur={handleBlur}
@@ -157,6 +198,10 @@ const Form: React.FC = () => {
                     gridColumn: "span 4",
                     borderRadius: "5px",
                     mt: "0.2rem"
+
+
+
+
                   }}
                 />
 
@@ -239,9 +284,13 @@ const Form: React.FC = () => {
                           </Box>
                         )}
                       </Box>
+
                     )}
                   </Dropzone>
+
                 </Box>
+
+
               </>
             )}
 
@@ -252,7 +301,6 @@ const Form: React.FC = () => {
               value={values.email}
               name="email"
               error={Boolean(touched.email) && Boolean(errors.email)}
-              // helperText={touched.email && errors.email}
               helperText={(touched.email && (errors.email != null)) ? errors.email : ' '}
               sx={{
                 gridColumn: "span 2",
@@ -265,6 +313,7 @@ const Form: React.FC = () => {
             />
             <TextField
               label="Password"
+              type="password"
               onBlur={handleBlur}
               onChange={handleChange}
               value={values.password}
@@ -337,3 +386,4 @@ const Form: React.FC = () => {
 };
 
 export default Form;
+
