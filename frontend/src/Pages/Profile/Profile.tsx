@@ -4,11 +4,11 @@ import Brightness7Icon from '@mui/icons-material/Brightness7';
 
 interface UserData {
     user_name: string;
-    profile_image: string; // Assuming the profile image is a URL
+    profile_image?: string; // Assuming the profile image is a URL
   }
 
 const Profile = ({ userData }: { userData: UserData | null }) => {
-    console.log("us",userData)
+
     // Test user data to be removed once this is connected to the back end
 
     const user = {
@@ -19,7 +19,7 @@ const Profile = ({ userData }: { userData: UserData | null }) => {
         email: 'myemail@gmail.com',
         location: 'Toronto',
         profile_image: userData?.profile_image
-    })
+    }
 
     const theme = useTheme();
     const toggleThemeMode = () => {
