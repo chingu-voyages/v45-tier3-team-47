@@ -5,8 +5,8 @@ import About from './Pages/About';
 import CssBaseline from '@mui/material/CssBaseline';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import Login from './Pages/Login/Login';
-import Landing from './Pages/Landing';
-import Profile from './Pages/Profile';
+import Landing from './Pages/Landing/Landing';
+import Profile from './Pages/Profile/Profile';
 import { useState } from 'react';
 
 const theme = createTheme({

@@ -66,7 +66,7 @@ function Nav({ userData }: { userData: UserData | null }) {
                             textDecoration: 'none',
                         }}
                     >
-                        <Link to="/">SIGHT.SEE.SHARE</Link>
+                        SIGHT.SEE.SHARE
                     </Typography>
 
                     <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>

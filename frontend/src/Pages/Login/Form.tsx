@@ -129,10 +129,11 @@ const Form: React.FC = () => {
 
     <Formik onSubmit={handleFormSubmit}
       initialValues={isLogin ? intialValuesLogin : intialValuesRegister}
-      validationSchema={isLogin ? loginSchema : registerSchema}>
+      validationSchema={isLogin ? loginSchema : registerSchema}
+    >
       {({ values, errors, touched, handleBlur, handleChange, handleSubmit, setFieldValue, resetForm }) => (
         <form onSubmit={handleSubmit}>
-          <Box display="grid" gap="30px" gridTemplateColumns="repeat(4, minmax(0, 1fr))"
+          <Box display="grid" gap="2rem" gridTemplateColumns="repeat(4, minmax(0, 1fr))"
             sx={{
               "&>div": {
                 gridColumn: isNonMobileScreens ? undefined : "span 4"
@@ -141,10 +142,8 @@ const Form: React.FC = () => {
             }
           >
 
-
             {isRegister && (
               <>
-
                 <TextField
                   label="User Name"
                   onBlur={handleBlur}
@@ -158,10 +157,6 @@ const Form: React.FC = () => {
                     gridColumn: "span 4",
                     borderRadius: "5px",
                     mt: "0.2rem"
-
-
-
-
                   }}
                 />
 
@@ -244,13 +239,9 @@ const Form: React.FC = () => {
                           </Box>
                         )}
                       </Box>
-
                     )}
                   </Dropzone>
-
                 </Box>
-
-
               </>
             )}
 
