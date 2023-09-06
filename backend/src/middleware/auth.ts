@@ -1,12 +1,7 @@
 import jwt, { Secret } from "jsonwebtoken";
 import { Request, Response, NextFunction } from "express";
-declare global {
-  namespace Express {
-    interface Request {
-      user?: any; // Change 'any' to the type you expect for 'user'
-    }
-  }
-}import { IAuthRequest } from "../types";
+import { IAuthRequest } from "../types";
+
 
 export const verifyToken = async (
   req: Request,
@@ -20,7 +15,7 @@ export const verifyToken = async (
     if (authorization.startsWith("Bearer ")) {
       const token = authorization.slice(7).trimStart();
       const verified = jwt.verify(token, process.env.SECRET_KEY as Secret);
-    req.user = verified;
+   
       next();
     } else {
       return res.status(403).send("Access Denied");
