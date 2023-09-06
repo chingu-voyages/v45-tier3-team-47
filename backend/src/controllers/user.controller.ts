@@ -23,20 +23,16 @@ export const createUser = async (req: Request, res: Response) => {
       last_name,
       user_name,
       occupation,
-      password,
       email,
+      password,
       location,
-      // profile_image,
+      profile_image,
     }: IUser = req.body;
-    const picture = req.file;
-    if (!picture) {
-      return res.status(400).json("Profile image is required");
-    }
-
 
     const existingUser = await User.findOne({ where: { email } });
     if (existingUser) {
-      return res.status(409).json("User already exists");
+
+      return res.status(409).json({ error: 'User already exists' });
     }
 
     const saltRounds = 12;
@@ -46,27 +42,29 @@ export const createUser = async (req: Request, res: Response) => {
       first_name,
       last_name,
       user_name,
+      email,
       password: hashedPassword,
       occupation,
-      email,
       location,
-      profile_image:picture.path,
+      profile_image,
     });
+
+
 
 
     return res.status(201).json({ message: "User created successfully" });
   } catch (error) {
     console.log("error in createUser:", error);
-    return res.status(422).json("Error");
+    return res.status(422).json({ error: error.message });
   }
 };
 
 export const loginUser = async (req: Request, res: Response) => {
   try {
     const { email, password }: IUser = req.body;
-    console.log("ree",req.body)
+
     const existingUser = await User.findOne({ where: { email } });
-    console.log("User lookup result:", existingUser);
+
     if (!existingUser) {
       return res.status(409).json({ message: "User does not exist" });
     }
@@ -83,7 +81,7 @@ export const loginUser = async (req: Request, res: Response) => {
         token,
         existingUser,
       });
-      console.log("token",token)
+ 
     } else {
       return res.status(400).json({ message: "Incorrect credentials" });
     }
