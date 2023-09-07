@@ -1,10 +1,9 @@
 import { Request, Response } from "express";
 import bcrypt from "bcrypt";
 import jwt, { Secret } from "jsonwebtoken";
-import { User } from "../models/User";
-import { IUser } from "../../types";
-import dotenv from "dotenv";
-dotenv.config();
+import { User } from "../config/models/User";
+import { IUser } from "../types";
+
 
 const getUserToken = (id: number) => {
   const authenticatedUserToken = jwt.sign(
@@ -24,14 +23,16 @@ export const createUser = async (req: Request, res: Response) => {
       last_name,
       user_name,
       occupation,
-      password,
       email,
+      password,
       location,
       profile_image,
     }: IUser = req.body;
+
     const existingUser = await User.findOne({ where: { email } });
     if (existingUser) {
-      return res.status(409).json("User already exists");
+
+      return res.status(409).json({ error: 'User already exists' });
     }
 
     const saltRounds = 12;
@@ -41,24 +42,29 @@ export const createUser = async (req: Request, res: Response) => {
       first_name,
       last_name,
       user_name,
+      email,
       password: hashedPassword,
       occupation,
-      email,
       location,
       profile_image,
     });
 
+
+
+
     return res.status(201).json({ message: "User created successfully" });
   } catch (error) {
     console.log("error in createUser:", error);
-    return res.status(422).json("Error");
+    return res.status(422).json({ error: error.message });
   }
 };
 
 export const loginUser = async (req: Request, res: Response) => {
   try {
     const { email, password }: IUser = req.body;
+
     const existingUser = await User.findOne({ where: { email } });
+
     if (!existingUser) {
       return res.status(409).json({ message: "User does not exist" });
     }
@@ -75,6 +81,7 @@ export const loginUser = async (req: Request, res: Response) => {
         token,
         existingUser,
       });
+ 
     } else {
       return res.status(400).json({ message: "Incorrect credentials" });
     }
