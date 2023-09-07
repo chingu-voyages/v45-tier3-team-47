@@ -1,10 +1,10 @@
 import { Request, Response } from "express";
 import bcrypt from "bcrypt";
 import jwt, { Secret } from "jsonwebtoken";
-import { IPost } from "../../types";
-import { Post } from "../models/Post";
-import { User } from "../models/User";
-import { PointOfInterest } from "../models/PointOfInterest";
+import { IPost } from "../types";
+import { Post } from "../config/models/Post";
+import { User } from "../config/models/User";
+import { PointOfInterest } from "../config/models/PointOfInterest";
 
 export const createPost = async (req: Request, res: Response) => {
   try {

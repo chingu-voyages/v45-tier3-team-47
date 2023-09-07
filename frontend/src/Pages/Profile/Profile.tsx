@@ -2,9 +2,13 @@ import { Avatar, Box, List, ListItem, ListItemText, useTheme, IconButton } from 
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
 
+interface UserData {
+    user_name: string;
+    profile_image?: string; // Assuming the profile image is a URL
+  }
 
+const Profile = ({ userData }: { userData: UserData | null }) => {
 
-const Profile = () => {
     // Test user data to be removed once this is connected to the back end
 
     const user = {
@@ -14,7 +18,7 @@ const Profile = () => {
         occupation: 'Software Engineer',
         email: 'myemail@gmail.com',
         location: 'Toronto',
-        profile_image: '/static/images/avatar/1.jpg'
+        profile_image: userData?.profile_image
     }
 
     const theme = useTheme();

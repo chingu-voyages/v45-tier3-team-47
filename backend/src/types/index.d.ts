@@ -7,7 +7,7 @@ export interface IUser {
   password: string;
   email: string;
   location?: string;
-  profile_image?: string;
+  profile_image?: string | null;
 }
 
 export interface IPost {
