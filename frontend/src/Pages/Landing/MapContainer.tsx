@@ -13,13 +13,9 @@ const MapComponent = ({ longitude, latitude }: Props) => {
 
     const mapContainer = useRef<any>(null);
     const map = useRef<mapboxgl.Map | null>(null)
-    // const markers = useRef<Record<string, MarkerWithId>>({})
-    // const [lng, setLng] = useState(-74.50);
-    // const [lat, setLat] = useState(42.35);
     const [zoom, _] = useState(5);
 
     useEffect(() => {
-        // if (map.current) return;
         map.current = new mapboxgl.Map({
             container: mapContainer.current,
             style: 'mapbox://styles/mapbox/streets-v12',
@@ -27,6 +23,7 @@ const MapComponent = ({ longitude, latitude }: Props) => {
             zoom: zoom
         })
 
+        // marker1 and popup1 are currently not rendered on map. Below is template to use 
         const marker1 = new mapboxgl.Marker() as MarkerWithId;
         marker1.setLngLat([-74.0445, 40.6892]);
         // marker1.addTo(map.current);
