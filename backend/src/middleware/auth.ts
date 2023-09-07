@@ -15,7 +15,7 @@ export const verifyToken = async (
     if (authorization.startsWith("Bearer ")) {
       const token = authorization.slice(7).trimStart();
       const verified = jwt.verify(token, process.env.SECRET_KEY as Secret);
-   
+
       next();
     } else {
       return res.status(403).send("Access Denied");

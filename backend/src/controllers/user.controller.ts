@@ -4,7 +4,6 @@ import jwt, { Secret } from "jsonwebtoken";
 import { User } from "../config/models/User";
 import { IUser } from "../types";
 
-
 const getUserToken = (id: number) => {
   const authenticatedUserToken = jwt.sign(
     { id },
@@ -31,8 +30,7 @@ export const createUser = async (req: Request, res: Response) => {
 
     const existingUser = await User.findOne({ where: { email } });
     if (existingUser) {
-
-      return res.status(409).json({ error: 'User already exists' });
+      return res.status(409).json({ error: "User already exists" });
     }
 
     const saltRounds = 12;
@@ -48,9 +46,6 @@ export const createUser = async (req: Request, res: Response) => {
       location,
       profile_image,
     });
-
-
-
 
     return res.status(201).json({ message: "User created successfully" });
   } catch (error) {
@@ -81,7 +76,6 @@ export const loginUser = async (req: Request, res: Response) => {
         token,
         existingUser,
       });
- 
     } else {
       return res.status(400).json({ message: "Incorrect credentials" });
     }
@@ -111,9 +105,29 @@ export const updateUser = async (req: Request, res: Response) => {
 
     await userToUpdate.save();
 
-    return res.status(202).json({ message: "User updated successfully" })
+    return res.status(202).json({ message: "User updated successfully" });
   } catch (error) {
     console.log("Error in updateUser:", error);
+    return res.status(500).json("Internal Server Error");
+  }
+};
+
+export const getUserData = async (req: Request, res: Response) => {
+  try {
+    const userId = req.params.id;
+    const user = await User.findByPk(userId, {
+      attributes: {
+        exclude: ["password"],
+      },
+    });
+
+    if (!user) {
+      return res.status(404).json("User not found");
+    }
+
+    return res.status(200).json(user);
+  } catch (error) {
+    console.error("Error in getUserData:", error);
     return res.status(500).json("Internal Server Error");
   }
 };
