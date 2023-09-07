@@ -8,7 +8,10 @@ import MapContainer from "./MapContainer";
 const Landing = () => {
     // We might be able to move the city/setCity declaration into the CitySearchForm once we no longer use the StateChecker component in FilterForm, as that is the only other component that requires the city state
     const [city, setCity] = useState('');
-    const [submitted, setSubmitted] = useState(false)
+    const [submitted, setSubmitted] = useState(false);
+    const [longitude, setLongitude] = useState(-74.50);
+    const [latitude, setLatitude] = useState(42.35);
+
     return (
         <Box sx={{
             display: 'flex',
@@ -19,13 +22,15 @@ const Landing = () => {
                 city={city}
                 setCity={setCity}
                 setSubmitted={setSubmitted}
+                setLongitude={setLongitude}
+                setLatitude={setLatitude}
             />
             <Box sx={{
                 display: "flex",
                 flexDirection: 'row'
             }}>
                 <FilterForm submitted={submitted} city={city} />
-                <MapContainer />
+                <MapContainer longitude={longitude} latitude={latitude} />
             </Box>
 
 
