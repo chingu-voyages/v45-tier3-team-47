@@ -56,14 +56,7 @@ export const createUser = async (req: Request, res: Response) => {
 
 export const loginUser = async (req: Request, res: Response) => {
   try {
-    // const { email, password }: IUser = req.body;
-
-    // const { email }: IUser = req.body;
-    // const inputPassword = password;
     const inputEmail = req.body.email;
-
-    // const existingUser = await User.findOne({ where: { email } });
-
     const {
       id,
       first_name,
@@ -74,26 +67,18 @@ export const loginUser = async (req: Request, res: Response) => {
       email,
       location,
       profile_image
-    // } = await User.findOne({ where: { email } });
     } = await User.findOne({ where: { email: inputEmail } });
 
-    // console.log(password);
-    // console.log(existingUser);
-
     if (!email) {
-    // if (!existingUser) {
       return res.status(409).json({ message: "User does not exist" });
     }
 
     const isPasswordIdentical = await bcrypt.compare(
-      // password,
-      // existingUser.password
       req.body.password,
       password
     );
 
     if (isPasswordIdentical) {
-      // const token = getUserToken(existingUser.id);
       const token = getUserToken(id);
       return res.json({
         token,
@@ -107,7 +92,6 @@ export const loginUser = async (req: Request, res: Response) => {
           location,
           profile_image
         },
-        // existingUser: { ...existingUser, password: null },
       });
     } else {
       return res.status(400).json({ message: "Incorrect credentials" });

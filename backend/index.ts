@@ -48,9 +48,6 @@ app.use((
   res: Response,
   next: NextFunction
 ) => {
-  // if (process.env.NODE_ENV !== "test") console.error(err.stack);
-  // const status = err.status || 500;
-
   // Using 'any' to access the 'status' property
   const status = (err as any).status || 500;
   const message = err.message;
