@@ -11,8 +11,8 @@ import {
 import { ensureCorrectUser } from "../middleware/auth";
 
 postRouter.get("/", getPosts);
-postRouter.get("/:poiId", getPostsByPoi);
-postRouter.get("/:userId", getPostsByUser);
+postRouter.get("/byPoi/:poiId", getPostsByPoi);
+postRouter.get("/byUser/:userId", getPostsByUser);
 postRouter.post("/", ensureCorrectUser, createPost);
 postRouter.patch("/:id", ensureCorrectUser, updatePost);
 postRouter.delete("/:id", ensureCorrectUser, deletePost);
