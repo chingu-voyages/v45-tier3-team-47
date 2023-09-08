@@ -1,8 +1,6 @@
 import { sequelize } from "../../config/db";
 import { DataTypes, Model } from "sequelize";
 import { IPointOfInterest } from "../../types";
-import { User } from "./User";
-import { Post } from "./Post";
 
 interface PointOfInterestInterface
   extends Model<IPointOfInterest>,

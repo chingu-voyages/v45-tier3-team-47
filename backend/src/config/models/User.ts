@@ -1,7 +1,5 @@
 import { sequelize } from "../../config/db";
 import { DataTypes, Model } from "sequelize";
-import { Post } from "./Post";
-import { PointOfInterest } from "./PointOfInterest";
 import { IUser } from "../../types";
 
 interface UserInterface extends Model<IUser>, IUser {}

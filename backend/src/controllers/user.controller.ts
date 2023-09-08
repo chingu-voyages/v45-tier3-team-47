@@ -56,25 +56,58 @@ export const createUser = async (req: Request, res: Response) => {
 
 export const loginUser = async (req: Request, res: Response) => {
   try {
-    const { email, password }: IUser = req.body;
+    // const { email, password }: IUser = req.body;
 
-    const existingUser = await User.findOne({ where: { email } });
+    // const { email }: IUser = req.body;
+    // const inputPassword = password;
+    const inputEmail = req.body.email;
 
-    if (!existingUser) {
+    // const existingUser = await User.findOne({ where: { email } });
+
+    const {
+      id,
+      first_name,
+      last_name,
+      user_name,
+      occupation,
+      password,
+      email,
+      location,
+      profile_image
+    // } = await User.findOne({ where: { email } });
+    } = await User.findOne({ where: { email: inputEmail } });
+
+    // console.log(password);
+    // console.log(existingUser);
+
+    if (!email) {
+    // if (!existingUser) {
       return res.status(409).json({ message: "User does not exist" });
     }
 
     const isPasswordIdentical = await bcrypt.compare(
-      password,
-      existingUser.password
+      // password,
+      // existingUser.password
+      req.body.password,
+      password
     );
 
     if (isPasswordIdentical) {
-      const token = getUserToken(existingUser.id);
-      delete existingUser.password;
+      // const token = getUserToken(existingUser.id);
+      const token = getUserToken(id);
       return res.json({
         token,
-        existingUser,
+        existingUser: {
+          id,
+          first_name,
+          last_name,
+          user_name,
+          occupation,
+          email,
+          location,
+          profile_image
+        },
+        // existingUser: { ...existingUser, password: null },
       });
     } else {
       return res.status(400).json({ message: "Incorrect credentials" });
@@ -115,11 +148,15 @@ export const updateUser = async (req: Request, res: Response) => {
 export const getUserData = async (req: Request, res: Response) => {
   try {
     const userId = req.params.id;
+    console.log(userId);
+
     const user = await User.findByPk(userId, {
       attributes: {
         exclude: ["password"],
       },
     });
+
+    console.log(user);
 
     if (!user) {
       return res.status(404).json("User not found");
