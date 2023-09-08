@@ -23,6 +23,7 @@ const MapComponent = ({ longitude, latitude }: Props) => {
             zoom: zoom
         })
 
+
         // marker1 and popup1 are currently not rendered on map. Below is template to use 
         const marker1 = new mapboxgl.Marker() as MarkerWithId;
         marker1.setLngLat([-74.0445, 40.6892]);
