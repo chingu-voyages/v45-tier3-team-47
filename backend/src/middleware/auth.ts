@@ -40,8 +40,6 @@ export const ensureLoggedIn = async (
   next: NextFunction
 ) => {
   try {
-    console.log("YOU ARE IN ENSURE LOGGED IN !!");
-    console.log(res.locals.user);
     if (!res.locals.user) throw new UnauthorizedError();
     return next();
   } catch (err) {

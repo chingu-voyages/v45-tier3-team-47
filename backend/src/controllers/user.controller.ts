@@ -136,20 +136,14 @@ export const updateUser = async (req: Request, res: Response) => {
 export const getUserData = async (req: Request, res: Response) => {
   try {
     const userId = req.params.id;
-    console.log(userId);
-
     const user = await User.findByPk(userId, {
       attributes: {
         exclude: ["password"],
       },
     });
-
-    console.log(user);
-
     if (!user) {
       return res.status(404).json("User not found");
     }
-
     return res.status(200).json(user);
   } catch (error) {
     console.error("Error in getUserData:", error);
