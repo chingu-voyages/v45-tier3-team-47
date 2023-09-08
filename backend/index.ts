@@ -22,17 +22,17 @@ app.get("/", (req: Request, res: Response) => {
   res.send("Running Express + TS Server !!!");
 });
 app.use(helmet());
-app.use(bodyParser.json({limit:"30mb"}));
-app.use(bodyParser.urlencoded({limit:"30mb",extended:true}));
+app.use(bodyParser.json({ limit: "30mb" }));
+app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors());
 
 
 
-app.post("/register",createUser);
+app.post("/register", createUser);
 
 app.use("/user", userRouter);
 app.use("/pointOfInterest", pointOfInterestRouter);
-app.use("/user/:userId/pointOfInterest/:poiId/posts", postRouter);
+app.use("/posts", postRouter);
 
 
 const port = 3000;
