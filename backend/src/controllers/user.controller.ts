@@ -56,7 +56,11 @@ export const createUser = async (req: Request, res: Response) => {
 
 export const loginUser = async (req: Request, res: Response) => {
   try {
-    const inputEmail = req.body.email;
+    const {
+      email: inputEmail,
+      password: inputPassword
+    }: IUser = req.body;
+
     const {
       id,
       first_name,
@@ -74,7 +78,7 @@ export const loginUser = async (req: Request, res: Response) => {
     }
 
     const isPasswordIdentical = await bcrypt.compare(
-      req.body.password,
+      inputPassword,
       password
     );
 
