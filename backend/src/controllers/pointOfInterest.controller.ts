@@ -21,12 +21,12 @@ export const createPointOfInterest = async (req: Request, res: Response) => {
       userId
 
     }: IPointOfInterest = req.body;
-   
+
     if (!userId) {
       return res.status(400).json({ error: 'userId is required' });
     }
 
-  
+
 
     const newPointOfInterest = await PointOfInterest.create({
       title,
@@ -43,7 +43,7 @@ export const createPointOfInterest = async (req: Request, res: Response) => {
       phone_number,
       userId,
     });
-   
+
 
     return res
       .status(201)

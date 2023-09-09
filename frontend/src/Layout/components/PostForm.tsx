@@ -220,17 +220,7 @@ const PostForm = () => {
                 borderRadius: '5px',
               }}
             />
-            <TextField
-              label="Website"
-              onBlur={handleBlur}
-              onChange={handleChange}
-              value={values.website}
-              name="website"
-              sx={{
-                gridColumn: 'span 2',
-                borderRadius: '5px',
-              }}
-            />
+         
             <TextField
               label="Address"
               onBlur={handleBlur}
@@ -238,7 +228,7 @@ const PostForm = () => {
               value={values.address}
               name="address"
               sx={{
-                gridColumn: 'span 2',
+                gridColumn: 'span 4',
                 borderRadius: '5px',
               }}
             />
@@ -296,6 +286,7 @@ const PostForm = () => {
             />
             <TextField
               label="Phone Number"
+              type='tel'
               onBlur={handleBlur}
               onChange={handleChange}
               value={values.phoneNumber}
@@ -305,6 +296,17 @@ const PostForm = () => {
                 borderColor: '#b3b3ff',
                 borderRadius: '5px',
                 mt: '0.2rem',
+              }}
+            />
+               <TextField
+              label="Website"
+              onBlur={handleBlur}
+              onChange={handleChange}
+              value={values.website}
+              name="website"
+              sx={{
+                gridColumn: 'span 2',
+                borderRadius: '5px',
               }}
             />
             <Box
