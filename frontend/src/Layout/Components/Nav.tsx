@@ -13,12 +13,17 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
-
+interface UserData {
+  user_name: string;
+  profile_image: string; // Assuming the profile image is a URL
+}
 const pages = ['About', 'Login'];
-const settings = ['Profile', 'Logout'];
+const isAuthenticated = true;
+const settings = isAuthenticated ? ['Profile', 'Logout'] : [];
+// const settings = ['Profile', 'Logout'];
 
 
-function Nav() {
+function Nav({ userData }: { userData: UserData | null }) {
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
     const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
 
@@ -36,6 +41,10 @@ function Nav() {
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);
     };
+    const handleLogout=()=>{
+        localStorage.removeItem('userToken');
+        window.location.href = '/login'; 
+    }
 
     return (
         <AppBar position="static">
@@ -57,7 +66,7 @@ function Nav() {
                             textDecoration: 'none',
                         }}
                     >
-                        <Link to="/">SIGHT.SEE.SHARE</Link>
+                        SIGHT.SEE.SHARE
                     </Typography>
 
                     <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -143,7 +152,12 @@ function Nav() {
                     <Box sx={{ flexGrow: 0 }}>
                         <Tooltip title="Open settings">
                             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                            {userData ? (
+              <Avatar alt={userData.user_name} src={userData.profile_image}/>
+            ) : (
+              <Avatar alt="Default" src={"/static/images/avatar/2.jpg"} />
+            )}
+                                {/* <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" /> */}
                             </IconButton>
                         </Tooltip>
                         <Menu
@@ -162,13 +176,17 @@ function Nav() {
                             open={Boolean(anchorElUser)}
                             onClose={handleCloseUserMenu}
                         >
-                            {settings.map((setting) => (
-                                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                                    <Typography textAlign="center">
-                                        <Link to={setting}>{setting}</Link>
-                                    </Typography>
-                                </MenuItem>
-                            ))}
+                             {settings.map((setting) => (
+                <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                  <Typography textAlign="center">
+                    {setting === 'Logout' ? (
+                      <button onClick={handleLogout}>Logout</button> 
+                    ) : (
+                      <Link to={setting}>{setting}</Link>
+                    )}
+                  </Typography>
+                </MenuItem>
+              ))}
                         </Menu>
                     </Box>
                 </Toolbar>

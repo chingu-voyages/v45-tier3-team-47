@@ -7,7 +7,7 @@ export interface IUser {
   password: string;
   email: string;
   location?: string;
-  profile_image?: string;
+  profile_image?: string | null;
 }
 
 export interface IPost {
@@ -32,4 +32,8 @@ export interface IPointOfInterest {
   country?: string;
   phone_number?: string;
   userId: number;
+}
+
+export interface IAuthRequest {
+  authorization?: string | undefined;
 }

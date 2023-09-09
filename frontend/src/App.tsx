@@ -4,10 +4,10 @@ import './App.css'
 import About from './Pages/About';
 import CssBaseline from '@mui/material/CssBaseline';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
-import Landing from './Pages/Landing';
-import { Login } from '@mui/icons-material';
-import Profile from './Pages/Profile';
-import PointOfIntrest from './Pages/PointOfIntrest';
+import Login from './Pages/Login/Login';
+import Landing from './Pages/Landing/Landing';
+import Profile from './Pages/Profile/Profile';
+import { useState } from 'react';
 
 const theme = createTheme({
   palette: {
@@ -20,18 +20,23 @@ const theme = createTheme({
     },
   },
 });
+interface UserData {
+  user_name: string;
+  profile_image: string;
+
+}
 
 function App() {
-
+  const [userData, _] = useState<UserData | null>(null);
+console.log("user",userData)
   const router = createBrowserRouter(
     createRoutesFromElements(
-      <Route path="/" element={<RootLayout />}>
+      <Route path="/" element={<RootLayout  userData={userData}/>}>
         <Route index element={<Landing />} />
         <Route path="About" element={<About />} />
-        <Route path="Login" element={<Login />} />
-        <Route path="Profile" element={<Profile />} />
-        <Route path="point-of-interest" element={<PointOfIntrest/>}/>
-      </Route> 
+        <Route path="Login" element={<Login/>} />
+        <Route path="Profile" element={<Profile userData={userData} />} />
+      </Route>
     )
   )
 

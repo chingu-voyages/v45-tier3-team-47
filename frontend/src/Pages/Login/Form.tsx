@@ -1,5 +1,6 @@
 import { Formik, FormikHelpers } from 'formik';
 import React, { useState } from 'react';
+import { useNavigate } from "react-router-dom";
 import {
   TextField, Typography,
   Box, Button, useMediaQuery
@@ -7,26 +8,32 @@ import {
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import Dropzone from 'react-dropzone';
 import * as yup from "yup";
+import.meta.env.VITE_APP_CLOUD_NAME
 interface FormValues {
-  userName?: string,
-  firstName?: string,
-  lastName?: string,
-  occupation?: string,
-  location?: string,
-  picture?: File | null,
-  email: string,
-  password: string
+  first_name?: string;
+  last_name?: string;
+  user_name?: string;
+  occupation?: string;
+  email: string;
+  password: string;
+
+  location?: string;
+  profile_image?: File |  null;
+  
 }
 
 const intialValuesRegister: FormValues = {
-  userName: "",
-  firstName: "",
-  lastName: "",
+  
+  first_name: "",
+  last_name: "",
+  user_name: "",
   occupation: "",
-  location: "",
-  picture: null,
   email: "",
   password: "",
+  
+  location: "",
+  profile_image: null,
+  
 
 };
 const intialValuesLogin: FormValues = {
@@ -35,7 +42,7 @@ const intialValuesLogin: FormValues = {
 
 };
 const registerSchema = yup.object().shape({
-  userName: yup.string().required("required"),
+  user_name: yup.string().required("required"),
   email: yup.string().email("Invalid Email").required("required"),
   password: yup.string().required("required"),
 });
@@ -46,61 +53,114 @@ const loginSchema = yup.object().shape({
 
 
 const Form: React.FC = () => {
-  const [pageType, setPageType] = useState<string>("register");
+  const [pageType, setPageType] = useState<string>("login");
+  const [_,setUrl]= useState<string|null>(null);
   const isLogin: boolean = pageType === "login";
   const isRegister: boolean = pageType === "register";
   const isNonMobileScreens = useMediaQuery(("(min-width:600px"));
+  const navigate = useNavigate();
+  
 
   const handleLogin = async (values: FormValues, onSubmitProps: FormikHelpers<FormValues>) => {
     try {
-      //   const loggedInResponse = await fetch(`${URL}/login`,{
-      //     method:"POST",
-      //     headers:{
-      //       "Content-Type":"application/json"
+        const loggedInResponse = await fetch(`http://localhost:3000/user/login`,{
+          method:"POST",
+          headers:{
+            "Content-Type":"application/json"
 
-      //     },
-      //     body:JSON.stringify(values)
-      //   });
-      //  const loggedIn = await loggedInResponse.json();
-      console.log(values);
+          },
+          body:JSON.stringify(values)
+        });
+        const loggedIn = await loggedInResponse.json();
+  
+      
+      if(loggedInResponse.ok){
+       
+        const userToken = loggedIn.token;
+
+      // Store the token in localStorage 
+      localStorage.setItem('userToken', userToken);
+  
+      console.log("User logged in with token:", userToken);
       onSubmitProps.resetForm();
-      // if(loggedIn){
-      //  //
-      // }
+        navigate("/");
+      }
     } catch (error) {
       console.error("Error submitting form:", error)
     }
   };
 
   const handleRegister = async (values: FormValues, onSubmitProps: FormikHelpers<FormValues>) => {
+    let imageUrl;
     try {
       const formData = new FormData();
+   
       for (const key in values) {
         const value = values[key as keyof FormValues];
 
-        if (key === 'picture' && value instanceof File) {
-          formData.append(key, value, value.name);
-        } else if (typeof value === 'string' || typeof value === 'number') {
-          formData.append(key, value.toString());
-        }
-      }
-      //   const savedUserResponse = await fetch(`${URL}/register`,{
-      //     method:"POST",
-      //     body:formData
-      //   });
-      //  const savedUser = await savedUserResponse.json();
-      onSubmitProps.resetForm();
-      //   if(savedUser){
-      //     setPageType("login");
-      //   }
+        if (key === 'profile_image' && value instanceof File) {
+          formData.append('file', value);
+              formData.append('upload_preset', `${import.meta.env.VITE_APP_CLOUD_NAME}`);
+              formData.append('cloud_name', `${import.meta.env.VITE_APP_CLOUD_NAME}`);
+              
+    
+              const cloudinaryResponse = await fetch(
+                `https://api.cloudinary.com/v1_1/${import.meta.env.VITE_APP_CLOUD_NAME}/image/upload`,
+                {
+                  method: 'POST',
+                  body: formData,
+                }
+              );
+    
+              if (cloudinaryResponse.ok) {
+                const cloudinaryData = await cloudinaryResponse.json();
+                imageUrl = cloudinaryData.secure_url;
+                setUrl(imageUrl);
+                formData.set('profile_image', imageUrl);
+              } else {
+                throw new Error('Failed to upload image to Cloudinary');
+              }
+            } else if (typeof value === 'string' || typeof value === 'number') {
+              formData.append(key, value.toString());
+            }
+          }
+    
+        
+     
+      
+      
+        const savedUserResponse = await fetch(`http://localhost:3000/register`,{
+          method:"POST",
+          headers:{
+            "Content-Type":"application/json"
 
+          },
+          body:JSON.stringify({
+            first_name: values.first_name,
+            last_name: values.last_name,
+            user_name: values.user_name,
+            email: values.email,
+            occupation: values.occupation,
+            location: values.location,
+            password: values.password,
+            profile_image: imageUrl,
+          })
+        });
+       const savedUser = await savedUserResponse.json();
+   
+      onSubmitProps.resetForm();
+        if(savedUser){
+          setPageType("login");
+        }
+  
+        
 
     } catch (error) {
       console.error("Error submitting form:", error);
     }
   };
   const handleFormSubmit = async (values: FormValues, onSubmitProps: FormikHelpers<FormValues>) => {
-    console.log("values", JSON.stringify(values, null, 2), onSubmitProps)
+   
     if (isLogin) return await handleLogin(values, onSubmitProps);
     if (isRegister) return await handleRegister(values, onSubmitProps);
   }
@@ -129,11 +189,11 @@ const Form: React.FC = () => {
                   label="User Name"
                   onBlur={handleBlur}
                   onChange={handleChange}
-                  value={values.userName}
-                  name="userName"
-                  error={Boolean(touched.userName) && Boolean(errors.userName)}
-                  // helperText={touched.userName && errors.userName ? ' ' : ''}
-                  helperText={(touched.userName && (errors.userName != null)) ? errors.userName : ' '}
+                  value={values.user_name}
+                  name="user_name"
+                  error={Boolean(touched.user_name) && Boolean(errors.user_name)}
+                  // helperText={touched.user_name && errors.user_name ? ' ' : ''}
+                  helperText={(touched.user_name && (errors.user_name != null)) ? errors.user_name : ' '}
                   sx={{
                     gridColumn: "span 4",
                     borderRadius: "5px",
@@ -149,8 +209,8 @@ const Form: React.FC = () => {
                   label="First Name"
                   onBlur={handleBlur}
                   onChange={handleChange}
-                  value={values.firstName}
-                  name="firstName"
+                  value={values.first_name}
+                  name="first_name"
                   sx={{
                     gridColumn: "span 2",
                     // border:`1px solid #b3b3ff`,
@@ -162,8 +222,8 @@ const Form: React.FC = () => {
                   label="Last Name"
                   onBlur={handleBlur}
                   onChange={handleChange}
-                  value={values.lastName}
-                  name="lastName"
+                  value={values.last_name}
+                  name="last_name"
                   sx={{
                     gridColumn: "span 2",
                     // border:`1px solid #b3b3ff`,
@@ -207,18 +267,18 @@ const Form: React.FC = () => {
                     //  acceptedFiles=".jpg,.jpeg,.png"
                     multiple={false}
                     onDrop={(acceptedFiles) =>
-                      setFieldValue("picture", acceptedFiles[0])
+                      setFieldValue('profile_image', acceptedFiles[0])
                     }
 
                   >
                     {({ getRootProps, getInputProps }) => (
                       <Box     {...getRootProps()} border={`2px dashed #b3b3ff`} p="1rem" sx={{ "&:hover": { cursor: "pointer" } }}>
                         <input {...getInputProps()} />
-                        {!values.picture ? (
+                        {!values.profile_image? (
                           <p>Add Picture Here</p>
                         ) : (
                           <Box>
-                            <Typography> {values.picture.name}</Typography>
+                            <Typography> {values.profile_image.name}</Typography>
                             <EditOutlinedIcon />
 
                           </Box>
@@ -241,7 +301,6 @@ const Form: React.FC = () => {
               value={values.email}
               name="email"
               error={Boolean(touched.email) && Boolean(errors.email)}
-              // helperText={touched.email && errors.email}
               helperText={(touched.email && (errors.email != null)) ? errors.email : ' '}
               sx={{
                 gridColumn: "span 2",
@@ -254,6 +313,7 @@ const Form: React.FC = () => {
             />
             <TextField
               label="Password"
+              type="password"
               onBlur={handleBlur}
               onChange={handleChange}
               value={values.password}
@@ -326,3 +386,4 @@ const Form: React.FC = () => {
 };
 
 export default Form;
+
