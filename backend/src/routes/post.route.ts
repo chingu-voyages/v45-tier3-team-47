@@ -4,13 +4,17 @@ import {
   createPost,
   deletePost,
   getPosts,
+  getPostsByPoi,
+  getPostsByUser,
   updatePost,
 } from "../controllers/post.controller";
-import { verifyToken } from "../middleware/auth";
+import { ensureCorrectUser } from "../middleware/auth";
 
 postRouter.get("/", getPosts);
-postRouter.post("/", verifyToken, createPost);
-postRouter.patch("/:id", verifyToken, updatePost);
-postRouter.delete("/:id", verifyToken, deletePost);
+postRouter.get("/byPoi/:poiId", getPostsByPoi);
+postRouter.get("/byUser/:userId", getPostsByUser);
+postRouter.post("/", ensureCorrectUser, createPost);
+postRouter.patch("/:id", ensureCorrectUser, updatePost);
+postRouter.delete("/:id", ensureCorrectUser, deletePost);
 
 export default postRouter;
