@@ -1,26 +1,22 @@
-import {
-  Typography,
-  Box, useMediaQuery
-} from '@mui/material';
-import Form from './Form';
+import { Typography, Box, useMediaQuery } from "@mui/material";
+import Form from "./Form";
 
 const Login = () => {
-
-  const isNonMobileScreens = useMediaQuery(("(min-width:1000px"));
+  const isNonMobileScreens = useMediaQuery("(min-width:1000px");
   return (
     <Box
       component="section"
       sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        placeItems: 'center',
-        paddingTop: '1rem'
+        display: "flex",
+        flexDirection: "column",
+        placeItems: "center",
+        paddingTop: "1rem",
       }}
     >
-      <Box
-        width={isNonMobileScreens ? "70%" : "95%"}
-        textAlign="center"  >
-        <Typography fontWeight="bold" fontSize="2rem" color="#330066" >Log In or Register</Typography>
+      <Box width={isNonMobileScreens ? "70%" : "95%"} textAlign="center">
+        <Typography fontWeight="bold" fontSize="2rem" color="#330066">
+          Log In or Register
+        </Typography>
         <Box
           width={isNonMobileScreens ? "95%" : "77%"}
           p="2rem"
@@ -33,9 +29,7 @@ const Login = () => {
         </Box>
       </Box>
     </Box>
-
-
   );
-}
+};
 
 export default Login;
