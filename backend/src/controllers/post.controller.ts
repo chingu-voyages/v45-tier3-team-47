@@ -8,13 +8,10 @@ import { PointOfInterest } from "../config/models/PointOfInterest";
 
 export const createPost = async (req: Request, res: Response) => {
   try {
-    console.log("Reached createPost endpoint");
+   
     const { rating, comment, userId, pointOfInterestId }: IPost = req.body;
 
-    console.log("Request URL:", req.url);
-    console.log("Request Params:", req.params);
-    console.log("User ID:", userId);
-    console.log("POI ID:", pointOfInterestId);
+ 
 
     const user = await User.findByPk(userId);
     if (!user) {
