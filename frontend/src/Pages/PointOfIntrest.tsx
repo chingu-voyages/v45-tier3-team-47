@@ -6,6 +6,7 @@ import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
 
 
+
 const PointOfIntrest = () => {
   const theme = useTheme();
   const toggleThemeMode = () => {
@@ -14,6 +15,7 @@ const PointOfIntrest = () => {
   };
 
   const isNonMobileScreens = useMediaQuery(("(min-width:1000px"));
+ 
   return (
     <>
     <IconButton onClick={toggleThemeMode} aria-label="Toggle theme mode">
