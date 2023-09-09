@@ -1,6 +1,6 @@
 import { Typography,
   Box , useMediaQuery} from '@mui/material';
-import PostForm from '../Layout/components/PostForm'
+import PostForm from './PostForm'
 import { useTheme, IconButton } from '@mui/material';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
