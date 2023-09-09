@@ -26,7 +26,7 @@ app.post("/register", createUser);
 
 app.use("/user", userRouter);
 app.use("/pointOfInterest", pointOfInterestRouter);
-app.use("/user/:userId/pointOfInterest/:poiId/posts", postRouter);
+app.use("/posts", postRouter);
 
 const port = 3000;
 app.listen(port, () => {
