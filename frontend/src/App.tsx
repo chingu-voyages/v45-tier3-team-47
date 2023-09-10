@@ -7,7 +7,7 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import Login from './Pages/Login/Login';
 import Landing from './Pages/Landing/Landing';
 import Profile from './Pages/Profile/Profile';
-import PointOfIntrest from './Pages/PointOfIntrest';
+import PointOfIntrest from './Pages/POI/PointOfIntrest';
 import { useState } from 'react';
 
 const theme = createTheme({
@@ -29,7 +29,7 @@ interface UserData {
 
 function App() {
   const [userData, _] = useState<UserData | null>(null);
-console.log("user",userData)
+
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route path="/" element={<RootLayout  userData={userData}/>}>

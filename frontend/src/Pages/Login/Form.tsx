@@ -82,7 +82,7 @@ const Form: React.FC = () => {
       localStorage.setItem('userToken', userToken);
       localStorage.setItem("userId", loggedIn.existingUser.id);
   
-      console.log("User logged in with token:", userToken);
+      
       onSubmitProps.resetForm();
         navigate("/");
       }
