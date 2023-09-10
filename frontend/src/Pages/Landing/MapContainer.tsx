@@ -1,5 +1,6 @@
 import { useRef, useEffect, useState } from 'react';
 import mapboxgl from 'mapbox-gl';
+import { Box } from '@mui/material';
 mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_TOKEN;
 type MarkerWithId = mapboxgl.Marker & { id: string };
 type PopupWithId = mapboxgl.Popup & { id: string };
@@ -38,9 +39,16 @@ const MapComponent = ({ longitude, latitude }: Props) => {
 
 
     return (
-        <div style={{ width: "65%" }}>
-            <div ref={mapContainer} style={{ height: "600px" }}></div>
-        </div>
+        <Box
+            sx={{
+                width: {
+                    xs: '100%',
+                    lg: '65%'
+                }
+            }}
+        >
+            <Box ref={mapContainer} sx={{ height: "600px" }}></Box>
+        </Box>
     )
 }
 

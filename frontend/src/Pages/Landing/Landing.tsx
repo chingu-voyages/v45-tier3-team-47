@@ -27,9 +27,12 @@ const Landing = () => {
             />
             <Box sx={{
                 display: "flex",
-                flexDirection: 'row'
+                flexDirection: {
+                    xs: 'column',
+                    lg: 'row',
+                }
             }}>
-                <FilterForm submitted={submitted} city={city} />
+                <FilterForm submitted={submitted} />
                 <MapContainer longitude={longitude} latitude={latitude} />
             </Box>
 
