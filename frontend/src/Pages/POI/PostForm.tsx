@@ -187,10 +187,12 @@ const PostForm = () => {
                   sx={{
                     gridColumn: 'span 2',
                     borderRadius: '5px',
+                    p:'6px'
+                    
                   }}
                   error={touched.selectedOption && Boolean(errors.selectedOption)}
                 >
-                  <InputLabel>Choose an option</InputLabel>
+                  <InputLabel >Choose an option</InputLabel>
                   <Select
                     {...field}
                     value={values.selectedOption}
@@ -216,6 +218,7 @@ const PostForm = () => {
               sx={{
                 gridColumn: 'span 2',
                 borderRadius: '5px',
+                p:'6px'
               }}
             />
          
