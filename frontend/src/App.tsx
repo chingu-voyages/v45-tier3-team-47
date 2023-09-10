@@ -27,7 +27,8 @@ interface UserData {
 }
 
 function App() {
-  const [userData, _] = useState<UserData | null>(null);
+  const [userData] = useState<UserData | null>(null);
+
 
   const router = createBrowserRouter(
     createRoutesFromElements(
