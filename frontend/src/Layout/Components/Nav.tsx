@@ -112,7 +112,8 @@ function Nav({ userData }: { userData: UserData | null }) {
                          component={Link} 
                          to="point-of-interest"
                          sx={{
-                            backgroundColor:"gray"
+                            backgroundColor:"white",
+                            m:"2rem"
                            
                         }}>Create Post
                     
