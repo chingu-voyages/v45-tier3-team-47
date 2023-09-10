@@ -56,25 +56,46 @@ export const createUser = async (req: Request, res: Response) => {
 
 export const loginUser = async (req: Request, res: Response) => {
   try {
-    const { email, password }: IUser = req.body;
+    const {
+      email: inputEmail,
+      password: inputPassword
+    }: IUser = req.body;
 
-    const existingUser = await User.findOne({ where: { email } });
+    const {
+      id,
+      first_name,
+      last_name,
+      user_name,
+      occupation,
+      password,
+      email,
+      location,
+      profile_image
+    } = await User.findOne({ where: { email: inputEmail } });
 
-    if (!existingUser) {
+    if (!email) {
       return res.status(409).json({ message: "User does not exist" });
     }
 
     const isPasswordIdentical = await bcrypt.compare(
-      password,
-      existingUser.password
+      inputPassword,
+      password
     );
 
     if (isPasswordIdentical) {
-      const token = getUserToken(existingUser.id);
-      delete existingUser.password;
+      const token = getUserToken(id);
       return res.json({
         token,
-        existingUser,
+        existingUser: {
+          id,
+          first_name,
+          last_name,
+          user_name,
+          occupation,
+          email,
+          location,
+          profile_image
+        },
       });
     } else {
       return res.status(400).json({ message: "Incorrect credentials" });
@@ -120,11 +141,9 @@ export const getUserData = async (req: Request, res: Response) => {
         exclude: ["password"],
       },
     });
-
     if (!user) {
       return res.status(404).json("User not found");
     }
-
     return res.status(200).json(user);
   } catch (error) {
     console.error("Error in getUserData:", error);

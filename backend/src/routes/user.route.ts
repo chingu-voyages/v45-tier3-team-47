@@ -2,14 +2,14 @@ import express from "express";
 import {
   loginUser,
   updateUser,
-  createUser,
   getUserData,
 } from "../controllers/user.controller";
+import { ensureCorrectUser } from "../middleware/auth";
 
 const userRouter = express.Router();
 userRouter.post("/login", loginUser);
 
-userRouter.patch("/update/:id", updateUser);
-userRouter.get("/profile/:id", getUserData);
+userRouter.patch("/update/:id", ensureCorrectUser, updateUser);
+userRouter.get("/profile/:id", ensureCorrectUser, getUserData);
 
 export default userRouter;

@@ -12,19 +12,18 @@ import { useState } from 'react';
 
 const theme = createTheme({
   palette: {
-    mode: 'light',
+    mode: "light",
     primary: {
-      main: '#400080',
+      main: "#400080",
     },
     background: {
-      default: '#ffffff',
+      default: "#ffffff",
     },
   },
 });
 interface UserData {
   user_name: string;
   profile_image: string;
-
 }
 
 function App() {
@@ -32,7 +31,7 @@ function App() {
 
   const router = createBrowserRouter(
     createRoutesFromElements(
-      <Route path="/" element={<RootLayout  userData={userData}/>}>
+      <Route path="/" element={<RootLayout userData={userData} />}>
         <Route index element={<Landing />} />
         <Route path="About" element={<About />} />
         <Route path="Login" element={<Login/>} />
@@ -40,7 +39,7 @@ function App() {
         <Route path="point-of-interest" element={<PointOfIntrest/>}/>
       </Route>
     )
-  )
+  );
 
   return (
     <div className="App">
@@ -52,4 +51,4 @@ function App() {
   );
 }
 
-export default App
+export default App;

@@ -47,6 +47,32 @@ export const getPosts = async (req: Request, res: Response) => {
   }
 };
 
+export const getPostsByPoi = async (req: Request, res: Response) => {
+  try {
+    const postsByPoi = await Post.findAll({ where: {
+      pointOfInterestId: req.params.poiId
+    }});
+
+    return res.status(200).json(postsByPoi);
+  } catch (error) {
+    console.log("Error in getPostsByPoi", error);
+    return res.status(500).json("Internal Server Error");
+  }
+};
+
+export const getPostsByUser = async (req: Request, res: Response) => {
+  try {
+    const postsByUser = await Post.findAll({ where: {
+      userId: req.params.userId
+    }});
+
+    return res.status(200).json(postsByUser);
+  } catch (error) {
+    console.log("Error in getPostsByUser", error);
+    return res.status(500).json("Internal Server Error");
+  }
+};
+
 export const updatePost = async (req: Request, res: Response) => {
   try {
     const postId = req.params.id;
