@@ -1,6 +1,6 @@
 import { Outlet } from 'react-router-dom';
-import Nav from './components/Nav';
-import Footer from './components/Footer';
+import Nav from './Components/Nav';
+import Footer from './Components/Footer';
 import Box from '@mui/material/Box';
 interface UserData {
     user_name: string;
