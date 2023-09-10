@@ -110,9 +110,6 @@ const PostForm = () => {
           values.latitude = geocodeResult.latitude;
         }
         
-        console.log("l",values.longitude,values.latitude,"a")
-   
-      console.log('Form submitted with values:', values);
       const saveResponseData = await fetch('http://localhost:3000/pointOfInterest', {
         method: 'POST',
         body: JSON.stringify(values),
@@ -127,7 +124,7 @@ const PostForm = () => {
       }
 
       const savedUser = await saveResponseData.json();
-      console.log('save', savedUser);
+      
       onSubmitProps.resetForm();
       if (savedUser) {
         navigate('/');
