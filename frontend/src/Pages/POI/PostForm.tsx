@@ -56,7 +56,6 @@ const formData: FormValues = {
 const formSchema = yup.object().shape({
   title: yup.string().required('Title is required'),
   description: yup.string().required('Description is required'),
-  // category: yup.string().required('Category is required'),
   selectedOption: yup.string().required('Selected Option is required'),
 });
 
@@ -119,7 +118,7 @@ const PostForm = () => {
       });
 
       if (!saveResponseData.ok) {
-        // Handle non-successful response (e.g., server error)
+     
         throw new Error(`Failed to save data: ${saveResponseData.status}`);
       }
 
@@ -131,7 +130,7 @@ const PostForm = () => {
       }
     } catch (error) {
       console.error('Error:', error);
-      // Handle the error here (e.g., show an error message to the user)
+     
     }
   };
 
