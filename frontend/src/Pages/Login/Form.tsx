@@ -74,8 +74,12 @@ const Form: React.FC = () => {
       if (loggedInResponse.ok) {
         const userToken = loggedIn.token;
 
-        localStorage.setItem("userToken", userToken);
-        localStorage.setItem("userId", loggedIn.existingUser.id);
+      // Store the token in localStorage 
+      localStorage.setItem('userToken', userToken);
+      localStorage.setItem("userId", loggedIn.existingUser.id);
+  
+      
+  
 
         onSubmitProps.resetForm();
         navigate("/");
