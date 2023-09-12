@@ -11,7 +11,7 @@ import {
 import { ensureLoggedIn } from "../middleware/auth";
 
 pointOfInterestRouter.get("/", getPointOfInterests);
-pointOfInterestRouter.post("/", ensureLoggedIn, createPointOfInterest);
+pointOfInterestRouter.post("/", createPointOfInterest);
 pointOfInterestRouter.patch("/:id", ensureLoggedIn, updatePointOfInterest);
 pointOfInterestRouter.delete("/:id", ensureLoggedIn, deletePointOfInterest);
 
