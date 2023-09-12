@@ -28,7 +28,23 @@ const PriceSlider = ({ sliderValue, handleSliderChange, submitted }: Props) => {
     }
 
     return (
-        <FormControl component="fieldset" variant="standard" sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        <FormControl
+            component="fieldset"
+            variant="standard"
+            sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                width: {
+                    xs: '100%',
+                    sm: '40%',
+                    lg: '100%'
+                },
+                marginTop: {
+                    xs: '1rem',
+                    sm: 0
+                }
+            }}>
             <FormLabel component="legend" sx={{ paddingY: '1rem' }}>Filter by Price</FormLabel>
             <Slider
                 aria-label="Custom marks"

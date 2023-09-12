@@ -3,16 +3,14 @@ import { Box } from '@mui/material';
 //Component imports
 import TypeCheckboxes from './Components/TypeCheckboxes';
 import RatingCheckboxes from './Components/RatingCheckboxes';
-import StateChecker from './Components/StateChecker';
 import PriceSlider from './Components/PriceSlider';
 
 // NOTE: city prop is currently only needed for the StateChecker component - it can be removed once we no longer need to use that component
 type Props = {
     submitted: boolean,
-    city: string
 }
 
-const FilterForm = ({ submitted, city }: Props) => {
+const FilterForm = ({ submitted }: Props) => {
     const [checked, setChecked] = useState({
         restaurant: false,
         hotel: false,
@@ -40,9 +38,22 @@ const FilterForm = ({ submitted, city }: Props) => {
     const { restaurant, hotel, entertainment, fiveStars, fourStars, threeStars } = checked;
     return (
         <Box component="form" sx={{
-            width: '30%',
+            width: {
+                xs: '100%',
+                lg: '30%'
+            },
             display: 'flex',
-            flexDirection: 'column',
+            flexDirection: {
+                xs: 'row',
+                lg: 'column'
+            },
+            justifyContent: {
+                xs: 'space-around'
+            },
+            flexWrap: {
+                xs: 'wrap',
+                lg: 'nowrap'
+            },
             padding: '1rem'
         }}>
             <TypeCheckboxes
@@ -64,10 +75,6 @@ const FilterForm = ({ submitted, city }: Props) => {
                 handleSliderChange={handleSliderChange}
                 submitted={submitted}
             />
-            <StateChecker
-                checked={checked}
-                sliderValue={sliderValue}
-                city={city} />
         </Box>
     )
 }
