@@ -10,6 +10,6 @@ const userRouter = express.Router();
 userRouter.post("/login", loginUser);
 
 userRouter.patch("/update/:id", ensureCorrectUser, updateUser);
-userRouter.get("/profile/:id", ensureCorrectUser, getUserData);
+userRouter.get("/profile/:id", getUserData);
 
 export default userRouter;

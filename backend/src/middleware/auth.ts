@@ -28,7 +28,6 @@ export const verifyToken = async (
   }
 };
 
-
 /** Middleware to use when they must be logged in.
  *
  * If not, raises Unauthorized.
@@ -45,8 +44,7 @@ export const ensureLoggedIn = async (
   } catch (err) {
     return next(err);
   }
-}
-
+};
 
 /** Middleware to use when they must provide a valid token & be user matching
  *  username provided as route param.
@@ -61,13 +59,11 @@ export const ensureCorrectUser = async (
 ) => {
   try {
     const user = res.locals.user;
-    if (!(user &&
-      (user.id === req.params.id) || (user.id === req.body.userId)
-      )) {
+    if (!((user && user.id === req.params.id) || user.id === req.body.userId)) {
       throw new UnauthorizedError();
     }
     return next();
   } catch (err) {
     return next(err);
   }
-}
+};

@@ -11,7 +11,9 @@ import {
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import Dropzone from "react-dropzone";
 import * as yup from "yup";
+import axiosInstance from "../../axiosConfig";
 import.meta.env.VITE_APP_CLOUD_NAME;
+
 interface FormValues {
   first_name?: string;
   last_name?: string;
@@ -62,24 +64,15 @@ const Form: React.FC = () => {
     onSubmitProps: FormikHelpers<FormValues>
   ) => {
     try {
-      const loggedInResponse = await fetch(`http://localhost:3000/user/login`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(values),
-      });
-      const loggedIn = await loggedInResponse.json();
+      const loginResponse = await axiosInstance.post(
+        "http://localhost:3000/user/login",
+        values
+      );
 
-      if (loggedInResponse.ok) {
-        const userToken = loggedIn.token;
+      if (loginResponse.status === 200) {
+        const userId = loginResponse.data.existingUser.id;
 
-      // Store the token in localStorage 
-      localStorage.setItem('userToken', userToken);
-      localStorage.setItem("userId", loggedIn.existingUser.id);
-  
-      
-  
+        sessionStorage.setItem("userId", userId);
 
         onSubmitProps.resetForm();
         navigate("/");
