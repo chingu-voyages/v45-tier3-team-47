@@ -10,6 +10,7 @@ import {
 import Brightness4Icon from "@mui/icons-material/Brightness4";
 import Brightness7Icon from "@mui/icons-material/Brightness7";
 import { useEffect, useState } from "react";
+import axiosInstance from "../../axiosConfig";
 
 interface UserData {
   user_name: string;
@@ -24,32 +25,27 @@ interface UserData {
 const Profile = () => {
   const [userData, setUserData] = useState<UserData | null>(null);
 
-  useEffect(() => {
-    fetchUserById();
-  }, []);
-
-  const fetchUserById = async () => {
+  const fetchUserProfile = async (userId: string) => {
     try {
-      const userId = localStorage.getItem("userId");
-
-      if (!userId) {
-        console.error("User ID not found in local storage");
-        return;
-      }
-
-      const response = await fetch(
+      const response = await axiosInstance.get(
         `http://localhost:3000/user/profile/${userId}`
       );
-      if (response.ok) {
-        const userData = await response.json();
-        setUserData(userData);
-      } else {
-        console.error("Error fetching user data");
-      }
+      const userProfile = response.data;
+      setUserData(userProfile);
     } catch (error) {
-      console.error("Error fetching user data:", error);
+      console.error("Error fetching user profile:", error);
     }
   };
+
+  useEffect(() => {
+    const userId = sessionStorage.getItem("userId");
+
+    if (!userId) {
+      console.error("User ID not found in sessionStorage");
+      return;
+    }
+    fetchUserProfile(userId);
+  }, []);
 
   const theme = useTheme();
   const toggleThemeMode = () => {
