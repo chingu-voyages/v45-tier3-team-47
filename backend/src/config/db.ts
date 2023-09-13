@@ -11,14 +11,23 @@ const port: string = process.env.DB_PORT || "5432";
 const dialect: string = process.env.DB_DIALECT || "postgres";
 
 let sequelize: Sequelize;
-
 if (process.env.DB_PASS) {
   // If DB_PASS is truthy (not an empty string or undefined)
   const password: string = process.env.DB_PASS;
 
-  sequelize = new Sequelize(
-    `${dialect}://${username}:${password}@${host}:${port}/${database}`
-  );
+  // `${dialect}://${username}:${password}@${host}:${port}/${database}`
+  sequelize = new Sequelize({
+    database,
+    host,
+    username,
+    password,
+    dialect: "postgres",
+    dialectOptions: {
+      ssl: {
+        require: true
+      }
+    }
+  });
 } else {
   // If DB_PASS is falsy (empty string or undefined)
   sequelize = new Sequelize({

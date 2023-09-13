@@ -9,6 +9,7 @@ import userRouter from "./src/routes/user.route";
 import postRouter from "./src/routes/post.route";
 import pointOfInterestRouter from "./src/routes/pointOfInterest.route";
 import { NotFoundError } from "./src/expressError";
+import { testDbConnection } from "./src/config/db";
 
 dotenv.config();
 
@@ -58,5 +59,6 @@ app.use((
 
 const port = 3000;
 app.listen(port, () => {
+  testDbConnection();
   console.log(`server running : http://localhost:${port}`);
 });
