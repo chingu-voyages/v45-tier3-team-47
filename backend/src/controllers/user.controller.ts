@@ -61,41 +61,22 @@ export const loginUser = async (req: Request, res: Response) => {
       password: inputPassword
     }: IUser = req.body;
 
-    const {
-      id,
-      first_name,
-      last_name,
-      user_name,
-      occupation,
-      password,
-      email,
-      location,
-      profile_image
-    } = await User.findOne({ where: { email: inputEmail } });
+    const existingUser = await User.findOne({ where: { email: inputEmail } });
 
-    if (!email) {
+    if (!existingUser) {
       return res.status(409).json({ message: "User does not exist" });
     }
 
     const isPasswordIdentical = await bcrypt.compare(
       inputPassword,
-      password
+      existingUser.password
     );
 
     if (isPasswordIdentical) {
-      const token = getUserToken(id);
+      const token = getUserToken(existingUser.id);
       return res.json({
         token,
-        existingUser: {
-          id,
-          first_name,
-          last_name,
-          user_name,
-          occupation,
-          email,
-          location,
-          profile_image
-        },
+        existingUser
       });
     } else {
       return res.status(400).json({ message: "Incorrect credentials" });
