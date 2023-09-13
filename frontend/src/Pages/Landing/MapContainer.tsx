@@ -6,9 +6,9 @@ type MarkerWithId = mapboxgl.Marker & { id: string };
 type PopupWithId = mapboxgl.Popup & { id: string };
 
 type Props = {
-    longitude: number,
-    latitude: number
-}
+  longitude: number;
+  latitude: number;
+};
 
 const MapComponent = ({ longitude, latitude }: Props) => {
 

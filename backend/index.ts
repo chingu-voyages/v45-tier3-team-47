@@ -23,7 +23,6 @@ app.use(helmet());
 app.use(bodyParser.json({ limit: "30mb" }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors());
-app.use(verifyToken);
 
 app.post("/register", createUser);
 
@@ -31,23 +30,15 @@ app.use("/user", userRouter);
 app.use("/pointOfInterest", pointOfInterestRouter);
 app.use("/posts", postRouter);
 
+app.use(verifyToken);
 
 /** Handle 404 errors -- this matches everything */
-app.use((
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+app.use((req: Request, res: Response, next: NextFunction) => {
   return next(new NotFoundError());
 });
 
 /** Generic error handler; anything unhandled goes here. */
-app.use((
-  err: Error,
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   // Using 'any' to access the 'status' property
   const status = (err as any).status || 500;
   const message = err.message;
