@@ -14,17 +14,43 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import logo from '../../assets/Logo.png';
+import { useEffect, useState } from "react";
+import axiosInstance from "../../axiosConfig";
 
 interface UserData {
   user_name: string;
   profile_image: string; 
 }
 const pages = ["About", "Login"];
-const isAuthenticated = true;
+let isAuthenticated = true;
 const settings = isAuthenticated ? ["Profile", "Logout"] : [];
 // const settings = ['Profile', 'Logout'];
 
-function Nav({ userData }: { userData: UserData | null }) {
+function Nav() {
+  const [userData, setUserData] = useState<UserData | null>(null);
+  // console.log("us",userData)
+  const fetchUserProfile = async (userId: string) => {
+    try {
+      const response = await axiosInstance.get(
+        `http://localhost:3000/user/profile/${userId}`
+      );
+      const userProfile = response.data;
+      setUserData(userProfile);
+    } catch (error) {
+      console.error("Error fetching user profile:", error);
+    }
+  };
+
+  useEffect(() => {
+    const userId = sessionStorage.getItem("userId");
+    // isAuthenticated = true;
+
+    if (!userId) {
+      console.error("User ID not found in sessionStorage");
+      return;
+    }
+    fetchUserProfile(userId);
+  }, []);
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
   );
@@ -162,27 +188,26 @@ function Nav({ userData }: { userData: UserData | null }) {
 
                     <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
 
-                        { pages.map((page) => (
-                          !userId ?(
+                        {/* { pages.map((page) => ( */}
+                          {!userId ?(
                             <Button
-                                key={page}
+                                // key={page}
                                 onClick={handleCloseNavMenu}
                                 sx={{ my: 2, color: 'white', display: 'block' }}
                             >
-                                <Link to={page}>{page}</Link>
+                                <Link to="/login">Login</Link>
                             </Button>):(
-
-                               <Button
-                                
-                                sx={{ my: 2, color: 'white', display: 'block' }}
-                            >
-                                <Link to="About">About</Link>
-                            </Button>)
-                            
-
-                        ))}
+                              <Button
+                              // key={page}
+                              onClick={handleCloseNavMenu}
+                              sx={{ my: 2, color: 'white', display: 'block' }}
+                          >
+                              <Link to="/about">About</Link>
+                          </Button>
+                            )
+                            }
                     </Box>
-
+{ userId&&
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
@@ -209,25 +234,34 @@ function Nav({ userData }: { userData: UserData | null }) {
               transformOrigin={{
                 vertical: "top",
                 horizontal: "right",
+      
               }}
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">
-                    {setting === "Logout" ? (
-                      <button onClick={handleLogout}>Logout</button>
-                    ) : (
-                      <Link to={setting}>{setting}</Link>
-                    )}
+            
+              {/* {settings.map((setting) => ( */}
+                <MenuItem sx={{display:"flex",flexDirection:"column",m:"10px", backgroundColor: 'blue',}} onClick={handleCloseUserMenu}>
+                <Typography sx={{m:"10px"}}>{userData?.user_name}</Typography>
+                <Typography sx={{m:"10px"}}><Link to="/">Home
+                </Link></Typography>
+                 
+                 
+                  <Typography sx={{m:"10px"}}>
+                  <Link to="/profile">Profile</Link>
+                  </Typography>
+                  <Typography sx={{m:"10px"}} textAlign="center">
+                      <Button  onClick={handleLogout}>Logout</Button>
+                      
+                 
                   </Typography>
                 </MenuItem>
-              ))}
+              {/* ))} */}
       
             </Menu>
       
           </Box>
+}
 
         </Toolbar>
                     
