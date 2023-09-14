@@ -13,7 +13,7 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
-import logo from '../../assets/Logo.svg';
+import logo from '../../assets/Logo.png';
 
 interface UserData {
   user_name: string;
@@ -56,7 +56,7 @@ function Nav({ userData }: { userData: UserData | null }) {
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
              
-                    <Box sx={{width:"60px",height:"70px"}} >
+                    <Box sx={{width:"60px",height:"72px"}} >
                     <img
         src={logo}
         style={{width:"50px",height:"50px"}}
