@@ -17,7 +17,7 @@ import logo from '../../assets/Logo.png';
 
 interface UserData {
   user_name: string;
-  profile_image: string; // Assuming the profile image is a URL
+  profile_image: string; 
 }
 const pages = ["About", "Login"];
 const isAuthenticated = true;
@@ -47,10 +47,10 @@ function Nav({ userData }: { userData: UserData | null }) {
     setAnchorElUser(null);
   };
   const handleLogout = () => {
-    localStorage.removeItem("userToken");
+    sessionStorage.clear();
     window.location.href = "/login";
   };
-
+  const userId = sessionStorage.getItem('userId');
     return (
         <AppBar position="static">
             <Container maxWidth="xl">
@@ -66,7 +66,7 @@ function Nav({ userData }: { userData: UserData | null }) {
       />
       </Box>
      
-      
+     
                     <Typography
                         variant="h6"
                         noWrap
@@ -125,6 +125,7 @@ function Nav({ userData }: { userData: UserData | null }) {
                             ))}
                         </Menu>
                     </Box>
+      {userId &&               
                     <Box>
                         <Button
                          component={Link} 
@@ -137,8 +138,9 @@ function Nav({ userData }: { userData: UserData | null }) {
                     
                         </Button>
                     </Box>
+}
                     <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
-                    <Typography
+                  <Typography
                         variant="h5"
                         noWrap
                         component="a"
@@ -156,15 +158,28 @@ function Nav({ userData }: { userData: UserData | null }) {
                     >
                         LOGO
                     </Typography>
+
+
                     <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-                        {pages.map((page) => (
+
+                        { pages.map((page) => (
+                          !userId ?(
                             <Button
                                 key={page}
                                 onClick={handleCloseNavMenu}
                                 sx={{ my: 2, color: 'white', display: 'block' }}
                             >
                                 <Link to={page}>{page}</Link>
-                            </Button>
+                            </Button>):(
+
+                               <Button
+                                
+                                sx={{ my: 2, color: 'white', display: 'block' }}
+                            >
+                                <Link to="About">About</Link>
+                            </Button>)
+                            
+
                         ))}
                     </Box>
 
@@ -179,7 +194,7 @@ function Nav({ userData }: { userData: UserData | null }) {
                 ) : (
                   <Avatar alt="Default" src={"/static/images/avatar/2.jpg"} />
                 )}
-                {/* <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" /> */}
+            
               </IconButton>
             </Tooltip>
             <Menu
@@ -209,9 +224,13 @@ function Nav({ userData }: { userData: UserData | null }) {
                   </Typography>
                 </MenuItem>
               ))}
+      
             </Menu>
+      
           </Box>
+
         </Toolbar>
+                    
       </Container>
     </AppBar>
   );
