@@ -17,25 +17,27 @@ import logo from '../../assets/Logo.png';
 import { useEffect, useState } from "react";
 import axiosInstance from "../../axiosConfig";
 
+
 interface UserData {
   user_name: string;
   profile_image: string; 
 }
 const pages = ["About", "Login"];
-let isAuthenticated = true;
+const isAuthenticated = true;
 const settings = isAuthenticated ? ["Profile", "Logout"] : [];
-// const settings = ['Profile', 'Logout'];
+
 
 function Nav() {
   const [userData, setUserData] = useState<UserData | null>(null);
-  // console.log("us",userData)
-  const fetchUserProfile = async (userId: string) => {
+  const [user, setUser] = useState<UserData | null>(null);
+
+  const fetchUserInfo = async (userId: string) => {
     try {
       const response = await axiosInstance.get(
         `http://localhost:3000/user/profile/${userId}`
       );
-      const userProfile = response.data;
-      setUserData(userProfile);
+      const userInfo = response.data;
+      setUserData(userInfo);
     } catch (error) {
       console.error("Error fetching user profile:", error);
     }
@@ -49,7 +51,8 @@ function Nav() {
       console.error("User ID not found in sessionStorage");
       return;
     }
-    fetchUserProfile(userId);
+    // setUser(userId);
+    fetchUserInfo(userId);
   }, []);
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
@@ -57,6 +60,7 @@ function Nav() {
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null
   );
+ 
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
@@ -73,10 +77,10 @@ function Nav() {
     setAnchorElUser(null);
   };
   const handleLogout = () => {
-    sessionStorage.clear();
+    localStorage.removeItem("userToken");
     window.location.href = "/login";
   };
-  const userId = sessionStorage.getItem('userId');
+  
     return (
         <AppBar position="static">
             <Container maxWidth="xl">
@@ -91,8 +95,9 @@ function Nav() {
 
       />
       </Box>
+      
      
-     
+      
                     <Typography
                         variant="h6"
                         noWrap
@@ -142,16 +147,21 @@ function Nav() {
                                 display: { xs: 'block', md: 'none' },
                             }}
                         >
-                            {pages.map((page) => (
-                                <MenuItem key={page} onClick={handleCloseNavMenu}>
+                          
+                                <MenuItem onClick={handleCloseNavMenu}>
                                     <Typography textAlign="center">
-                                        <Link to={page}>{page}</Link>
+                                        <Link to="/about">About</Link>
                                     </Typography>
+                                    {!user &&
+                                    <Typography textAlign="center">
+                                        <Link to="/login">Login</Link>
+                                    </Typography>
+}
                                 </MenuItem>
-                            ))}
+
                         </Menu>
                     </Box>
-      {userId &&               
+                     { user && 
                     <Box>
                         <Button
                          component={Link} 
@@ -160,13 +170,13 @@ function Nav() {
                             backgroundColor:"white",
                             m:"2rem"
                            
-                        }}>Create Post
+                        }}>Create POI
                     
                         </Button>
                     </Box>
 }
                     <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
-                  <Typography
+                    <Typography
                         variant="h5"
                         noWrap
                         component="a"
@@ -184,31 +194,20 @@ function Nav() {
                     >
                         LOGO
                     </Typography>
-
-
                     <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-
-                        {/* { pages.map((page) => ( */}
-                          {!userId ?(
+                        {pages.map((page) => (
                             <Button
-                                // key={page}
+                                key={page}
                                 onClick={handleCloseNavMenu}
                                 sx={{ my: 2, color: 'white', display: 'block' }}
                             >
-                                <Link to="/login">Login</Link>
-                            </Button>):(
-                              <Button
-                              // key={page}
-                              onClick={handleCloseNavMenu}
-                              sx={{ my: 2, color: 'white', display: 'block' }}
-                          >
-                              <Link to="/about">About</Link>
-                          </Button>
-                            )
-                            }
+                                <Link to={page}>{page}</Link>
+                            </Button>
+                        ))}
                     </Box>
-{ userId&&
+
           <Box sx={{ flexGrow: 0 }}>
+            {user &&
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 {userData ? (
@@ -219,9 +218,10 @@ function Nav() {
                 ) : (
                   <Avatar alt="Default" src={"/static/images/avatar/2.jpg"} />
                 )}
-            
+               
               </IconButton>
             </Tooltip>
+}
             <Menu
               sx={{ mt: "45px" }}
               id="menu-appbar"
@@ -234,37 +234,28 @@ function Nav() {
               transformOrigin={{
                 vertical: "top",
                 horizontal: "right",
-      
               }}
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-            
-              {/* {settings.map((setting) => ( */}
-                <MenuItem sx={{display:"flex",flexDirection:"column",m:"10px", backgroundColor: 'blue',}} onClick={handleCloseUserMenu}>
-                <Typography sx={{m:"10px"}}>{userData?.user_name}</Typography>
-                <Typography sx={{m:"10px"}}><Link to="/">Home
-                </Link></Typography>
-                 
-                 
-                  <Typography sx={{m:"10px"}}>
-                  <Link to="/profile">Profile</Link>
-                  </Typography>
-                  <Typography sx={{m:"10px"}} textAlign="center">
-                      <Button  onClick={handleLogout}>Logout</Button>
-                      
+              { user && 
+                <MenuItem  sx={{display:"flex",flexDirection:"column"}} onClick={handleCloseUserMenu}>
+                  <Typography>{userData?.user_name}</Typography>
+                  <Typography textAlign="center">
+                      <Link to="/profile">Profile</Link>
                  
                   </Typography>
+                  <Typography textAlign="center">
+                   
+                      <Button onClick={handleLogout}>Logout</Button>
+                      </Typography>
+                     
                 </MenuItem>
-              {/* ))} */}
-      
+              }
             </Menu>
-      
-          </Box>
-}
 
+          </Box>
         </Toolbar>
-                    
       </Container>
     </AppBar>
   );
