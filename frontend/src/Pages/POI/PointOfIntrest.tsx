@@ -1,6 +1,6 @@
 import { Typography,
   Box , useMediaQuery} from '@mui/material';
-import PostForm from './PostForm'
+import PostForm from './PostForm';
 
 
 
