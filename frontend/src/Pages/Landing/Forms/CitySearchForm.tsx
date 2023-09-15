@@ -1,16 +1,15 @@
 import { Box, Button, TextField } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 const MAPBOX_ACCESS_TOKEN = import.meta.env.VITE_MAPBOX_TOKEN;
 
 type Props = {
-    city: string,
-    setCity: React.Dispatch<React.SetStateAction<string>>,
     setSubmitted: React.Dispatch<React.SetStateAction<boolean>>,
     setLongitude: React.Dispatch<React.SetStateAction<number>>,
     setLatitude: React.Dispatch<React.SetStateAction<number>>
 }
 
-const CitySearchForm = ({ city, setCity, setSubmitted, setLongitude, setLatitude }: Props) => {
+const CitySearchForm = ({ setSubmitted, setLongitude, setLatitude }: Props) => {
+    const [city, setCity] = useState('');
     const encodedCity = encodeURI(city) || "";
     const mapboxQuery = `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodedCity}.json?access_token=${MAPBOX_ACCESS_TOKEN}`
 
