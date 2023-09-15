@@ -11,13 +11,12 @@ import { IPointsOfInterest } from '../Landing';
 type Props = {
     submitted: boolean,
     pointsOfInterest: Array<IPointsOfInterest>
-    renderedPointsOfInterest: Array<IPointsOfInterest>
     setRenderedPointsOfInterest: React.Dispatch<React.SetStateAction<Array<IPointsOfInterest>>>
 }
 
 const categories = new Set(["restaurant", "hotel", "entertainment"]);
 
-const FilterForm = ({ submitted, pointsOfInterest, renderedPointsOfInterest, setRenderedPointsOfInterest }: Props) => {
+const FilterForm = ({ submitted, pointsOfInterest, setRenderedPointsOfInterest }: Props) => {
     const [checked, setChecked] = useState({
         restaurant: false,
         hotel: false,

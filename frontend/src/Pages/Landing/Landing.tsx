@@ -65,7 +65,6 @@ const Landing = () => {
                 <FilterForm
                     submitted={submitted}
                     pointsOfInterest={pointsOfInterest}
-                    renderedPointsOfInterest={renderedPointsOfInterest}
                     setRenderedPointsOfInterest={setRenderedPointsOfInterest}
                 />
                 <MapContainer
