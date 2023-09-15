@@ -200,8 +200,8 @@ const PostForm = () => {
                   >
                     <MenuItem value="">Select an option</MenuItem>
                     <MenuItem value="option1">Entertainment</MenuItem>
-                    <MenuItem value="option2">Sport</MenuItem>
-                    <MenuItem value="option3">Music</MenuItem>
+                    <MenuItem value="option2">Restaurant</MenuItem>
+                    <MenuItem value="option3">Hotel</MenuItem>
                   </Select>
                   {touched.selectedOption && errors.selectedOption && (
                     <FormHelperText error>{errors.selectedOption}</FormHelperText>
