@@ -8,11 +8,11 @@ import {
   deletePointOfInterest,
 } from "../controllers/pointOfInterest.controller";
 
-import { ensureLoggedIn } from "../middleware/auth";
+import { verifyToken } from "../middleware/auth";
 
 pointOfInterestRouter.get("/", getPointOfInterests);
-pointOfInterestRouter.post("/", createPointOfInterest);
-pointOfInterestRouter.patch("/:id", ensureLoggedIn, updatePointOfInterest);
-pointOfInterestRouter.delete("/:id", ensureLoggedIn, deletePointOfInterest);
+pointOfInterestRouter.post("/", verifyToken,createPointOfInterest);
+pointOfInterestRouter.patch("/:id", updatePointOfInterest);
+pointOfInterestRouter.delete("/:id", deletePointOfInterest);
 
 export default pointOfInterestRouter;

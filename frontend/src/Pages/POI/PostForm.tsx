@@ -11,6 +11,7 @@ import {
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 const MAPBOX_ACCESS_TOKEN = import.meta.env.VITE_MAPBOX_TOKEN;
+// import axiosInstance from "../../axiosConfig";
 
 import * as yup from 'yup';
 import { Field, Formik, FormikHelpers, FieldProps } from 'formik';
@@ -94,7 +95,7 @@ const PostForm = () => {
       
       try {
         values.category = values.selectedOption;
-        const userId = localStorage.getItem('userId');
+        const userId = sessionStorage.getItem('userId');
         if (!userId || typeof userId !== 'string') {
           console.error('Invalid userId:', userId);
           return; 
