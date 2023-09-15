@@ -21,18 +21,15 @@ const theme = createTheme({
     },
   },
 });
-interface UserData {
-  user_name: string;
-  profile_image: string;
-}
+
 
 function App() {
-  const [userData] = useState<UserData | null>(null);
+
 
 
   const router = createBrowserRouter(
     createRoutesFromElements(
-      <Route path="/" element={<RootLayout userData={userData} />}>
+      <Route path="/" element={<RootLayout  />}>
         <Route index element={<Landing />} />
         <Route path="About" element={<About />} />
         <Route path="Login" element={<Login/>} />
