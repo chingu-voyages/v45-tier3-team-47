@@ -22,14 +22,12 @@ interface UserData {
   user_name: string;
   profile_image: string; 
 }
-const pages = ["About", "Login"];
-const isAuthenticated = true;
-const settings = isAuthenticated ? ["Profile", "Logout"] : [];
+
 
 
 function Nav() {
   const [userData, setUserData] = useState<UserData | null>(null);
-  const [user, setUser] = useState<UserData | null>(null);
+  const [user, setUser] = useState<String| null>(null);
 
   const fetchUserInfo = async (userId: string) => {
     try {
@@ -44,17 +42,19 @@ function Nav() {
   };
 
   useEffect(() => {
-    const userId = sessionStorage.getItem("userId");
-    // isAuthenticated = true;
+    const userId = sessionStorage.getItem('userId');
+   
+
+
 
     if (!userId) {
       console.error("User ID not found in sessionStorage");
       return;
     }
-    // setUser(userId);
+    setUser(userId);
     fetchUserInfo(userId);
   }, []);
-  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
+  const [_, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
   );
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
@@ -77,10 +77,14 @@ function Nav() {
     setAnchorElUser(null);
   };
   const handleLogout = () => {
-    localStorage.removeItem("userToken");
+    // Clear the user session data
+    sessionStorage.removeItem("userToken");
+    sessionStorage.removeItem("userId");
+  
+    // Redirect to the login page
     window.location.href = "/login";
   };
-  
+  console.log("checkuser",user)
     return (
         <AppBar position="static">
             <Container maxWidth="xl">
@@ -129,37 +133,7 @@ function Nav() {
                         >
                             <MenuIcon />
                         </IconButton>
-                        <Menu
-                            id="menu-appbar"
-                            anchorEl={anchorElNav}
-                            anchorOrigin={{
-                                vertical: 'bottom',
-                                horizontal: 'left',
-                            }}
-                            keepMounted
-                            transformOrigin={{
-                                vertical: 'top',
-                                horizontal: 'left',
-                            }}
-                            open={Boolean(anchorElNav)}
-                            onClose={handleCloseNavMenu}
-                            sx={{
-                                display: { xs: 'block', md: 'none' },
-                            }}
-                        >
-                          
-                                <MenuItem onClick={handleCloseNavMenu}>
-                                    <Typography textAlign="center">
-                                        <Link to="/about">About</Link>
-                                    </Typography>
-                                    {!user &&
-                                    <Typography textAlign="center">
-                                        <Link to="/login">Login</Link>
-                                    </Typography>
-}
-                                </MenuItem>
 
-                        </Menu>
                     </Box>
                      { user && 
                     <Box>
@@ -195,33 +169,60 @@ function Nav() {
                         LOGO
                     </Typography>
                     <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-                        {pages.map((page) => (
-                            <Button
-                                key={page}
+                        {user ?
+                            ( <><Button
+                                
                                 onClick={handleCloseNavMenu}
                                 sx={{ my: 2, color: 'white', display: 'block' }}
                             >
-                                <Link to={page}>{page}</Link>
+                                <Link to="./about">About</Link>
+                               
+                                
                             </Button>
-                        ))}
+                          
+                       </>
+                            ):(<>
+
+                              <Button
+                                
+                              onClick={handleCloseNavMenu}
+                              sx={{ my: 2, color: 'white', display: 'block' }}
+                          >
+                              
+                              <Link to="/about">About</Link>
+                              
+                          </Button>
+                          <Button
+                                
+                                onClick={handleCloseNavMenu}
+                                sx={{ my: 2, color: 'white', display: 'block' }}
+                            >
+                                <Link to="./login">Login</Link>
+                                
+                            </Button>
+                          </>
+                            )
+                        }
                     </Box>
 
           <Box sx={{ flexGrow: 0 }}>
-            {user &&
+      { user &&     
+      <>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                {userData ? (
+              {userData?.profile_image ? (
                   <Avatar
-                    alt={userData.user_name}
-                    src={userData.profile_image}
+                    alt={userData?.user_name}
+                    src={userData?.profile_image}
                   />
                 ) : (
                   <Avatar alt="Default" src={"/static/images/avatar/2.jpg"} />
                 )}
+
                
               </IconButton>
             </Tooltip>
-}
+
             <Menu
               sx={{ mt: "45px" }}
               id="menu-appbar"
@@ -238,22 +239,27 @@ function Nav() {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              { user && 
-                <MenuItem  sx={{display:"flex",flexDirection:"column"}} onClick={handleCloseUserMenu}>
-                  <Typography>{userData?.user_name}</Typography>
-                  <Typography textAlign="center">
-                      <Link to="/profile">Profile</Link>
+              
+                <MenuItem  sx={{display:"flex",flexDirection:"column",m:"10px",backgroundColor: "white!important",}} onClick={handleCloseUserMenu}>
+                  <Typography  sx={{ m: "2px", fontSize: "16px",  color: '#400080' }}>{userData?.user_name}</Typography>
+                  <Button sx={{m:"2px"}} >
+                      <Link to="/profile" style={{ textDecoration: 'none', color: 'inherit' }}>Profile</Link>
                  
-                  </Typography>
-                  <Typography textAlign="center">
+                  </Button>
+                  <Button sx={{m:"2px"}} >
+                      <Link to="/"  style={{ textDecoration: 'none', color: 'inherit' }}>Home</Link>
+                 
+                  </Button>
+               
                    
-                      <Button onClick={handleLogout}>Logout</Button>
-                      </Typography>
+                      <Button sx={{m:"2px"}} onClick={handleLogout}>Logout</Button>
+                    
                      
                 </MenuItem>
-              }
+              
             </Menu>
-
+            </>
+}
           </Box>
         </Toolbar>
       </Container>

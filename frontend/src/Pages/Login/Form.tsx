@@ -118,7 +118,7 @@ const Form: React.FC = () => {
             imageUrl = cloudinaryData.secure_url;
             setUrl(imageUrl);
             formData.set("profile_image", imageUrl);
-            // setFieldValue("profile_image", imageUrl);
+            
           } else {
             throw new Error("Failed to upload image to Cloudinary");
           }
