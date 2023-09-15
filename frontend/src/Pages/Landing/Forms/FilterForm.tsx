@@ -4,7 +4,7 @@ import { Box } from '@mui/material';
 import TypeCheckboxes from './Components/TypeCheckboxes';
 import RatingCheckboxes from './Components/RatingCheckboxes';
 import PriceSlider from './Components/PriceSlider';
-import { IPointsOfInterest } from '../Landing';
+import { IPointsOfInterest } from '../../../types/interfaces';
 
 // NOTE: city prop is currently only needed for the StateChecker component - it can be removed once we no longer need to use that component
 
