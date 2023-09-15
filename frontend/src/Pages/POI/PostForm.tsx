@@ -15,28 +15,9 @@ const MAPBOX_ACCESS_TOKEN = import.meta.env.VITE_MAPBOX_TOKEN;
 
 import * as yup from 'yup';
 import { Field, Formik, FormikHelpers, FieldProps } from 'formik';
+import { PoIFormValues } from '../../types/interfaces';
 
-interface FormValues {
-  title: string;
-  category: string;
-  description: string;
-  price?: number;
-  website?: string;
-  city?: string;
-  post_code?: string;
-  province: string;
-  country?: string;
-  phoneNumber?: string;
-  address?: string;
-  selectedOption: string;
-  longitude?: number;
-  latitude?: number;
-  userId:string
-}
-
-
-
-const formData: FormValues = {
+const formData: PoIFormValues = {
   title: '',
   category: '',
   description: '',
@@ -44,14 +25,14 @@ const formData: FormValues = {
   website: '',
   city: '',
   post_code: '',
-  province: '', 
+  province: '',
   country: '',
   phoneNumber: '',
   address: '',
   selectedOption: '',
   longitude: 0,
   latitude: 0,
-  userId:""
+  userId: ""
 };
 
 const formSchema = yup.object().shape({
@@ -63,7 +44,7 @@ const formSchema = yup.object().shape({
 const PostForm = () => {
   const isNonMobileScreens = useMediaQuery('(min-width: 600px)');
   const navigate = useNavigate();
- 
+
 
   const geocodeAddress = async (address: string) => {
     try {
@@ -87,29 +68,29 @@ const PostForm = () => {
       throw error;
     }
   };
-  
+
   const handleFormSubmit = async (
-    values: FormValues,
-    onSubmitProps: FormikHelpers<FormValues>
-    ) => {
-      
-      try {
-        values.category = values.selectedOption;
-        const userId = sessionStorage.getItem('userId');
-        if (!userId || typeof userId !== 'string') {
-          console.error('Invalid userId:', userId);
-          return; 
-        }
-        
-        values.userId = userId;
-        
-        if (values.address) {
-          
-          const geocodeResult = await geocodeAddress(values.address);
-          values.longitude = geocodeResult.longitude;
-          values.latitude = geocodeResult.latitude;
-        }
-        
+    values: PoIFormValues,
+    onSubmitProps: FormikHelpers<PoIFormValues>
+  ) => {
+
+    try {
+      values.category = values.selectedOption;
+      const userId = sessionStorage.getItem('userId');
+      if (!userId || typeof userId !== 'string') {
+        console.error('Invalid userId:', userId);
+        return;
+      }
+
+      values.userId = userId;
+
+      if (values.address) {
+
+        const geocodeResult = await geocodeAddress(values.address);
+        values.longitude = geocodeResult.longitude;
+        values.latitude = geocodeResult.latitude;
+      }
+
       const saveResponseData = await fetch('http://localhost:3000/pointOfInterest', {
         method: 'POST',
         body: JSON.stringify(values),
@@ -119,19 +100,19 @@ const PostForm = () => {
       });
 
       if (!saveResponseData.ok) {
-     
+
         throw new Error(`Failed to save data: ${saveResponseData.status}`);
       }
 
       const savedUser = await saveResponseData.json();
-      
+
       onSubmitProps.resetForm();
       if (savedUser) {
         navigate('/');
       }
     } catch (error) {
       console.error('Error:', error);
-     
+
     }
   };
 
@@ -187,8 +168,8 @@ const PostForm = () => {
                   sx={{
                     gridColumn: 'span 2',
                     borderRadius: '5px',
-                    p:'6px'
-                    
+                    p: '6px'
+
                   }}
                   error={touched.selectedOption && Boolean(errors.selectedOption)}
                 >
@@ -218,10 +199,10 @@ const PostForm = () => {
               sx={{
                 gridColumn: 'span 2',
                 borderRadius: '5px',
-                p:'6px'
+                p: '6px'
               }}
             />
-         
+
             <TextField
               label="Address"
               onBlur={handleBlur}
@@ -299,7 +280,7 @@ const PostForm = () => {
                 mt: '0.2rem',
               }}
             />
-               <TextField
+            <TextField
               label="Website"
               onBlur={handleBlur}
               onChange={handleChange}

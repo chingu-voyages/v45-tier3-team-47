@@ -11,16 +11,7 @@ import Brightness4Icon from "@mui/icons-material/Brightness4";
 import Brightness7Icon from "@mui/icons-material/Brightness7";
 import { useEffect, useState } from "react";
 import axiosInstance from "../../axiosConfig";
-
-interface UserData {
-  user_name: string;
-  profile_image?: string;
-  first_name: string;
-  last_name: string;
-  occupation: string;
-  email: string;
-  location: string;
-}
+import { UserData } from "../../types/interfaces";
 
 const Profile = () => {
 

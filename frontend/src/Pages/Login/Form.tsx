@@ -12,21 +12,10 @@ import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import Dropzone from "react-dropzone";
 import * as yup from "yup";
 import axiosInstance from "../../axiosConfig";
+import { LoginFormValues } from "../../types/interfaces";
 import.meta.env.VITE_APP_CLOUD_NAME;
 
-interface FormValues {
-  first_name?: string;
-  last_name?: string;
-  user_name?: string;
-  occupation?: string;
-  email: string;
-  password: string;
-
-  location?: string;
-  profile_image?: File | null;
-}
-
-const intialValuesRegister: FormValues = {
+const intialValuesRegister: LoginFormValues = {
   first_name: "",
   last_name: "",
   user_name: "",
@@ -37,7 +26,7 @@ const intialValuesRegister: FormValues = {
   location: "",
   profile_image: null,
 };
-const intialValuesLogin: FormValues = {
+const intialValuesLogin: LoginFormValues = {
   email: "",
   password: "",
 };
@@ -60,8 +49,8 @@ const Form: React.FC = () => {
   const navigate = useNavigate();
 
   const handleLogin = async (
-    values: FormValues,
-    onSubmitProps: FormikHelpers<FormValues>
+    values: LoginFormValues,
+    onSubmitProps: FormikHelpers<LoginFormValues>
   ) => {
     try {
       const loginResponse = await axiosInstance.post(
@@ -83,15 +72,15 @@ const Form: React.FC = () => {
   };
 
   const handleRegister = async (
-    values: FormValues,
-    onSubmitProps: FormikHelpers<FormValues>
+    values: LoginFormValues,
+    onSubmitProps: FormikHelpers<LoginFormValues>
   ) => {
     let imageUrl;
     try {
       const formData = new FormData();
 
       for (const key in values) {
-        const value = values[key as keyof FormValues];
+        const value = values[key as keyof LoginFormValues];
 
         if (key === "profile_image" && value instanceof File) {
           formData.append("file", value);
@@ -105,8 +94,7 @@ const Form: React.FC = () => {
           );
 
           const cloudinaryResponse = await fetch(
-            `https://api.cloudinary.com/v1_1/${
-              import.meta.env.VITE_APP_CLOUD_NAME
+            `https://api.cloudinary.com/v1_1/${import.meta.env.VITE_APP_CLOUD_NAME
             }/image/upload`,
             {
               method: "POST",
@@ -154,8 +142,8 @@ const Form: React.FC = () => {
     }
   };
   const handleFormSubmit = async (
-    values: FormValues,
-    onSubmitProps: FormikHelpers<FormValues>
+    values: LoginFormValues,
+    onSubmitProps: FormikHelpers<LoginFormValues>
   ) => {
     if (isLogin) return await handleLogin(values, onSubmitProps);
     if (isRegister) return await handleRegister(values, onSubmitProps);
