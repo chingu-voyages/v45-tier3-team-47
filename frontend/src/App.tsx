@@ -8,7 +8,7 @@ import Login from './Pages/Login/Login';
 import Landing from './Pages/Landing/Landing';
 import Profile from './Pages/Profile/Profile';
 import PointOfIntrest from './Pages/POI/PointOfIntrest';
-import { useState } from 'react';
+
 
 const theme = createTheme({
   palette: {
