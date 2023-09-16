@@ -66,16 +66,14 @@ function Nav({ isLoggedIn, setIsLoggedIn }: RootLayoutProps) {
       <Container maxWidth="xl">
         <Toolbar disableGutters >
           <Box >
-            <Box component="a" href="/" sx={{ display: 'flex', gap: '5px' }}>
+            <Box component="a" href="/" sx={{ display: 'flex', gap: '5px', textDecoration: 'none' }}>
               <img
                 src={logo}
                 style={{ width: "50px", height: "50px" }}
-
                 alt="Logo"
-
               />
               <Typography
-                variant="h5"
+                variant="h2"
                 noWrap
                 sx={{
                   mr: 2,
@@ -85,7 +83,6 @@ function Nav({ isLoggedIn, setIsLoggedIn }: RootLayoutProps) {
                   fontWeight: 700,
                   letterSpacing: '.3rem',
                   color: 'white',
-                  textDecoration: 'none',
                   marginTop: '1rem',
                   transition: 'all .2s ease',
                   ":hover": {

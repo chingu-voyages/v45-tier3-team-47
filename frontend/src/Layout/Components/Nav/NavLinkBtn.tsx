@@ -19,7 +19,6 @@ const NavLinkBtn = ({ linkTo, text }: Props) => {
                 borderRadius: '5px',
                 ":hover": {
                     backgroundColor: 'white',
-                    color: '#400080'
                 }
             }}
         >
