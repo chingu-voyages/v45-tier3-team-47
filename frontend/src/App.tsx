@@ -8,7 +8,7 @@ import Login from './Pages/Login/Login';
 import Landing from './Pages/Landing/Landing';
 import Profile from './Pages/Profile/Profile';
 import PointOfIntrest from './Pages/POI/PointOfIntrest';
-
+import { useState } from 'react';
 
 const theme = createTheme({
   palette: {
@@ -24,17 +24,16 @@ const theme = createTheme({
 
 
 function App() {
-
-
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const router = createBrowserRouter(
     createRoutesFromElements(
-      <Route path="/" element={<RootLayout  />}>
+      <Route path="/" element={<RootLayout isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />}>
         <Route index element={<Landing />} />
         <Route path="About" element={<About />} />
-        <Route path="Login" element={<Login/>} />
+        <Route path="Login" element={<Login setIsLoggedIn={setIsLoggedIn} />} />
         <Route path="Profile" element={<Profile />} />
-        <Route path="point-of-interest" element={<PointOfIntrest/>}/>
+        <Route path="point-of-interest" element={<PointOfIntrest />} />
       </Route>
     )
   );

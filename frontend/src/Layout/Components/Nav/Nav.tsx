@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom"
+import { useCallback, useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom"
 import { AppBar, Container, Toolbar, Box, Typography, Button } from '@mui/material';
 import axiosInstance from "../../../axiosConfig";
 //Component imports
@@ -13,41 +13,54 @@ export interface UserData {
   profile_image: string;
 }
 
-function Nav() {
-  const [userData, setUserData] = useState<UserData | null>(null);
-  const [user, setUser] = useState<string | null>(null);
+interface RootLayoutProps {
+  isLoggedIn: boolean;
+  setIsLoggedIn: (value: boolean) => void;
+}
 
-  const fetchUserInfo = async (userId: string) => {
+function Nav({ isLoggedIn, setIsLoggedIn }: RootLayoutProps) {
+  const navigate = useNavigate();
+  // Testing to see if we can just use an empty string instead of null for userId
+  const [_, setUserId] = useState<string>('');
+  const [userData, setUserData] = useState<UserData | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+
+  // Function to fetch user info
+  const fetchUserInfo = useCallback(async (userId: string) => {
     try {
       const response = await axiosInstance.get(
         `http://localhost:3000/user/profile/${userId}`
       );
       const userInfo = response.data;
       setUserData(userInfo);
+      setLoading(false);
     } catch (error) {
-      console.error("Error fetching user profile:", error);
+      console.error('Error fetching user profile:', error);
     }
-  };
-
-  useEffect(() => {
-    const userId = sessionStorage.getItem('userId');
-
-    if (!userId) {
-      console.error("User ID not found in sessionStorage");
-      return;
-    }
-    setUser(userId);
-    fetchUserInfo(userId);
   }, []);
 
-  const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(
-    null
-  );
-  const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(
-    null
-  );
 
-  console.log("checkuser", user)
+  useEffect(() => {
+    // Changed variable name to avoid confusion with userId state
+    const sessionId = sessionStorage.getItem('userId');
+    if (!sessionId) {
+      return;
+    }
+
+    setUserId(sessionId);
+    fetchUserInfo(sessionId);
+    setIsLoggedIn(true);
+  }, [setIsLoggedIn, navigate, fetchUserInfo]);
+
+
+  const handleLogout = () => {
+    sessionStorage.removeItem('userToken');
+    sessionStorage.removeItem('userId');
+    setUserId('');
+    setIsLoggedIn(false);
+    navigate('/login');
+  };
+
   return (
     <AppBar position="static">
       <Container maxWidth="xl">
@@ -85,11 +98,9 @@ function Nav() {
             </Box>
           </Box>
           <NavMobileMenu
-            setAnchorElNav={setAnchorElNav}
-            anchorElNav={anchorElNav}
-            user={user}
+            isLoggedIn={isLoggedIn}
           />
-          {user &&
+          {isLoggedIn &&
             <Box>
               <Button
                 component={Link}
@@ -109,14 +120,14 @@ function Nav() {
               </Button>
             </Box>
           }
-          <NavDesktopLinks user={user} />
+          <NavDesktopLinks isLoggedIn={isLoggedIn} />
 
           <Box sx={{ flexGrow: 0 }}>
-            {user &&
+            {isLoggedIn &&
               <NavUserSettingsMenu
-                anchorElUser={anchorElUser}
-                setAnchorElUser={setAnchorElUser}
                 userData={userData}
+                onClick={handleLogout}
+                loading={loading}
               />
             }
           </Box>

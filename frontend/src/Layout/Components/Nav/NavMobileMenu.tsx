@@ -1,14 +1,17 @@
 import { Box, IconButton, Menu, Tooltip } from "@mui/material"
 import MenuIcon from '@mui/icons-material/Menu';
 import MobileListItem from "./MobileListItem";
+import { useState } from "react";
 
 type Props = {
-    anchorElNav: HTMLElement | null,
-    setAnchorElNav: React.Dispatch<React.SetStateAction<HTMLElement | null>>,
-    user: string | null
+    isLoggedIn: boolean
 }
 
-const NavMobileMenu = ({ anchorElNav, setAnchorElNav, user }: Props) => {
+const NavMobileMenu = ({ isLoggedIn }: Props) => {
+    const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(
+        null
+    );
+
     const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorElNav(event.currentTarget);
     };
@@ -53,7 +56,7 @@ const NavMobileMenu = ({ anchorElNav, setAnchorElNav, user }: Props) => {
                 <MobileListItem linkTo="/" text="Home" />
                 <MobileListItem linkTo="/about" text="About" />
                 {
-                    user
+                    isLoggedIn
                         ? null
                         : <MobileListItem linkTo="/login" text="Login" />
                 }

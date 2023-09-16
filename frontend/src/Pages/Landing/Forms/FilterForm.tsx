@@ -4,12 +4,17 @@ import { Box } from '@mui/material';
 import TypeCheckboxes from './Components/TypeCheckboxes';
 import RatingCheckboxes from './Components/RatingCheckboxes';
 import PriceSlider from './Components/PriceSlider';
+import { IPointsOfInterest } from '../Landing';
 
 type Props = {
     submitted: boolean,
+    pointsOfInterest: Array<IPointsOfInterest>
+    setRenderedPointsOfInterest: React.Dispatch<React.SetStateAction<Array<IPointsOfInterest>>>
 }
 
-const FilterForm = ({ submitted }: Props) => {
+const categories = new Set(["restaurant", "hotel", "entertainment"]);
+
+const FilterForm = ({ submitted, pointsOfInterest, setRenderedPointsOfInterest }: Props) => {
     const [checked, setChecked] = useState({
         restaurant: false,
         hotel: false,
@@ -21,11 +26,27 @@ const FilterForm = ({ submitted }: Props) => {
 
     const [sliderValue, setSliderValue] = useState(1);
 
+    const { restaurant, hotel, entertainment, fiveStars, fourStars, threeStars } = checked;
+
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setChecked({
             ...checked,
             [event.target.name]: event.target.checked,
         });
+        if (categories.has(event.target.name)) {
+            filterPOIByCategory(event.target.name, event.target.checked);
+        }
+    };
+
+    const filterPOIByCategory = (category: string, checked: boolean) => {
+        const filteredPOI = pointsOfInterest.filter(poi => {
+            if (poi.category.toLowerCase() === category && !checked) return false;
+            if (poi.category.toLowerCase() === category && checked) return true;
+            if (restaurant && poi.category.toLowerCase() === "restaurant") return true;
+            if (hotel && poi.category.toLowerCase() === "hotel") return true;
+            if (entertainment && poi.category.toLowerCase() === "entertainment") return true;
+        })
+        setRenderedPointsOfInterest(filteredPOI);
     };
 
     // Note event param is currently not being used, but is required for this function to update the slider correctly. 
@@ -34,7 +55,6 @@ const FilterForm = ({ submitted }: Props) => {
         setSliderValue(newValue as number);
     };
 
-    const { restaurant, hotel, entertainment, fiveStars, fourStars, threeStars } = checked;
     return (
         <Box component="form" sx={{
             width: {

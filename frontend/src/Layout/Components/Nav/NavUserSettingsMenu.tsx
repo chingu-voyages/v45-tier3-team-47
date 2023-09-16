@@ -1,22 +1,19 @@
-import { Avatar, Button, IconButton, Menu, MenuItem, Tooltip, Typography } from "@mui/material"
+import { Avatar, Box, Button, CircularProgress, IconButton, Menu, MenuItem, Tooltip, Typography } from "@mui/material"
 import { UserData } from "./Nav"
 import MobileListItem from "./MobileListItem"
+import { useState } from "react"
 
 type Props = {
-    anchorElUser: HTMLElement | null,
-    setAnchorElUser: React.Dispatch<React.SetStateAction<HTMLElement | null>>,
-    userData: UserData | null
+    userData: UserData | null,
+    onClick: () => void,
+    loading: boolean
 }
 
-const NavUserSettingsMenu = ({ anchorElUser, setAnchorElUser, userData }: Props) => {
+const NavUserSettingsMenu = ({ userData, onClick, loading }: Props) => {
 
-    const handleLogout = () => {
-        // Clear the user session data
-        sessionStorage.removeItem("userToken");
-        sessionStorage.removeItem("userId");
-        // Redirect to the login page
-        window.location.href = "/login";
-    };
+    const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(
+        null
+    );
 
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);
@@ -26,19 +23,26 @@ const NavUserSettingsMenu = ({ anchorElUser, setAnchorElUser, userData }: Props)
         setAnchorElUser(event.currentTarget);
     };
     return (
-        <>
-            <Tooltip title="Open settings">
-                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                    {userData?.profile_image ? (
-                        <Avatar
-                            alt={userData?.user_name}
-                            src={userData?.profile_image}
-                        />
-                    ) : (
-                        <Avatar alt="Default" src={"/static/images/avatar/2.jpg"} />
-                    )}
-                </IconButton>
-            </Tooltip>
+        <Box sx={{ flexGrow: 0 }}>
+
+            {
+                loading
+                    ? <CircularProgress size={32} />
+                    : (
+                        <Tooltip title="Open settings">
+                            <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                                {userData?.profile_image ? (
+                                    <Avatar
+                                        alt={userData?.user_name}
+                                        src={userData?.profile_image}
+                                    />
+                                ) : (
+                                    <Avatar alt="Default" src={"/static/images/avatar/2.jpg"} />
+                                )}
+                            </IconButton>
+                        </Tooltip>
+                    )
+            }
 
             <Menu
                 sx={{ mt: "45px" }}
@@ -73,10 +77,10 @@ const NavUserSettingsMenu = ({ anchorElUser, setAnchorElUser, userData }: Props)
                 </MenuItem>
                 <MobileListItem linkTo="/profile" text="Profile" />
                 <MenuItem>
-                    <Button sx={{ m: "2px", fontSize: "1.2rem" }} onClick={handleLogout}>Logout</Button>
+                    <Button sx={{ m: "2px", fontSize: "1.2rem" }} onClick={onClick}>Logout</Button>
                 </MenuItem>
             </Menu>
-        </>
+        </Box>
     )
 }
 

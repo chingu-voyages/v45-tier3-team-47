@@ -14,6 +14,7 @@ import * as yup from "yup";
 import axiosInstance from "../../axiosConfig";
 import.meta.env.VITE_APP_CLOUD_NAME;
 
+
 interface FormValues {
   first_name?: string;
   last_name?: string;
@@ -36,6 +37,9 @@ const intialValuesRegister: FormValues = {
   location: "",
   profile_image: null,
 };
+interface FormProps {
+  onSuccessfulLogin: () => void;
+}
 const intialValuesLogin: FormValues = {
   email: "",
   password: "",
@@ -50,13 +54,14 @@ const loginSchema = yup.object().shape({
   password: yup.string().required("required"),
 });
 
-const Form: React.FC = () => {
+const Form: React.FC<FormProps> = ({ onSuccessfulLogin }) => {
   const [pageType, setPageType] = useState<string>("login");
   const [_, setUrl] = useState<string | null>(null);
   const isLogin: boolean = pageType === "login";
   const isRegister: boolean = pageType === "register";
   const isNonMobileScreens = useMediaQuery("(min-width:600px");
   const navigate = useNavigate();
+
 
   const handleLogin = async (
     values: FormValues,
@@ -69,11 +74,12 @@ const Form: React.FC = () => {
       );
 
       if (loginResponse.status === 200) {
-        const userId = loginResponse.data.existingUser.id;
-
+        const userId = loginResponse.data.existingUser.id; 
         sessionStorage.setItem("userId", userId);
-
+    
         onSubmitProps.resetForm();
+       
+        onSuccessfulLogin();
         navigate("/");
       }
     } catch (error) {
@@ -193,7 +199,7 @@ const Form: React.FC = () => {
                   label="User Name"
                   onBlur={handleBlur}
                   onChange={handleChange}
-                  value={values.user_name}
+                  value={values.user_name || ""}
                   name="user_name"
                   error={
                     Boolean(touched.user_name) && Boolean(errors.user_name)
@@ -214,7 +220,7 @@ const Form: React.FC = () => {
                   label="First Name"
                   onBlur={handleBlur}
                   onChange={handleChange}
-                  value={values.first_name}
+                  value={values.first_name || ""}
                   name="first_name"
                   sx={{
                     gridColumn: "span 2",
@@ -226,7 +232,7 @@ const Form: React.FC = () => {
                   label="Last Name"
                   onBlur={handleBlur}
                   onChange={handleChange}
-                  value={values.last_name}
+                  value={values.last_name || ""}
                   name="last_name"
                   sx={{
                     gridColumn: "span 2",
@@ -239,7 +245,7 @@ const Form: React.FC = () => {
                   label="Occupation"
                   onBlur={handleBlur}
                   onChange={handleChange}
-                  value={values.occupation}
+                  value={values.occupation || ""}
                   name="occupation"
                   sx={{
                     gridColumn: "span 2",
@@ -251,7 +257,7 @@ const Form: React.FC = () => {
                   label="Location"
                   onBlur={handleBlur}
                   onChange={handleChange}
-                  value={values.location}
+                  value={values.location || ""}
                   name="location"
                   sx={{
                     gridColumn: "span 2",
@@ -304,7 +310,7 @@ const Form: React.FC = () => {
               label="Email"
               onBlur={handleBlur}
               onChange={handleChange}
-              value={values.email}
+              value={values.email || ""}
               name="email"
               error={Boolean(touched.email) && Boolean(errors.email)}
               helperText={
@@ -322,7 +328,7 @@ const Form: React.FC = () => {
               type="password"
               onBlur={handleBlur}
               onChange={handleChange}
-              value={values.password}
+              value={values.password || ""}
               name="password"
               error={Boolean(touched.password) && Boolean(errors.password)}
               helperText={

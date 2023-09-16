@@ -2,10 +2,10 @@ import { Box } from "@mui/material"
 import NavLinkBtn from "./NavLinkBtn"
 
 type Props = {
-    user: string | null,
+    isLoggedIn: boolean,
 }
 
-const NavDesktopLinks = ({ user }: Props) => {
+const NavDesktopLinks = ({ isLoggedIn }: Props) => {
     return (
         <Box
             sx={{
@@ -19,7 +19,7 @@ const NavDesktopLinks = ({ user }: Props) => {
             }}
         >
             <NavLinkBtn linkTo="/about" text="About" />
-            {user ?
+            {isLoggedIn ?
                 null
                 : <NavLinkBtn linkTo="/login" text="Login" />
             }
