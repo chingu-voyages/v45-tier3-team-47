@@ -31,13 +31,25 @@ const Landing = () => {
     const [renderedPointsOfInterest, setRenderedPointsOfInterest] = useState<IPointsOfInterest[]>([]);
     const getPointsOfInterestQuery = "https://sightseeshare-api.onrender.com/pointOfInterest/";
 
+   
     const fetchPointsOfInterest = async (query: string) => {
-        const response = await fetch(query);
-        const data = await response.json();
-        setPointsOfInterest(data);
-        setRenderedPointsOfInterest(data);
-    };
-
+        try {
+          const response = await fetch(query);
+      
+          if (!response.ok) {
+    
+            throw new Error(`Failed to fetch data: ${response.status}`);
+          }
+      
+          const data = await response.json();
+          setPointsOfInterest(data);
+          setRenderedPointsOfInterest(data);
+        } catch (error) {
+       
+          console.error("Error fetching data:", error);
+       
+        }
+      };
     useEffect(() => {
         fetchPointsOfInterest(getPointsOfInterestQuery);
     }, []);
