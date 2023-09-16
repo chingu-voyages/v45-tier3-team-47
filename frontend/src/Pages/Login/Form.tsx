@@ -199,7 +199,7 @@ const Form: React.FC<FormProps> = ({ onSuccessfulLogin }) => {
                   label="User Name"
                   onBlur={handleBlur}
                   onChange={handleChange}
-                  value={values.user_name}
+                  value={values.user_name || ""}
                   name="user_name"
                   error={
                     Boolean(touched.user_name) && Boolean(errors.user_name)
@@ -220,7 +220,7 @@ const Form: React.FC<FormProps> = ({ onSuccessfulLogin }) => {
                   label="First Name"
                   onBlur={handleBlur}
                   onChange={handleChange}
-                  value={values.first_name}
+                  value={values.first_name || ""}
                   name="first_name"
                   sx={{
                     gridColumn: "span 2",
@@ -232,7 +232,7 @@ const Form: React.FC<FormProps> = ({ onSuccessfulLogin }) => {
                   label="Last Name"
                   onBlur={handleBlur}
                   onChange={handleChange}
-                  value={values.last_name}
+                  value={values.last_name || ""}
                   name="last_name"
                   sx={{
                     gridColumn: "span 2",
@@ -245,7 +245,7 @@ const Form: React.FC<FormProps> = ({ onSuccessfulLogin }) => {
                   label="Occupation"
                   onBlur={handleBlur}
                   onChange={handleChange}
-                  value={values.occupation}
+                  value={values.occupation || ""}
                   name="occupation"
                   sx={{
                     gridColumn: "span 2",
@@ -257,7 +257,7 @@ const Form: React.FC<FormProps> = ({ onSuccessfulLogin }) => {
                   label="Location"
                   onBlur={handleBlur}
                   onChange={handleChange}
-                  value={values.location}
+                  value={values.location || ""}
                   name="location"
                   sx={{
                     gridColumn: "span 2",
@@ -310,7 +310,7 @@ const Form: React.FC<FormProps> = ({ onSuccessfulLogin }) => {
               label="Email"
               onBlur={handleBlur}
               onChange={handleChange}
-              value={values.email}
+              value={values.email || ""}
               name="email"
               error={Boolean(touched.email) && Boolean(errors.email)}
               helperText={
@@ -328,7 +328,7 @@ const Form: React.FC<FormProps> = ({ onSuccessfulLogin }) => {
               type="password"
               onBlur={handleBlur}
               onChange={handleChange}
-              value={values.password}
+              value={values.password || ""}
               name="password"
               error={Boolean(touched.password) && Boolean(errors.password)}
               helperText={
