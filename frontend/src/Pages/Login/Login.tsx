@@ -1,7 +1,21 @@
 import { Typography, Box, useMediaQuery } from "@mui/material";
 import Form from "./Form";
+import { useNavigate } from "react-router-dom";
 
-const Login = () => {
+interface LoginProps {
+  setIsLoggedIn: (value: boolean) => void;
+}
+
+const Login: React.FC<LoginProps> = ({ setIsLoggedIn }) => {
+  const navigate = useNavigate(); // Get the navigate function
+
+  const handleSuccessfulLogin = () => {
+    // Update the login status
+    setIsLoggedIn(true);
+
+    // Redirect to the homepage
+    navigate("/");
+  };
   const isNonMobileScreens = useMediaQuery("(min-width:1000px");
   return (
     <Box
@@ -25,7 +39,7 @@ const Login = () => {
           border="2px solid"
           borderColor="#b3b3ff"
         >
-          <Form />
+          <Form  onSuccessfulLogin={handleSuccessfulLogin} />
         </Box>
       </Box>
     </Box>
