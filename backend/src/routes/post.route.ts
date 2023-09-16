@@ -8,13 +8,12 @@ import {
   getPostsByUser,
   updatePost,
 } from "../controllers/post.controller";
-import { ensureCorrectUser } from "../middleware/auth";
 
 postRouter.get("/", getPosts);
 postRouter.get("/byPoi/:poiId", getPostsByPoi);
 postRouter.get("/byUser/:userId", getPostsByUser);
-postRouter.post("/", ensureCorrectUser, createPost);
-postRouter.patch("/:id", ensureCorrectUser, updatePost);
-postRouter.delete("/:id", ensureCorrectUser, deletePost);
+postRouter.post("/", createPost);
+postRouter.patch("/:id", updatePost);
+postRouter.delete("/:id", deletePost);
 
 export default postRouter;
