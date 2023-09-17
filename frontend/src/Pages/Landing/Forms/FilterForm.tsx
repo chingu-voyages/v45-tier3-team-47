@@ -7,6 +7,7 @@ import PriceSlider from './Components/PriceSlider';
 import { IPointsOfInterest } from '../../../types/types';
 import { Post } from "../../../types/types";
 
+
 type Props = {
     submitted: boolean,
     pointsOfInterest: Array<IPointsOfInterest>
