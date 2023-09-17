@@ -5,19 +5,12 @@ import TypeCheckboxes from './Components/TypeCheckboxes';
 import RatingCheckboxes from './Components/RatingCheckboxes';
 import PriceSlider from './Components/PriceSlider';
 import { IPointsOfInterest } from '../../../types/types';
-
+import { Post } from "../../../types/types";
 
 type Props = {
     submitted: boolean,
     pointsOfInterest: Array<IPointsOfInterest>
     setRenderedPointsOfInterest: React.Dispatch<React.SetStateAction<Array<IPointsOfInterest>>>
-}
-
-interface IPost {
-    rating: number;
-    comment: string;
-    userId: number;
-    pointOfInterestId: number;
 }
 
 type Mapping = {
@@ -45,7 +38,7 @@ const FilterForm = ({ submitted, pointsOfInterest, setRenderedPointsOfInterest }
         threeStars: false,
     });
 
-    const [allPosts, setAllPosts] = useState<Array<IPost>>([]);
+    const [allPosts, setAllPosts] = useState<Array<Post>>([]);
 
     const [sliderValue, setSliderValue] = useState(1);
 
