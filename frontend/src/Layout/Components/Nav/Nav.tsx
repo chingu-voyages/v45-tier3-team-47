@@ -2,21 +2,13 @@ import { useCallback, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom"
 import { AppBar, Container, Toolbar, Box, Typography, Button } from '@mui/material';
 import axiosInstance from "../../../axiosConfig";
+import { RootLayoutProps, UserData } from "../../../types/types";
 //Component imports
 import logo from '../../../assets/Logo.png';
 import NavUserSettingsMenu from './NavUserSettingsMenu';
 import NavDesktopLinks from './NavDesktopLinks';
 import NavMobileMenu from './NavMobileMenu';
 
-export interface UserData {
-  user_name: string;
-  profile_image: string;
-}
-
-interface RootLayoutProps {
-  isLoggedIn: boolean;
-  setIsLoggedIn: (value: boolean) => void;
-}
 
 function Nav({ isLoggedIn, setIsLoggedIn }: RootLayoutProps) {
   const navigate = useNavigate();
@@ -40,7 +32,7 @@ function Nav({ isLoggedIn, setIsLoggedIn }: RootLayoutProps) {
 
 
   useEffect(() => {
-    
+
     const sessionId = sessionStorage.getItem('userId');
     if (!sessionId) {
       return;
@@ -65,10 +57,10 @@ function Nav({ isLoggedIn, setIsLoggedIn }: RootLayoutProps) {
       <Container maxWidth="xl">
         <Toolbar disableGutters >
           <Box >
-            <Box component="a" href="/" sx={{ display: 'flex', gap: '3px', textDecoration: 'none'}}>
+            <Box component="a" href="/" sx={{ display: 'flex', gap: '3px', textDecoration: 'none' }}>
               <img
                 src={logo}
-                style={{ width: "50px", height: "50px",paddingBottom:"18px" }}
+                style={{ width: "50px", height: "50px", paddingBottom: "18px" }}
                 alt="Logo"
               />
               <Typography
