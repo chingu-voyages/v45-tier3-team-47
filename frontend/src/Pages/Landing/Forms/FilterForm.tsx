@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Box } from '@mui/material';
 //Component imports
 import TypeCheckboxes from './Components/TypeCheckboxes';
@@ -12,7 +12,27 @@ type Props = {
     setRenderedPointsOfInterest: React.Dispatch<React.SetStateAction<Array<IPointsOfInterest>>>
 }
 
+interface IPost {
+    rating: number;
+    comment: string;
+    userId: number;
+    pointOfInterestId: number;
+}
+
+type Mapping = {
+    [key: number]: any[]
+}
+
+type AverageRatings = {
+    [key: string]: number;
+}
+
+type Ratings = {
+    [key: string]: number;
+}
+
 const categories = new Set(["restaurant", "hotel", "entertainment"]);
+const ratings: Ratings = { "fiveStars": 5, "fourStars": 4, "threeStars": 3 };
 
 const FilterForm = ({ submitted, pointsOfInterest, setRenderedPointsOfInterest }: Props) => {
     const [checked, setChecked] = useState({
@@ -24,9 +44,23 @@ const FilterForm = ({ submitted, pointsOfInterest, setRenderedPointsOfInterest }
         threeStars: false,
     });
 
+    const [allPosts, setAllPosts] = useState<Array<IPost>>([]);
+
     const [sliderValue, setSliderValue] = useState(1);
 
     const { restaurant, hotel, entertainment, fiveStars, fourStars, threeStars } = checked;
+
+    const getAllPostsQuery = "https://sightseeshare-api.onrender.com/posts/";
+
+    useEffect(() => {
+        fetchAllPosts(getAllPostsQuery);
+    }, []);
+
+    const fetchAllPosts = async (query: string) => {
+        const response = await fetch(query);
+        const data = await response.json();
+        setAllPosts(data);
+    };
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setChecked({
@@ -35,6 +69,9 @@ const FilterForm = ({ submitted, pointsOfInterest, setRenderedPointsOfInterest }
         });
         if (categories.has(event.target.name)) {
             filterPOIByCategory(event.target.name, event.target.checked);
+        }
+        if (event.target.name in ratings) {
+            filterPOIByRating(ratings[event.target.name], event.target.checked);
         }
     };
 
@@ -49,10 +86,42 @@ const FilterForm = ({ submitted, pointsOfInterest, setRenderedPointsOfInterest }
         setRenderedPointsOfInterest(filteredPOI);
     };
 
+    const filterPOIByRating = (rating: number, checked: boolean) => {
+
+        const mapRatingsToPOI: Mapping = {};
+        for (const post of allPosts) {
+            if (post.pointOfInterestId in mapRatingsToPOI) {
+                mapRatingsToPOI[post.pointOfInterestId].push(Number(post.rating));
+            } else {
+                mapRatingsToPOI[post.pointOfInterestId] = [Number(post.rating)];
+            }
+        };
+
+        const filteredAverageRatingsMap: AverageRatings = {};
+        for (const key of Object.keys(mapRatingsToPOI)) {
+            const averageRatingForPOI = mapRatingsToPOI[Number(key)].reduce((a, c) => a + c) / mapRatingsToPOI[Number(key)].length;
+
+            if (averageRatingForPOI > rating - 0.5 && averageRatingForPOI < rating + 0.5) {
+                filteredAverageRatingsMap[key] = averageRatingForPOI;
+            } else {
+                delete (filteredAverageRatingsMap[key]);
+            }
+        };
+
+        const filteredPOI = pointsOfInterest.filter(poi => {
+            return (Number(poi.id) in filteredAverageRatingsMap && checked);
+        });
+        setRenderedPointsOfInterest(filteredPOI);
+    };
+
     // Note event param is currently not being used, but is required for this function to update the slider correctly. 
     // Added _ prefix to remove TS error about unused variables
     const handleSliderChange = (_event: Event, newValue: number | number[]) => {
         setSliderValue(newValue as number);
+        const filteredPOI = pointsOfInterest.filter(poi => {
+            return Number(poi.price) === newValue;
+        });
+        setRenderedPointsOfInterest(filteredPOI);
     };
 
     return (
