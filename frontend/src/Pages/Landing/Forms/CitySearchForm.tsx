@@ -32,9 +32,17 @@ const CitySearchForm = ({ city, setCity, setSubmitted, setLongitude, setLatitude
         <Box
             component="form"
             sx={{
+                display: 'flex',
+                flexDirection: {
+                    xs: 'column',
+                    sm: 'row'
+                },
+                paddingX: {
+                    xs: '1rem',
+                    sm: 0
+                },
                 marginY: '2rem',
                 width: '100%',
-                display: 'flex',
                 justifyContent: 'center',
                 gap: '1rem'
             }}
@@ -50,6 +58,16 @@ const CitySearchForm = ({ city, setCity, setSubmitted, setLongitude, setLatitude
             <Button
                 variant="contained"
                 type="submit"
+                sx={{
+                    width: {
+                        xs: '90%',
+                        sm: 'auto'
+                    },
+                    alignSelf: {
+                        xs: 'center',
+                        sm: 'stretch'
+                    }
+                }}
             >
                 Submit
             </Button>

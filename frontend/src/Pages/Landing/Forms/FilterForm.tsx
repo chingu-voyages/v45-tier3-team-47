@@ -6,8 +6,6 @@ import RatingCheckboxes from './Components/RatingCheckboxes';
 import PriceSlider from './Components/PriceSlider';
 import { IPointsOfInterest } from '../Landing';
 
-// NOTE: city prop is currently only needed for the StateChecker component - it can be removed once we no longer need to use that component
-
 type Props = {
     submitted: boolean,
     pointsOfInterest: Array<IPointsOfInterest>
@@ -56,8 +54,6 @@ const FilterForm = ({ submitted, pointsOfInterest, setRenderedPointsOfInterest }
     const handleSliderChange = (_event: Event, newValue: number | number[]) => {
         setSliderValue(newValue as number);
     };
-
-
 
     return (
         <Box component="form" sx={{
