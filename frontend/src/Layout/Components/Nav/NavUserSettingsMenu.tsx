@@ -1,5 +1,5 @@
 import { Avatar, Box, Button, CircularProgress, IconButton, Menu, MenuItem, Tooltip, Typography } from "@mui/material"
-import { UserData } from "./Nav"
+import { UserData } from "../../../types/types"
 import MobileListItem from "./MobileListItem"
 import { useState } from "react"
 

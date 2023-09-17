@@ -4,7 +4,8 @@ import { Box } from '@mui/material';
 import TypeCheckboxes from './Components/TypeCheckboxes';
 import RatingCheckboxes from './Components/RatingCheckboxes';
 import PriceSlider from './Components/PriceSlider';
-import { IPointsOfInterest } from '../Landing';
+import { IPointsOfInterest } from '../../../types/types';
+
 
 type Props = {
     submitted: boolean,

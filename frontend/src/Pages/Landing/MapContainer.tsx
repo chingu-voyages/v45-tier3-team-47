@@ -1,10 +1,11 @@
 import { useRef, useEffect, useState } from "react";
 import mapboxgl from "mapbox-gl";
 import { Box } from "@mui/material";
+import { IPointsOfInterest } from "../../types/types";
 mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_TOKEN;
 type MarkerWithId = mapboxgl.Marker & { id: string };
 type PopupWithId = mapboxgl.Popup & { id: string };
-import { IPointsOfInterest } from "./Landing";
+
 
 type Props = {
   longitude: number;
@@ -44,7 +45,7 @@ const MapComponent = ({
         onMarkerClick(poi);
       });
     }
-  }, [longitude, latitude, renderedPointsOfInterest, onMarkerClick]);
+  }, [longitude, latitude, renderedPointsOfInterest, onMarkerClick]); // This line is throwing a warning that we are missing a dependency for the 'zoom' variable - should we add?
 
   return (
     <Box
