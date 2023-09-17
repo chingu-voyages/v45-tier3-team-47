@@ -12,22 +12,10 @@ import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import Dropzone from "react-dropzone";
 import * as yup from "yup";
 import axiosInstance from "../../axiosConfig";
+import { LoginFormValues } from "../../types/types";
 import.meta.env.VITE_APP_CLOUD_NAME;
 
-
-interface FormValues {
-  first_name?: string;
-  last_name?: string;
-  user_name?: string;
-  occupation?: string;
-  email: string;
-  password: string;
-
-  location?: string;
-  profile_image?: File | null;
-}
-
-const intialValuesRegister: FormValues = {
+const intialValuesRegister: LoginFormValues = {
   first_name: "",
   last_name: "",
   user_name: "",
@@ -40,7 +28,7 @@ const intialValuesRegister: FormValues = {
 interface FormProps {
   onSuccessfulLogin: () => void;
 }
-const intialValuesLogin: FormValues = {
+const intialValuesLogin: LoginFormValues = {
   email: "",
   password: "",
 };
@@ -64,8 +52,8 @@ const Form: React.FC<FormProps> = ({ onSuccessfulLogin }) => {
 
 
   const handleLogin = async (
-    values: FormValues,
-    onSubmitProps: FormikHelpers<FormValues>
+    values: LoginFormValues,
+    onSubmitProps: FormikHelpers<LoginFormValues>
   ) => {
     try {
       const loginResponse = await axiosInstance.post(
@@ -74,11 +62,11 @@ const Form: React.FC<FormProps> = ({ onSuccessfulLogin }) => {
       );
 
       if (loginResponse.status === 200) {
-        const userId = loginResponse.data.existingUser.id; 
+        const userId = loginResponse.data.existingUser.id;
         sessionStorage.setItem("userId", userId);
-    
+
         onSubmitProps.resetForm();
-       
+
         onSuccessfulLogin();
         navigate("/");
       }
@@ -88,15 +76,15 @@ const Form: React.FC<FormProps> = ({ onSuccessfulLogin }) => {
   };
 
   const handleRegister = async (
-    values: FormValues,
-    onSubmitProps: FormikHelpers<FormValues>
+    values: LoginFormValues,
+    onSubmitProps: FormikHelpers<LoginFormValues>
   ) => {
     let imageUrl;
     try {
       const formData = new FormData();
 
       for (const key in values) {
-        const value = values[key as keyof FormValues];
+        const value = values[key as keyof LoginFormValues];
 
         if (key === "profile_image" && value instanceof File) {
           formData.append("file", value);
@@ -110,8 +98,7 @@ const Form: React.FC<FormProps> = ({ onSuccessfulLogin }) => {
           );
 
           const cloudinaryResponse = await fetch(
-            `https://api.cloudinary.com/v1_1/${
-              import.meta.env.VITE_APP_CLOUD_NAME
+            `https://api.cloudinary.com/v1_1/${import.meta.env.VITE_APP_CLOUD_NAME
             }/image/upload`,
             {
               method: "POST",
@@ -124,7 +111,7 @@ const Form: React.FC<FormProps> = ({ onSuccessfulLogin }) => {
             imageUrl = cloudinaryData.secure_url;
             setUrl(imageUrl);
             formData.set("profile_image", imageUrl);
-            
+
           } else {
             throw new Error("Failed to upload image to Cloudinary");
           }
@@ -160,8 +147,8 @@ const Form: React.FC<FormProps> = ({ onSuccessfulLogin }) => {
     }
   };
   const handleFormSubmit = async (
-    values: FormValues,
-    onSubmitProps: FormikHelpers<FormValues>
+    values: LoginFormValues,
+    onSubmitProps: FormikHelpers<LoginFormValues>
   ) => {
     if (isLogin) return await handleLogin(values, onSubmitProps);
     if (isRegister) return await handleRegister(values, onSubmitProps);

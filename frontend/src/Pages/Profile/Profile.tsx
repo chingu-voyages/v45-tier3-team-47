@@ -11,19 +11,10 @@ import Brightness4Icon from "@mui/icons-material/Brightness4";
 import Brightness7Icon from "@mui/icons-material/Brightness7";
 import { useEffect, useState } from "react";
 import axiosInstance from "../../axiosConfig";
-
-interface UserData {
-  user_name: string;
-  profile_image?: string;
-  first_name: string;
-  last_name: string;
-  occupation: string;
-  email: string;
-  location: string;
-}
+import { ProfileUserData } from "../../types/types";
 
 const Profile = () => {
-  const [userData, setUserData] = useState<UserData | null>(null);
+  const [userData, setUserData] = useState<ProfileUserData | null>(null);
 
   const fetchUserProfile = async (userId: string) => {
     try {
@@ -58,8 +49,16 @@ const Profile = () => {
       component="section"
       sx={{
         display: "flex",
-        placeContent: "center",
-        gap: "5rem",
+        flexDirection: {
+          xs: "column",
+          sm: "row"
+        },
+        justifyContent: "center",
+        alignItems: "center",
+        gap: {
+          xs: "1rem",
+          sm: "5rem"
+        }
       }}
     >
       {/* Check if userData exists before rendering */}
@@ -88,36 +87,42 @@ const Profile = () => {
                 <ListItemText
                   primary={userData.user_name}
                   secondary="Username"
+                  sx={{ textAlign: { xs: "center", sm: "left" } }}
                 />
               </ListItem>
               <ListItem>
                 <ListItemText
                   primary={userData.first_name}
                   secondary="First Name"
+                  sx={{ textAlign: { xs: "center", sm: "left" } }}
                 />
               </ListItem>
               <ListItem>
                 <ListItemText
                   primary={userData.last_name}
                   secondary="Last Name"
+                  sx={{ textAlign: { xs: "center", sm: "left" } }}
                 />
               </ListItem>
               <ListItem>
                 <ListItemText
                   primary={userData.email}
                   secondary="Email Address"
+                  sx={{ textAlign: { xs: "center", sm: "left" } }}
                 />
               </ListItem>
               <ListItem>
                 <ListItemText
                   primary={userData.location}
                   secondary="Location"
+                  sx={{ textAlign: { xs: "center", sm: "left" } }}
                 />
               </ListItem>
               <ListItem>
                 <ListItemText
                   primary={userData.occupation}
                   secondary="Occupation"
+                  sx={{ textAlign: { xs: "center", sm: "left" } }}
                 />
               </ListItem>
             </List>

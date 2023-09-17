@@ -11,31 +11,11 @@ import {
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 const MAPBOX_ACCESS_TOKEN = import.meta.env.VITE_MAPBOX_TOKEN;
-
-// import axiosInstance from "../../axiosConfig";
-
 import * as yup from "yup";
 import { Field, Formik, FormikHelpers, FieldProps } from "formik";
+import { PostFormValues } from "../../types/types";
 
-interface FormValues {
-  title: string;
-  category: string;
-  description: string;
-  price?: number;
-  website?: string;
-  city?: string;
-  post_code?: string;
-  province: string;
-  country?: string;
-  phoneNumber?: string;
-  address?: string;
-  selectedOption: string;
-  longitude?: number;
-  latitude?: number;
-  userId: string;
-}
-
-const formData: FormValues = {
+const formData: PostFormValues = {
   title: "",
   category: "",
   description: "",
@@ -87,8 +67,8 @@ const PostForm = () => {
   };
 
   const handleFormSubmit = async (
-    values: FormValues,
-    onSubmitProps: FormikHelpers<FormValues>
+    values: PostFormValues,
+    onSubmitProps: FormikHelpers<PostFormValues>
   ) => {
     try {
       values.category = values.selectedOption;

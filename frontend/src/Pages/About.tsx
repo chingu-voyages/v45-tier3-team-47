@@ -5,7 +5,7 @@ const About = () => {
     return (
         <Box component="section" paddingX='1rem'>
             <Typography variant="h2" gutterBottom={true}>
-                What Is This All About?
+                What Is Sight.See.Share?
             </Typography>
             <Typography paragraph={true} >
                 SightSeeShare is a repository of unique points of interest, found in cities all over the world, that our users thought were exceptional and wanted to share! The app was created with the intent of establishing a community where you could find out about exciting hidden gems, great hotel deals, restaurants that only the locals know about, and more, in order to help improve your journeys all over the world ♥️

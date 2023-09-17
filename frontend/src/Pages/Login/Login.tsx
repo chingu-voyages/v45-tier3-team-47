@@ -2,11 +2,11 @@ import { Typography, Box, useMediaQuery } from "@mui/material";
 import Form from "./Form";
 import { useNavigate } from "react-router-dom";
 
-interface LoginProps {
-  setIsLoggedIn: (value: boolean) => void;
+type Props = {
+  setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const Login: React.FC<LoginProps> = ({ setIsLoggedIn }) => {
+const Login = ({ setIsLoggedIn }: Props) => {
   const navigate = useNavigate(); // Get the navigate function
 
   const handleSuccessfulLogin = () => {
@@ -39,7 +39,7 @@ const Login: React.FC<LoginProps> = ({ setIsLoggedIn }) => {
           border="2px solid"
           borderColor="#b3b3ff"
         >
-          <Form  onSuccessfulLogin={handleSuccessfulLogin} />
+          <Form onSuccessfulLogin={handleSuccessfulLogin} />
         </Box>
       </Box>
     </Box>

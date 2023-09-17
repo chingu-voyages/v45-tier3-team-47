@@ -1,34 +1,16 @@
 
 import { Box } from "@mui/material";
 import { useState, useEffect } from "react";
-
+import { IPointsOfInterest } from "../../types/types";
+import axiosInstance from "../../axiosConfig";
+//Component imports
 import CitySearchForm from "./Forms/CitySearchForm";
 import FilterForm from "./Forms/FilterForm";
-
 import MapContainer from "./MapContainer";
 import PointOfInterestModal from "../POI/PointOfInterestModal";
-import axiosInstance from "../../axiosConfig";
-
-export interface IPointsOfInterest {
-  id: number;
-  title: string;
-  category: string;
-  description: string;
-  longitude: number;
-  latitude: number;
-  price: string;
-  city: string;
-  website: string;
-  post_code: string;
-  province: string;
-  country: string;
-  phone_number: number;
-  userId: number;
-}
 
 const Landing = () => {
-  // We might be able to move the city/setCity declaration into the CitySearchForm once we no longer use the StateChecker component in FilterForm, as that is the only other component that requires the city state
-  const [city, setCity] = useState("");
+
   const [submitted, setSubmitted] = useState(false);
   const [longitude, setLongitude] = useState(-74.006);
   const [latitude, setLatitude] = useState(40.7128);
@@ -54,14 +36,12 @@ const Landing = () => {
   };
 
   const handleMarkerClick = async (poi: IPointsOfInterest) => {
-    console.log("selected point of interest:", poi);
     setSelectedPointOfInterest(poi);
     setIsModalOpen(true);
     await handlePointOfInterestSelect(poi.id);
   };
 
   const handlePointOfInterestSelect = async (poiId: number) => {
-    console.log("Fetching posts for POI with ID:", poiId);
     try {
       const response = await axiosInstance.get(`posts/byPoi/${poiId}`);
       const postsByPoi = response.data;
@@ -90,8 +70,6 @@ const Landing = () => {
       }}
     >
       <CitySearchForm
-        city={city}
-        setCity={setCity}
         setSubmitted={setSubmitted}
         setLongitude={setLongitude}
         setLatitude={setLatitude}

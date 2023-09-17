@@ -11,26 +11,8 @@ import {
 } from "@mui/material";
 import { useState, useEffect } from "react";
 import axiosInstance from "../../axiosConfig";
+import { ISnackbar, PointOfInterestModalProps, Post } from "../../types/types";
 
-interface Post {
-  id: number;
-  rating: number;
-  comment: string;
-  userId: number;
-}
-
-interface PointOfInterestModalProps {
-  open: boolean;
-  onClose: () => void;
-  pointOfInterest: {
-    id: number;
-    title: string;
-    description: string;
-  };
-  currentPostData?: {};
-  postId?: number | null;
-  loggedInUserId?: number | null;
-}
 
 const PointOfInterestModal: React.FC<PointOfInterestModalProps> = ({
   open,
@@ -39,19 +21,8 @@ const PointOfInterestModal: React.FC<PointOfInterestModalProps> = ({
 }) => {
   const [rating, setRating] = useState<number>(0);
   const [comment, setComment] = useState("");
-  const [postsData, setPostsData] = useState<
-    Array<{
-      id: number;
-      rating: number;
-      comment: string;
-      userId: number;
-    }>
-  >([]);
-  const [snackbar, setSnackbar] = useState<{
-    open: boolean;
-    message: string;
-    severity: "success" | "error";
-  }>({ open: false, message: "", severity: "success" });
+  const [postsData, setPostsData] = useState<Post[]>([]);
+  const [snackbar, setSnackbar] = useState<ISnackbar>({ open: false, message: "", severity: "success" });
   const [isEditing, setIsEditing] = useState(false);
   const [selectedPost, setSelectedPost] = useState<Post | null>(null);
   const [editRating, setEditRating] = useState<number>(0);
