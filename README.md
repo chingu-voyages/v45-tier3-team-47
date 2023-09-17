@@ -153,24 +153,11 @@ Once the app is done we can use screenshots to walk through the different pages/
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-<!-- ROADMAP -->
-<!-- Commenting this out for now - if there is interest in continuing to contribute to this as a group after the voyage, we can use this -->
-<!-- ## Roadmap
-
-- [ ] Feature 1
-- [ ] Feature 2
-- [ ] Feature 3
-- [ ] Nested Feature
-
-See the [open issues](https://github.com/github_username/repo_name/issues) for a full list of proposed features (and known issues).
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p> -->
-
 <!-- CONTACT -->
 
 ## Authors
 
-- [Mays A](https://github.com/mays4)
+- [Mays Alraheem](https://github.com/mays4)
 - [Chris Li](https://github.com/chris-t-li)
 - [Daniela Parra](https://github.com/parradaniela)
 - [Cam Ziny](https://github.com/camziny)
