@@ -81,6 +81,12 @@ const PointOfInterestModal: React.FC<PointOfInterestModalProps> = ({
     setIsEditing(true);
     setSelectedPost(post);
   };
+
+  const validateRating = (rating: number) => {
+    const decimalCount = rating.toString().split(".")[1]?.length || 0;
+    return rating >= 0 && rating <= 5 && decimalCount <= 1;
+  };
+
   const handleUpdatePostClick = async () => {
     if (!selectedPost) return;
 
@@ -226,9 +232,7 @@ const PointOfInterestModal: React.FC<PointOfInterestModalProps> = ({
           </Typography>
           <Typography variant="body1">{pointOfInterest.description}</Typography>
         </Box>
-
         <Divider variant="middle" />
-
         <Box my={3}>
           {postsData &&
             postsData.map((post) => (
@@ -261,7 +265,6 @@ const PointOfInterestModal: React.FC<PointOfInterestModalProps> = ({
                     </Button>
                   </Box>
                 )}
-
                 {isEditing && selectedPost && selectedPost.id === post.id && (
                   <Box bgcolor="grey.200" p={2} borderRadius={2} mt={3}>
                     <Typography variant="h6" gutterBottom>
@@ -273,9 +276,12 @@ const PointOfInterestModal: React.FC<PointOfInterestModalProps> = ({
                       fullWidth
                       type="number"
                       value={editRating}
-                      onChange={(e) =>
-                        setEditRating(parseFloat(e.target.value))
-                      }
+                      onChange={(e) => {
+                        const newRating = parseFloat(e.target.value);
+                        if (validateRating(newRating)) {
+                          setEditRating(newRating);
+                        }
+                      }}
                       placeholder="Enter a rating between 1-5"
                     />
                     <Box mt={2}>
@@ -313,7 +319,6 @@ const PointOfInterestModal: React.FC<PointOfInterestModalProps> = ({
               </Box>
             ))}
         </Box>
-
         <Box bgcolor="grey.100" p={2} borderRadius={2}>
           <Typography variant="h6" gutterBottom>
             Create a New Post
@@ -326,7 +331,9 @@ const PointOfInterestModal: React.FC<PointOfInterestModalProps> = ({
             value={rating}
             onChange={(e) => {
               const newRating = parseFloat(e.target.value);
-              setEditRating(!isNaN(newRating) ? newRating : 0);
+              if (validateRating(newRating)) {
+                setRating(newRating);
+              }
             }}
             placeholder="Enter a rating between 1-5"
           />
@@ -355,9 +362,7 @@ const PointOfInterestModal: React.FC<PointOfInterestModalProps> = ({
             </Button>
           </Box>
         </Box>
-
         <Divider variant="middle" />
-
         <Box mt={3} display="flex" justifyContent="flex-end">
           <Button onClick={onClose} variant="outlined">
             Close
