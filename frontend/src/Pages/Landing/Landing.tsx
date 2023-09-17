@@ -1,6 +1,6 @@
 import { Box } from "@mui/material"
 import { useState, useEffect } from 'react';
-
+//Component imports
 import CitySearchForm from './Forms/CitySearchForm';
 import FilterForm from './Forms/FilterForm';
 import MapContainer from "./MapContainer";
@@ -31,25 +31,23 @@ const Landing = () => {
     const [renderedPointsOfInterest, setRenderedPointsOfInterest] = useState<IPointsOfInterest[]>([]);
     const getPointsOfInterestQuery = "https://sightseeshare-api.onrender.com/pointOfInterest/";
 
-   
+
     const fetchPointsOfInterest = async (query: string) => {
         try {
-          const response = await fetch(query);
-      
-          if (!response.ok) {
-    
-            throw new Error(`Failed to fetch data: ${response.status}`);
-          }
-      
-          const data = await response.json();
-          setPointsOfInterest(data);
-          setRenderedPointsOfInterest(data);
+            const response = await fetch(query);
+            if (!response.ok) {
+                throw new Error(`Failed to fetch data: ${response.status}`);
+            }
+
+            const data = await response.json();
+            setPointsOfInterest(data);
+            setRenderedPointsOfInterest(data);
         } catch (error) {
-       
-          console.error("Error fetching data:", error);
-       
+
+            console.error("Error fetching data:", error);
+
         }
-      };
+    };
     useEffect(() => {
         fetchPointsOfInterest(getPointsOfInterestQuery);
     }, []);
@@ -85,8 +83,6 @@ const Landing = () => {
                     renderedPointsOfInterest={renderedPointsOfInterest}
                 />
             </Box>
-
-
         </Box>
     )
 }
