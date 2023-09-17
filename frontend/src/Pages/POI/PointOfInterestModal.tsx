@@ -27,6 +27,9 @@ interface PointOfInterestModalProps {
     title: string;
     description: string;
   };
+  currentPostData?: {};
+  postId?: number | null;
+  loggedInUserId?: number | null;
 }
 
 const PointOfInterestModal: React.FC<PointOfInterestModalProps> = ({
@@ -82,8 +85,10 @@ const PointOfInterestModal: React.FC<PointOfInterestModalProps> = ({
     if (!selectedPost) return;
 
     try {
+      const ratingValue =
+        typeof editRating === "number" ? parseFloat(editRating.toFixed(1)) : 0;
       const postData = {
-        rating: parseFloat(editRating.toFixed(1)),
+        rating: ratingValue,
         comment: editComment,
         userId,
         pointOfInterestId: pointOfInterest.id,
@@ -257,7 +262,7 @@ const PointOfInterestModal: React.FC<PointOfInterestModalProps> = ({
                   </Box>
                 )}
 
-                {selectedPost && selectedPost.id === post.id && (
+                {isEditing && selectedPost && selectedPost.id === post.id && (
                   <Box bgcolor="grey.200" p={2} borderRadius={2} mt={3}>
                     <Typography variant="h6" gutterBottom>
                       Update Post
@@ -319,7 +324,10 @@ const PointOfInterestModal: React.FC<PointOfInterestModalProps> = ({
             fullWidth
             type="number"
             value={rating}
-            onChange={(e) => setRating(parseFloat(e.target.value))}
+            onChange={(e) => {
+              const newRating = parseFloat(e.target.value);
+              setEditRating(!isNaN(newRating) ? newRating : 0);
+            }}
             placeholder="Enter a rating between 1-5"
           />
           <Box mt={2}>
