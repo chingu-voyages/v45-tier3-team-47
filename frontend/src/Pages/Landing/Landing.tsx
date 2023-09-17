@@ -36,14 +36,12 @@ const Landing = () => {
   };
 
   const handleMarkerClick = async (poi: IPointsOfInterest) => {
-    console.log("selected point of interest:", poi);
     setSelectedPointOfInterest(poi);
     setIsModalOpen(true);
     await handlePointOfInterestSelect(poi.id);
   };
 
   const handlePointOfInterestSelect = async (poiId: number) => {
-    console.log("Fetching posts for POI with ID:", poiId);
     try {
       const response = await axiosInstance.get(`posts/byPoi/${poiId}`);
       const postsByPoi = response.data;
