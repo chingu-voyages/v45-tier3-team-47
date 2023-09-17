@@ -8,13 +8,14 @@ import {
   FormControl,
   InputLabel,
   FormHelperText,
-} from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+} from "@mui/material";
+import { useNavigate } from "react-router-dom";
 const MAPBOX_ACCESS_TOKEN = import.meta.env.VITE_MAPBOX_TOKEN;
+
 // import axiosInstance from "../../axiosConfig";
 
-import * as yup from 'yup';
-import { Field, Formik, FormikHelpers, FieldProps } from 'formik';
+import * as yup from "yup";
+import { Field, Formik, FormikHelpers, FieldProps } from "formik";
 
 interface FormValues {
   title: string;
@@ -31,39 +32,36 @@ interface FormValues {
   selectedOption: string;
   longitude?: number;
   latitude?: number;
-  userId:string
+  userId: string;
 }
 
-
-
 const formData: FormValues = {
-  title: '',
-  category: '',
-  description: '',
+  title: "",
+  category: "",
+  description: "",
   price: 0,
-  website: '',
-  city: '',
-  post_code: '',
-  province: '', 
-  country: '',
-  phoneNumber: '',
-  address: '',
-  selectedOption: '',
+  website: "",
+  city: "",
+  post_code: "",
+  province: "",
+  country: "",
+  phoneNumber: "",
+  address: "",
+  selectedOption: "",
   longitude: 0,
   latitude: 0,
-  userId:""
+  userId: "",
 };
 
 const formSchema = yup.object().shape({
-  title: yup.string().required('Title is required'),
-  description: yup.string().required('Description is required'),
-  selectedOption: yup.string().required('Selected Option is required'),
+  title: yup.string().required("Title is required"),
+  description: yup.string().required("Description is required"),
+  selectedOption: yup.string().required("Selected Option is required"),
 });
 
 const PostForm = () => {
-  const isNonMobileScreens = useMediaQuery('(min-width: 600px)');
+  const isNonMobileScreens = useMediaQuery("(min-width: 600px)");
   const navigate = useNavigate();
- 
 
   const geocodeAddress = async (address: string) => {
     try {
@@ -80,58 +78,57 @@ const PostForm = () => {
         const [longitude, latitude] = data.features[0].center;
         return { longitude, latitude };
       } else {
-        throw new Error('No results found for the address');
+        throw new Error("No results found for the address");
       }
     } catch (error) {
-      console.error('Error geocoding address:', error);
+      console.error("Error geocoding address:", error);
       throw error;
     }
   };
-  
+
   const handleFormSubmit = async (
     values: FormValues,
     onSubmitProps: FormikHelpers<FormValues>
-    ) => {
-      
-      try {
-        values.category = values.selectedOption;
-        const userId = sessionStorage.getItem('userId');
-        if (!userId || typeof userId !== 'string') {
-          console.error('Invalid userId:', userId);
-          return; 
+  ) => {
+    try {
+      values.category = values.selectedOption;
+      const userId = sessionStorage.getItem("userId");
+      if (!userId || typeof userId !== "string") {
+        console.error("Invalid userId:", userId);
+        return;
+      }
+
+      values.userId = userId;
+
+      if (values.address) {
+        const geocodeResult = await geocodeAddress(values.address);
+        values.longitude = geocodeResult.longitude;
+        values.latitude = geocodeResult.latitude;
+      }
+
+      const saveResponseData = await fetch(
+        "http://localhost:3000/pointOfInterest",
+        {
+          method: "POST",
+          body: JSON.stringify(values),
+          headers: {
+            "Content-Type": "application/json",
+          },
         }
-        
-        values.userId = userId;
-        
-        if (values.address) {
-          
-          const geocodeResult = await geocodeAddress(values.address);
-          values.longitude = geocodeResult.longitude;
-          values.latitude = geocodeResult.latitude;
-        }
-        
-      const saveResponseData = await fetch('http://localhost:3000/pointOfInterest', {
-        method: 'POST',
-        body: JSON.stringify(values),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
+      );
 
       if (!saveResponseData.ok) {
-     
         throw new Error(`Failed to save data: ${saveResponseData.status}`);
       }
 
       const savedUser = await saveResponseData.json();
-      
+
       onSubmitProps.resetForm();
       if (savedUser) {
-        navigate('/');
+        navigate("/");
       }
     } catch (error) {
-      console.error('Error:', error);
-     
+      console.error("Error:", error);
     }
   };
 
@@ -141,15 +138,23 @@ const PostForm = () => {
       initialValues={formData}
       validationSchema={formSchema}
     >
-      {({ values, errors, touched, handleBlur, handleChange, handleSubmit, setFieldValue }) => (
+      {({
+        values,
+        errors,
+        touched,
+        handleBlur,
+        handleChange,
+        handleSubmit,
+        setFieldValue,
+      }) => (
         <form onSubmit={handleSubmit}>
           <Box
             display="grid"
             gap="30px"
             gridTemplateColumns="repeat(4, minmax(0, 1fr))"
             sx={{
-              '&>div': {
-                gridColumn: isNonMobileScreens ? undefined : 'span 4',
+              "&>div": {
+                gridColumn: isNonMobileScreens ? undefined : "span 4",
               },
             }}
           >
@@ -162,9 +167,9 @@ const PostForm = () => {
               error={Boolean(touched.title) && Boolean(errors.title)}
               helperText={touched.title && errors.title}
               sx={{
-                gridColumn: 'span 2',
-                borderRadius: '5px',
-                mt: '0.2rem',
+                gridColumn: "span 2",
+                borderRadius: "5px",
+                mt: "0.2rem",
               }}
             />
             <TextField
@@ -173,30 +178,35 @@ const PostForm = () => {
               onChange={handleChange}
               value={values.description}
               name="description"
-              error={Boolean(touched.description) && Boolean(errors.description)}
+              error={
+                Boolean(touched.description) && Boolean(errors.description)
+              }
               helperText={touched.description && errors.description}
               sx={{
-                gridColumn: 'span 2',
-                borderRadius: '5px',
-                mt: '0.2rem',
+                gridColumn: "span 2",
+                borderRadius: "5px",
+                mt: "0.2rem",
               }}
             />
             <Field name="selectedOption">
               {({ field }: FieldProps) => (
                 <FormControl
                   sx={{
-                    gridColumn: 'span 2',
-                    borderRadius: '5px',
-                    p:'6px'
-                    
+                    gridColumn: "span 2",
+                    borderRadius: "5px",
+                    p: "6px",
                   }}
-                  error={touched.selectedOption && Boolean(errors.selectedOption)}
+                  error={
+                    touched.selectedOption && Boolean(errors.selectedOption)
+                  }
                 >
-                  <InputLabel >Choose an option</InputLabel>
+                  <InputLabel>Choose an option</InputLabel>
                   <Select
                     {...field}
                     value={values.selectedOption}
-                    onChange={(event) => setFieldValue('selectedOption', event.target.value)}
+                    onChange={(event) =>
+                      setFieldValue("selectedOption", event.target.value)
+                    }
                   >
                     <MenuItem value="">Select an option</MenuItem>
                     <MenuItem value="option1">Entertainment</MenuItem>
@@ -204,7 +214,9 @@ const PostForm = () => {
                     <MenuItem value="option3">Hotel</MenuItem>
                   </Select>
                   {touched.selectedOption && errors.selectedOption && (
-                    <FormHelperText error>{errors.selectedOption}</FormHelperText>
+                    <FormHelperText error>
+                      {errors.selectedOption}
+                    </FormHelperText>
                   )}
                 </FormControl>
               )}
@@ -216,12 +228,12 @@ const PostForm = () => {
               value={values.price}
               name="price"
               sx={{
-                gridColumn: 'span 2',
-                borderRadius: '5px',
-                p:'6px'
+                gridColumn: "span 2",
+                borderRadius: "5px",
+                p: "6px",
               }}
             />
-         
+
             <TextField
               label="Address"
               onBlur={handleBlur}
@@ -229,8 +241,8 @@ const PostForm = () => {
               value={values.address}
               name="address"
               sx={{
-                gridColumn: 'span 4',
-                borderRadius: '5px',
+                gridColumn: "span 4",
+                borderRadius: "5px",
               }}
             />
             <TextField
@@ -240,10 +252,10 @@ const PostForm = () => {
               value={values.city}
               name="city"
               sx={{
-                gridColumn: 'span 2',
-                borderColor: '#b3b3ff',
-                borderRadius: '5px',
-                mt: '0.2rem',
+                gridColumn: "span 2",
+                borderColor: "#b3b3ff",
+                borderRadius: "5px",
+                mt: "0.2rem",
               }}
             />
             <TextField
@@ -253,10 +265,10 @@ const PostForm = () => {
               value={values.province}
               name="province"
               sx={{
-                gridColumn: 'span 2',
-                borderColor: '#b3b3ff',
-                borderRadius: '5px',
-                mt: '0.2rem',
+                gridColumn: "span 2",
+                borderColor: "#b3b3ff",
+                borderRadius: "5px",
+                mt: "0.2rem",
               }}
             />
             <TextField
@@ -266,10 +278,10 @@ const PostForm = () => {
               value={values.country}
               name="country"
               sx={{
-                gridColumn: 'span 2',
-                borderColor: '#b3b3ff',
-                borderRadius: '5px',
-                mt: '0.2rem',
+                gridColumn: "span 2",
+                borderColor: "#b3b3ff",
+                borderRadius: "5px",
+                mt: "0.2rem",
               }}
             />
             <TextField
@@ -279,53 +291,53 @@ const PostForm = () => {
               value={values.post_code}
               name="post_code"
               sx={{
-                gridColumn: 'span 2',
-                borderColor: '#b3b3ff',
-                borderRadius: '5px',
-                mt: '0.2rem',
+                gridColumn: "span 2",
+                borderColor: "#b3b3ff",
+                borderRadius: "5px",
+                mt: "0.2rem",
               }}
             />
             <TextField
               label="Phone Number"
-              type='tel'
+              type="tel"
               onBlur={handleBlur}
               onChange={handleChange}
               value={values.phoneNumber}
               name="phoneNumber"
               sx={{
-                gridColumn: 'span 2',
-                borderColor: '#b3b3ff',
-                borderRadius: '5px',
-                mt: '0.2rem',
+                gridColumn: "span 2",
+                borderColor: "#b3b3ff",
+                borderRadius: "5px",
+                mt: "0.2rem",
               }}
             />
-               <TextField
+            <TextField
               label="Website"
               onBlur={handleBlur}
               onChange={handleChange}
               value={values.website}
               name="website"
               sx={{
-                gridColumn: 'span 2',
-                borderRadius: '5px',
+                gridColumn: "span 2",
+                borderRadius: "5px",
               }}
             />
             <Box
               sx={{
-                gridColumn: 'span 4',
+                gridColumn: "span 4",
               }}
             >
               <Button
                 type="submit"
                 sx={{
-                  width: '60%',
-                  border: '2px solid',
-                  alignItems: 'centers',
-                  borderRadius: '30px',
-                  borderColor: '#b3b3ff',
-                  color: '#400080',
-                  m: '0.5rem 0.5rem',
-                  pd: '0.5rem',
+                  width: "60%",
+                  border: "2px solid",
+                  alignItems: "centers",
+                  borderRadius: "30px",
+                  borderColor: "#b3b3ff",
+                  color: "#400080",
+                  m: "0.5rem 0.5rem",
+                  pd: "0.5rem",
                 }}
               >
                 Create A Post
