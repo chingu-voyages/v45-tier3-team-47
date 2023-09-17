@@ -20,12 +20,11 @@ interface RootLayoutProps {
 
 function Nav({ isLoggedIn, setIsLoggedIn }: RootLayoutProps) {
   const navigate = useNavigate();
-  // Testing to see if we can just use an empty string instead of null for userId
+
   const [_, setUserId] = useState<string>('');
   const [userData, setUserData] = useState<UserData | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
-  // Function to fetch user info
   const fetchUserInfo = useCallback(async (userId: string) => {
     try {
       const response = await axiosInstance.get(
@@ -41,7 +40,7 @@ function Nav({ isLoggedIn, setIsLoggedIn }: RootLayoutProps) {
 
 
   useEffect(() => {
-    // Changed variable name to avoid confusion with userId state
+    
     const sessionId = sessionStorage.getItem('userId');
     if (!sessionId) {
       return;
@@ -66,10 +65,10 @@ function Nav({ isLoggedIn, setIsLoggedIn }: RootLayoutProps) {
       <Container maxWidth="xl">
         <Toolbar disableGutters >
           <Box >
-            <Box component="a" href="/" sx={{ display: 'flex', gap: '5px', textDecoration: 'none' }}>
+            <Box component="a" href="/" sx={{ display: 'flex', gap: '3px', textDecoration: 'none'}}>
               <img
                 src={logo}
-                style={{ width: "50px", height: "50px" }}
+                style={{ width: "50px", height: "50px",paddingBottom:"18px" }}
                 alt="Logo"
               />
               <Typography
@@ -83,7 +82,7 @@ function Nav({ isLoggedIn, setIsLoggedIn }: RootLayoutProps) {
                   fontWeight: 700,
                   letterSpacing: '.3rem',
                   color: 'white',
-                  marginTop: '1rem',
+                  marginTop: '0.7rem',
                   transition: 'all .2s ease',
                   ":hover": {
                     color: '#D8BFD8'
