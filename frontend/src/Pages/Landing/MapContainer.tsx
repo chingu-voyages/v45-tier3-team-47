@@ -1,7 +1,7 @@
 import { useRef, useEffect, useState } from "react";
 import mapboxgl from "mapbox-gl";
 import { Box } from "@mui/material";
-mapboxgl.accessToken = "import.meta.env.VITE_MAPBOX_TOKEN;";
+mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_TOKEN;
 type MarkerWithId = mapboxgl.Marker & { id: string };
 type PopupWithId = mapboxgl.Popup & { id: string };
 import { IPointsOfInterest } from "./Landing";
