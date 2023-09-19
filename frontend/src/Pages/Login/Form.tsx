@@ -65,7 +65,7 @@ const Form: React.FC<FormProps> = ({ onSuccessfulLogin }) => {
   ) => {
     try {
       const loginResponse = await axiosInstance.post(
-        `${baseQuery}/user/login"`,
+        `${baseQuery}/user/login`,
         values
       );
 
