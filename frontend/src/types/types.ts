@@ -50,6 +50,7 @@ export interface Post {
 	rating: number;
 	comment: string;
 	userId: number;
+	pointOfInterestId: number;
 }
 
 export interface PostFormValues {
