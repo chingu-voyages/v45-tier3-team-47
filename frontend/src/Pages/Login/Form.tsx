@@ -41,6 +41,15 @@ const loginSchema = yup.object().shape({
   email: yup.string().email("Invalid Email").required("required"),
   password: yup.string().required("required"),
 });
+interface IBaseQueryObj {
+  [key: string]: string;
+}
+const baseQueryObj: IBaseQueryObj = {
+  production: "https://sightseeshare-api.onrender.com",
+  development: "http://localhost:3000"
+}
+const nodeENV = process.env.NODE_ENV || "development";
+const baseQuery = baseQueryObj[nodeENV];
 
 const Form: React.FC<FormProps> = ({ onSuccessfulLogin }) => {
   const [pageType, setPageType] = useState<string>("login");
@@ -50,14 +59,13 @@ const Form: React.FC<FormProps> = ({ onSuccessfulLogin }) => {
   const isNonMobileScreens = useMediaQuery("(min-width:600px");
   const navigate = useNavigate();
 
-
   const handleLogin = async (
     values: LoginFormValues,
     onSubmitProps: FormikHelpers<LoginFormValues>
   ) => {
     try {
       const loginResponse = await axiosInstance.post(
-        "http://localhost:3000/user/login",
+        `${baseQuery}/user/login"`,
         values
       );
 
@@ -120,7 +128,7 @@ const Form: React.FC<FormProps> = ({ onSuccessfulLogin }) => {
         }
       }
 
-      const savedUserResponse = await fetch(`http://localhost:3000/register`, {
+      const savedUserResponse = await fetch(`${baseQuery}/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
