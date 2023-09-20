@@ -12,7 +12,7 @@ import Brightness7Icon from "@mui/icons-material/Brightness7";
 import { useEffect, useState } from "react";
 import axiosInstance from "../../axiosConfig";
 import { ProfileUserData } from "../../types/types";
-import baseQuery from "../../App";
+import { baseQuery } from "../../App";
 
 const Profile = () => {
   const [userData, setUserData] = useState<ProfileUserData | null>(null);
