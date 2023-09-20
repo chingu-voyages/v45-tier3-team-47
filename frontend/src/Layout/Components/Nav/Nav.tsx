@@ -8,7 +8,7 @@ import logo from '../../../assets/Logo.png';
 import NavUserSettingsMenu from './NavUserSettingsMenu';
 import NavDesktopLinks from './NavDesktopLinks';
 import NavMobileMenu from './NavMobileMenu';
-import baseQuery from "../../../App";
+import { baseQuery } from "../../../App";
 
 
 function Nav({ isLoggedIn, setIsLoggedIn }: RootLayoutProps) {
