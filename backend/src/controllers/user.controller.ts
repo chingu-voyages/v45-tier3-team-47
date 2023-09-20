@@ -49,7 +49,7 @@ export const createUser = async (req: Request, res: Response) => {
 
     return res.status(201).json({ message: "User created successfully" });
   } catch (error) {
-    console.log("error in createUser:", error);
+    console.error("error in createUser:", error);
     return res.status(422).json({ error: error.message });
   }
 };
@@ -82,7 +82,7 @@ export const loginUser = async (req: Request, res: Response) => {
       return res.status(400).json({ message: "Incorrect credentials" });
     }
   } catch (error) {
-    console.log("Error in loginUser:", error);
+    console.error("Error in loginUser:", error);
     return res.status(500).json("Internal Server Error");
   }
 };
@@ -109,7 +109,7 @@ export const updateUser = async (req: Request, res: Response) => {
 
     return res.status(202).json({ message: "User updated successfully" });
   } catch (error) {
-    console.log("Error in updateUser:", error);
+    console.error("Error in updateUser:", error);
     return res.status(500).json("Internal Server Error");
   }
 };

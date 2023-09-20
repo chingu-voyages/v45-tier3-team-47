@@ -28,9 +28,9 @@ export const createPost = async (req: Request, res: Response) => {
     }
 
     const poi = await PointOfInterest.findByPk(pointOfInterestId);
-    console.log("Fetched point of interest:", poi);
+  
     if (!poi) {
-      console.log("Point of Interest not found for ID:", pointOfInterestId);
+    
       return res.status(404).json("Point of Interest not found");
     }
 
@@ -43,7 +43,7 @@ export const createPost = async (req: Request, res: Response) => {
 
     return res.status(201).json({ message: "Post created successfully" });
   } catch (error) {
-    console.log("Error in createPost", error);
+    console.error("Error in createPost", error);
     return res
       .status(500)
       .json({ message: error.message || "Internal Server Error" });
@@ -56,7 +56,7 @@ export const getPosts = async (req: Request, res: Response) => {
 
     return res.status(200).json(posts);
   } catch (error) {
-    console.log("Error in getPosts", error);
+    console.error("Error in getPosts", error);
     return res.status(500).json("Internal Server Error");
   }
 };
@@ -71,7 +71,7 @@ export const getPostsByPoi = async (req: Request, res: Response) => {
 
     return res.status(200).json(postsByPoi);
   } catch (error) {
-    console.log("Error in getPostsByPoi", error);
+    console.error("Error in getPostsByPoi", error);
     return res.status(500).json("Internal Server Error");
   }
 };
@@ -86,7 +86,7 @@ export const getPostsByUser = async (req: Request, res: Response) => {
 
     return res.status(200).json(postsByUser);
   } catch (error) {
-    console.log("Error in getPostsByUser", error);
+    console.error("Error in getPostsByUser", error);
     return res.status(500).json("Internal Server Error");
   }
 };
@@ -107,7 +107,7 @@ export const updatePost = async (req: Request, res: Response) => {
 
     return res.status(200).json({ message: "Post updated successfully" });
   } catch (error) {
-    console.log("Error in updatePost:", error);
+    console.error("Error in updatePost:", error);
   }
 };
 
@@ -121,7 +121,7 @@ export const deletePost = async (req: Request, res: Response) => {
     await postToDelete.destroy();
     return res.status(200).json({ message: "Post deleted successfully" });
   } catch (error) {
-    console.log("Error in deletePost:", error);
+    console.error("Error in deletePost:", error);
     return res.send(500).json("Internal Server Error");
   }
 };
