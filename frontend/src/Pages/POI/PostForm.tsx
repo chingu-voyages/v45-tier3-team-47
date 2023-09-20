@@ -14,6 +14,7 @@ const MAPBOX_ACCESS_TOKEN = import.meta.env.VITE_MAPBOX_TOKEN;
 import * as yup from "yup";
 import { Field, Formik, FormikHelpers, FieldProps } from "formik";
 import { PostFormValues } from "../../types/types";
+import baseQuery from "../../App";
 
 const formData: PostFormValues = {
   title: "",
@@ -87,7 +88,7 @@ const PostForm = () => {
       }
 
       const saveResponseData = await fetch(
-        "http://localhost:3000/pointOfInterest",
+        `${baseQuery}/pointOfInterest`,
         {
           method: "POST",
           body: JSON.stringify(values),

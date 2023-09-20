@@ -1,7 +1,8 @@
 import axios from "axios";
+import baseQuery from "./App";
 
 const axiosInstance = axios.create({
-  baseURL: "http://localhost:3000/",
+  baseURL: `${baseQuery}/`,
   timeout: 30000,
 });
 

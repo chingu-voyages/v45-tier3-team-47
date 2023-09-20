@@ -8,6 +8,7 @@ import logo from '../../../assets/Logo.png';
 import NavUserSettingsMenu from './NavUserSettingsMenu';
 import NavDesktopLinks from './NavDesktopLinks';
 import NavMobileMenu from './NavMobileMenu';
+import baseQuery from "../../../App";
 
 
 function Nav({ isLoggedIn, setIsLoggedIn }: RootLayoutProps) {
@@ -20,7 +21,7 @@ function Nav({ isLoggedIn, setIsLoggedIn }: RootLayoutProps) {
   const fetchUserInfo = useCallback(async (userId: string) => {
     try {
       const response = await axiosInstance.get(
-        `http://localhost:3000/user/profile/${userId}`
+        `${baseQuery}/user/profile/${userId}`
       );
       const userInfo = response.data;
       setUserData(userInfo);

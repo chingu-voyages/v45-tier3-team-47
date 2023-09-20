@@ -14,6 +14,7 @@ import * as yup from "yup";
 import axiosInstance from "../../axiosConfig";
 import { LoginFormValues } from "../../types/types";
 import.meta.env.VITE_APP_CLOUD_NAME;
+import baseQuery from "../../App";
 
 const intialValuesRegister: LoginFormValues = {
   first_name: "",
@@ -41,15 +42,6 @@ const loginSchema = yup.object().shape({
   email: yup.string().email("Invalid Email").required("required"),
   password: yup.string().required("required"),
 });
-interface IBaseQueryObj {
-  [key: string]: string;
-}
-const baseQueryObj: IBaseQueryObj = {
-  production: "https://sightseeshare-api.onrender.com",
-  development: "http://localhost:3000"
-}
-const nodeENV = process.env.NODE_ENV || "development";
-const baseQuery = baseQueryObj[nodeENV];
 
 const Form: React.FC<FormProps> = ({ onSuccessfulLogin }) => {
   const [pageType, setPageType] = useState<string>("login");
