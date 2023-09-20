@@ -206,9 +206,9 @@ const PointOfInterestModal: React.FC<PointOfInterestModalProps> = ({
         <Divider variant="middle" />
         <Box my={3}>
           {postsData &&
-            postsData.map((post) => (
+            postsData.map((post,key) => (
               <Box
-                key={post.id}
+                key={key}
                 bgcolor="grey.100"
                 p={2}
                 borderRadius={2}
@@ -219,7 +219,7 @@ const PointOfInterestModal: React.FC<PointOfInterestModalProps> = ({
                 </Typography>
                 <Typography variant="body1">{post.comment}</Typography>
                 {post.userId === userIdFromSession && (
-                  <Box mt={2} display="flex" justifyContent="space-between">
+                  <Box mt={2} display="flex" justifyContent="space-between" >
                     <Button
                       onClick={() => handleEditClick(post)}
                       variant="contained"
@@ -228,6 +228,7 @@ const PointOfInterestModal: React.FC<PointOfInterestModalProps> = ({
                       Edit
                     </Button>
                     <Button
+                    key={post.id}
                       onClick={() => handleDeleteClick(post.id)}
                       variant="contained"
                       color="secondary"
