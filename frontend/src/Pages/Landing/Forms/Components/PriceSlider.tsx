@@ -48,7 +48,7 @@ const PriceSlider = ({ sliderValue, handleSliderChange, submitted }: Props) => {
             <FormLabel component="legend" sx={{ paddingY: '1rem' }}>Filter by Price</FormLabel>
             <Slider
                 aria-label="Custom marks"
-                defaultValue={sliderValue}
+                value={sliderValue}
                 getAriaValueText={valuetext}
                 step={1}
                 valueLabelDisplay="auto"
