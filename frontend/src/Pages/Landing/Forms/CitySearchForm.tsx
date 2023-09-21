@@ -23,7 +23,7 @@ const CitySearchForm = ({ setSubmitted, setLongitude, setLatitude }: Props) => {
 
     const handleSubmit = (e: React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
-        console.log('Form was submitted', e);
+   
         setSubmitted(true);
         fetchCityData(mapboxQuery);
     }

@@ -37,7 +37,7 @@ const NavUserSettingsMenu = ({ userData, onClick, loading }: Props) => {
                                         src={userData?.profile_image}
                                     />
                                 ) : (
-                                    <Avatar alt="Default" src={"/static/images/avatar/2.jpg"} />
+                                    <Avatar alt="Default" src={"null"} />
                                 )}
                             </IconButton>
                         </Tooltip>

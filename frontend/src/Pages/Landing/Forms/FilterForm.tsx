@@ -109,8 +109,7 @@ const FilterForm = ({ submitted, pointsOfInterest, setRenderedPointsOfInterest }
         setRenderedPointsOfInterest(filteredPOI);
     };
 
-    // Note event param is currently not being used, but is required for this function to update the slider correctly. 
-    // Added _ prefix to remove TS error about unused variables
+    
     const handleSliderChange = (_event: Event, newValue: number | number[]) => {
         setSliderValue(newValue as number);
         const filteredPOI = pointsOfInterest.filter(poi => {
