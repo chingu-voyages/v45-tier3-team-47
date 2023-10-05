@@ -10,6 +10,16 @@ import Login from './Pages/Login/Login';
 import Profile from './Pages/Profile/Profile';
 import PointOfInterest from './Pages/POI/PointOfInterest';
 
+interface IBaseQueryObj {
+  [key: string]: string;
+}
+const baseQueryObj: IBaseQueryObj = {
+  production: "https://sightseeshare-api.onrender.com",
+  development: "http://localhost:3000"
+}
+const nodeENV = process.env.NODE_ENV || "development";
+export const baseQuery = baseQueryObj[nodeENV];
+
 const theme = createTheme({
   palette: {
     mode: "light",

@@ -12,6 +12,7 @@ import Brightness7Icon from "@mui/icons-material/Brightness7";
 import { useEffect, useState } from "react";
 import axiosInstance from "../../axiosConfig";
 import { ProfileUserData } from "../../types/types";
+import { baseQuery } from "../../App";
 
 const Profile = () => {
   const [userData, setUserData] = useState<ProfileUserData | null>(null);
@@ -19,7 +20,7 @@ const Profile = () => {
   const fetchUserProfile = async (userId: string) => {
     try {
       const response = await axiosInstance.get(
-        `http://localhost:3000/user/profile/${userId}`
+        `${baseQuery}/user/profile/${userId}`
       );
       const userProfile = response.data;
       setUserData(userProfile);

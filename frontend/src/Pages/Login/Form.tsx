@@ -14,6 +14,7 @@ import * as yup from "yup";
 import axiosInstance from "../../axiosConfig";
 import { LoginFormValues } from "../../types/types";
 import.meta.env.VITE_APP_CLOUD_NAME;
+import { baseQuery } from "../../App";
 
 const intialValuesRegister: LoginFormValues = {
   first_name: "",
@@ -50,14 +51,13 @@ const Form: React.FC<FormProps> = ({ onSuccessfulLogin }) => {
   const isNonMobileScreens = useMediaQuery("(min-width:600px");
   const navigate = useNavigate();
 
-
   const handleLogin = async (
     values: LoginFormValues,
     onSubmitProps: FormikHelpers<LoginFormValues>
   ) => {
     try {
       const loginResponse = await axiosInstance.post(
-        "http://localhost:3000/user/login",
+        `${baseQuery}/user/login`,
         values
       );
 
@@ -120,7 +120,7 @@ const Form: React.FC<FormProps> = ({ onSuccessfulLogin }) => {
         }
       }
 
-      const savedUserResponse = await fetch(`http://localhost:3000/register`, {
+      const savedUserResponse = await fetch(`${baseQuery}/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
