@@ -14,7 +14,7 @@ const MAPBOX_ACCESS_TOKEN = import.meta.env.VITE_MAPBOX_TOKEN;
 import * as yup from "yup";
 import { Field, Formik, FormikHelpers, FieldProps } from "formik";
 import { PostFormValues } from "../../types/types";
-import { baseQuery } from "../../App";
+import { baseQuery } from "../../axiosConfig";
 
 const formData: PostFormValues = {
   title: "",

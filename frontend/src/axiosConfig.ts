@@ -1,7 +1,19 @@
 import axios from "axios";
 
+interface IBaseQueryObj {
+  [key: string]: string;
+};
+
+const baseQueryObj: IBaseQueryObj = {
+  production: "https://sightseeshare-api.onrender.com/",
+  development: "http://localhost:3000/"
+};
+
+const nodeENV = process.env.NODE_ENV || "development";
+export const baseQuery = baseQueryObj[nodeENV];
+
 const axiosInstance = axios.create({
-  baseURL: "http://localhost:3000/",
+  baseURL: baseQuery,
   timeout: 30000,
 });
 

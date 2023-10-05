@@ -14,7 +14,7 @@ import * as yup from "yup";
 import axiosInstance from "../../axiosConfig";
 import { LoginFormValues } from "../../types/types";
 import.meta.env.VITE_APP_CLOUD_NAME;
-import { baseQuery } from "../../App";
+import { baseQuery } from "../../axiosConfig";
 
 const intialValuesRegister: LoginFormValues = {
   first_name: "",
